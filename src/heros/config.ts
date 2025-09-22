@@ -24,15 +24,15 @@ export const hero: Field = {
           value: 'none',
         },
         {
-          label: 'High Impact',
+          label: 'Hero Inquiry',
           value: 'highImpact',
         },
+        // {
+        //   label: 'Medium Impact',
+        //   value: 'mediumImpact',
+        // },
         {
-          label: 'Medium Impact',
-          value: 'mediumImpact',
-        },
-        {
-          label: 'Low Impact',
+          label: 'Minimal Hero',
           value: 'lowImpact',
         },
       ],
