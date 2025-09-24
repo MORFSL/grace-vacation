@@ -1,17 +1,24 @@
+import { Media as Mediatype } from '@/payload-types'
 import clsx from 'clsx'
 import React from 'react'
+import { Media } from '../Media'
 
 interface Props {
   className?: string
   loading?: 'lazy' | 'eager'
   priority?: 'auto' | 'high' | 'low'
+  logoFromCMS?: Mediatype | number
 }
 
 export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
+  const { loading: loadingFromProps, priority: priorityFromProps, className, logoFromCMS } = props
 
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
+
+  if (logoFromCMS) {
+    return <Media resource={logoFromCMS} />
+  }
 
   return (
     /* eslint-disable @next/next/no-img-element */

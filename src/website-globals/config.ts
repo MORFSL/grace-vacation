@@ -1,7 +1,8 @@
 import { GlobalConfig } from 'payload'
+import { revalidateWebsiteGlobals } from './hooks/revalidateWebsiteGlobals'
 
 export const WebsiteGlobals: GlobalConfig = {
-  slug: 'website-globals',
+  slug: 'websiteGlobals',
   label: 'Website Globals',
   fields: [
     {
@@ -20,4 +21,7 @@ export const WebsiteGlobals: GlobalConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [revalidateWebsiteGlobals],
+  },
 }

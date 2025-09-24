@@ -1,23 +1,22 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-import type { Header } from '@/payload-types'
-
+import type { Header, WebsiteGlobal } from '@/payload-types'
+import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
 
 interface HeaderClientProps {
   data: Header
+  websiteGlobals: WebsiteGlobal
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, websiteGlobals }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  console.log({ websiteGlobals })
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -30,13 +29,41 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-        <HeaderNav data={data} />
-      </div>
+    <header {...(theme ? { 'data-theme': theme } : {})}>
+      {/* logo */}
+      <Logo logoFromCMS={websiteGlobals.logo} />
+      {/* Nav Items */}
+      <h2>Nav Items</h2>
+      {data.navItems?.map((item) => (
+        <div key={item.id}>
+          <CMSLink {...item.link} />
+        </div>
+      ))}
+
+      {/* CTA Link */}
+      {data.ctaLink?.link && (
+        <>
+          <h2>CTA Link</h2>
+          <CMSLink {...data.ctaLink.link} />
+        </>
+      )}
+
+      {/* Nav Groups */}
+      {data.navGroups?.length ? (
+        <>
+          <h2>Nav Groups</h2>
+          {data.navGroups.map((group, idx) => (
+            <div key={idx}>
+              <h3>{group.groupName}</h3>
+              {group.links?.map((linkItem) => (
+                <div key={linkItem.id}>
+                  <CMSLink {...linkItem.link} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </>
+      ) : null}
     </header>
   )
 }
