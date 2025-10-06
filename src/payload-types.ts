@@ -103,12 +103,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
-    websiteGlobals: WebsiteGlobal;
+    socials: Social;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    websiteGlobals: WebsiteGlobalsSelect<false> | WebsiteGlobalsSelect<true>;
+    socials: SocialsSelect<false> | SocialsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1538,6 +1538,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
+  logo?: (number | null) | Media;
   /**
    * The links shown in the base nav bar
    */
@@ -1579,6 +1580,10 @@ export interface Header {
           } | null);
       url?: string | null;
       label: string;
+      /**
+       * Choose how the link should be rendered.
+       */
+      appearance?: ('default' | 'outline' | 'secondary') | null;
     };
   };
   /**
@@ -1603,6 +1608,10 @@ export interface Header {
                     } | null);
                 url?: string | null;
                 label: string;
+                /**
+                 * Choose how the link should be rendered.
+                 */
+                appearance?: ('default' | 'outline' | 'secondary') | null;
               };
               id?: string | null;
             }[]
@@ -1644,14 +1653,30 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "websiteGlobals".
+ * via the `definition` "socials".
  */
-export interface WebsiteGlobal {
+export interface Social {
   id: number;
   /**
-   * Upload your website logo. Supported formats: PNG, JPG, JPEG, WEBP, GIF, SVG.
+   * The public URL of the social media profile.
    */
-  logo: number | Media;
+  instagram?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  facebook?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  twitter?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  linkedin?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  youtube?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1660,6 +1685,7 @@ export interface WebsiteGlobal {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logo?: T;
   navItems?:
     | T
     | {
@@ -1685,6 +1711,7 @@ export interface HeaderSelect<T extends boolean = true> {
               reference?: T;
               url?: T;
               label?: T;
+              appearance?: T;
             };
       };
   navGroups?:
@@ -1702,6 +1729,7 @@ export interface HeaderSelect<T extends boolean = true> {
                     reference?: T;
                     url?: T;
                     label?: T;
+                    appearance?: T;
                   };
               id?: T;
             };
@@ -1736,10 +1764,14 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "websiteGlobals_select".
+ * via the `definition` "socials_select".
  */
-export interface WebsiteGlobalsSelect<T extends boolean = true> {
-  logo?: T;
+export interface SocialsSelect<T extends boolean = true> {
+  instagram?: T;
+  facebook?: T;
+  twitter?: T;
+  linkedin?: T;
+  youtube?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

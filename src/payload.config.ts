@@ -17,7 +17,7 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { WebsiteGlobals } from './website-globals/config'
+import { Socials } from './socials/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -60,7 +60,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, WebsiteGlobals],
+  globals: [Header, Footer, Socials],
   plugins: [
     ...plugins,
     vercelBlobStorage({
