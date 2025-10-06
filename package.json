@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@tailwindcss/typography": "^0.5.13",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/escape-html": "^1.0.2",
     "@types/node": "22.5.4",
     "@types/react": "19.0.12",
