@@ -16,8 +16,8 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
   })
 
   return (
-    <div className="mx-2 md:mx-8 lg:mx-16 overflow-x-clip relative">
-      <div className="container min-h-[750px] flex items-center justify-center">
+    <div className="mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
+      <div className="container min-h-[600px] xl:min-h-[750px] flex items-center justify-center">
         <div className="z-10 text-center text-white">
           {richText && <RichText data={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (

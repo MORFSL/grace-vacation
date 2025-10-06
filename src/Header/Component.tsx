@@ -27,26 +27,13 @@ export async function Header() {
               <Menu links={header.navItems} />
             </>
           )}
-          {header.ctaLink?.link && (
+          {header.cta && (
             <CMSLink
               className="hidden lg:block rounded-3xl px-6 leading-[1.7]"
-              {...header.ctaLink.link}
+              appearance="default"
+              {...header.cta}
             />
           )}
-          {header.navGroups?.length ? (
-            <>
-              {header.navGroups.map((group, idx) => (
-                <div key={idx}>
-                  <h3>{group.groupName}</h3>
-                  {group.links?.map((linkItem) => (
-                    <div key={linkItem.id}>
-                      <CMSLink {...linkItem.link} />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </>
-          ) : null}
           <Socials className="hidden lg:flex gap-6" size={20} />
         </div>
       </div>
