@@ -103,12 +103,14 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
-    websiteGlobals: WebsiteGlobal;
+    socials: Social;
+    contacts: Contact;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    websiteGlobals: WebsiteGlobalsSelect<false> | WebsiteGlobalsSelect<true>;
+    socials: SocialsSelect<false> | SocialsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1538,9 +1540,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
-  /**
-   * The links shown in the base nav bar
-   */
+  logo?: (number | null) | Media;
   navItems?:
     | {
         link: {
@@ -1561,55 +1561,21 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Optional call-to-action link (e.g. button in header)
-   */
-  ctaLink: {
-    link: {
-      type?: ('reference' | 'custom') | null;
-      newTab?: boolean | null;
-      reference?:
-        | ({
-            relationTo: 'pages';
-            value: number | Page;
-          } | null)
-        | ({
-            relationTo: 'posts';
-            value: number | Post;
-          } | null);
-      url?: string | null;
-      label: string;
-    };
+  cta: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
   };
-  /**
-   * Grouped nav sections, each with a name and multiple links
-   */
-  navGroups?:
-    | {
-        groupName?: string | null;
-        links?:
-          | {
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?:
-                  | ({
-                      relationTo: 'pages';
-                      value: number | Page;
-                    } | null)
-                  | ({
-                      relationTo: 'posts';
-                      value: number | Post;
-                    } | null);
-                url?: string | null;
-                label: string;
-              };
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1621,37 +1587,95 @@ export interface Footer {
   id: number;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
+        item?: {
+          name?: string | null;
+          links?:
+            | {
+                link: {
+                  type?: ('reference' | 'custom') | null;
+                  newTab?: boolean | null;
+                  reference?:
+                    | ({
+                        relationTo: 'pages';
+                        value: number | Page;
+                      } | null)
+                    | ({
+                        relationTo: 'posts';
+                        value: number | Post;
+                      } | null);
+                  url?: string | null;
+                  label: string;
+                };
+                id?: string | null;
+              }[]
+            | null;
         };
         id?: string | null;
       }[]
     | null;
+  /**
+   * The label to display for the phone number.
+   */
+  phoneLabel?: string | null;
+  /**
+   * The label to display for the socials.
+   */
+  socialsLabel?: string | null;
+  paymentMethods?: {
+    label?: string | null;
+    method?:
+      | {
+          method?: string | null;
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Insert [year] to automatically add the current year.
+   */
+  copyright?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "websiteGlobals".
+ * via the `definition` "socials".
  */
-export interface WebsiteGlobal {
+export interface Social {
   id: number;
   /**
-   * Upload your website logo. Supported formats: PNG, JPG, JPEG, WEBP, GIF, SVG.
+   * The public URL of the social media profile.
    */
-  logo: number | Media;
+  instagram?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  facebook?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  twitter?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  linkedin?: string | null;
+  /**
+   * The public URL of the social media profile.
+   */
+  youtube?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1660,6 +1684,7 @@ export interface WebsiteGlobal {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logo?: T;
   navItems?:
     | T
     | {
@@ -1674,38 +1699,14 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  ctaLink?:
+  cta?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-      };
-  navGroups?:
-    | T
-    | {
-        groupName?: T;
-        links?:
-          | T
-          | {
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                  };
-              id?: T;
-            };
-        id?: T;
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1719,27 +1720,68 @@ export interface FooterSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
-        link?:
+        item?:
           | T
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
+              name?: T;
+              links?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    id?: T;
+                  };
             };
         id?: T;
       };
+  phoneLabel?: T;
+  socialsLabel?: T;
+  paymentMethods?:
+    | T
+    | {
+        label?: T;
+        method?:
+          | T
+          | {
+              method?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  copyright?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "websiteGlobals_select".
+ * via the `definition` "socials_select".
  */
-export interface WebsiteGlobalsSelect<T extends boolean = true> {
-  logo?: T;
+export interface SocialsSelect<T extends boolean = true> {
+  instagram?: T;
+  facebook?: T;
+  twitter?: T;
+  linkedin?: T;
+  youtube?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  phone?: T;
+  email?: T;
+  address?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
