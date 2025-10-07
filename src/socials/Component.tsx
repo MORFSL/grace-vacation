@@ -31,11 +31,6 @@ export async function Socials({ className, size = 18 }: Props) {
         </Link>
       )}
       {socials.linkedin && (
-        <Link href={socials.linkedin} target="_blank">
-          <Instagram size={size} />
-        </Link>
-      )}
-      {socials.linkedin && (
         <Link href={socials.linkedin} target="_blank" rel="noopener noreferrer">
           <Linkedin size={size} />
         </Link>

@@ -7,7 +7,7 @@
 @layer base {
   :root {
     --primary: 173 37 47;
-    --primary-foreground: #f0f6ff;
+    --primary-foreground: #feefe8;
 
     --secondary: 42 9 11;
     --secondary-foreground: #ffffff;
@@ -15,7 +15,7 @@
     --accent: 227 232 240;
     --accent-foreground: #2b2f3a;
 
-    --muted: #e1e7ef;
+    --muted: #fff9f8;
     --muted-foreground: #6b7280;
 
     --background: #ffffff;
