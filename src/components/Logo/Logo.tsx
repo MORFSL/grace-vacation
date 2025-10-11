@@ -12,7 +12,6 @@ interface Props {
 
 export const Logo = (props: Props) => {
   const { media } = props
-  console.log({ props })
 
   if (media) {
     return (

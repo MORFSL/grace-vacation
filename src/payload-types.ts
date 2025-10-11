@@ -446,6 +446,7 @@ export interface CallToActionBlock {
     };
     [k: string]: unknown;
   } | null;
+  image?: (number | null) | Media;
   links?:
     | {
         link: {
@@ -1091,6 +1092,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
   richText?: T;
+  image?: T;
   links?:
     | T
     | {

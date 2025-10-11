@@ -4,18 +4,29 @@ import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
+import { Media } from '@/components/Media'
 
-export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText }) => {
+export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText, image }) => {
   return (
-    <div className="container">
-      <div className="bg-card rounded border-border border p-4 flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
-        <div className="max-w-[48rem] flex items-center">
-          {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
-        </div>
-        <div className="flex flex-col gap-8">
-          {(links || []).map(({ link }, i) => {
-            return <CMSLink key={i} size="lg" {...link} />
-          })}
+    <div className="container my-16">
+      <div className="bg-card rounded border-border border overflow-hidden">
+        <div className="grid md:grid-cols-2 gap-0">
+          {/* Left side - Content */}
+          <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
+            {richText && <RichText className="mb-8" data={richText} enableGutter={false} />}
+            <div className="flex flex-col gap-4">
+              {(links || []).map(({ link }, i) => {
+                return <CMSLink key={i} size="lg" {...link} />
+              })}
+            </div>
+          </div>
+
+          {/* Right side - Image */}
+          {image && typeof image !== 'string' && (
+            <div className="relative h-64 md:h-auto">
+              <Media resource={image} className="w-full h-full object-cover" />
+            </div>
+          )}
         </div>
       </div>
     </div>
