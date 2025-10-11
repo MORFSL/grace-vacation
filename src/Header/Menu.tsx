@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import type { Header, Page, Post } from '@/payload-types'
+import type { Header } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Menu as MenuIcon, X } from 'lucide-react'
 
