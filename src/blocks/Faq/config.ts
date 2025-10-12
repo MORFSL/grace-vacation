@@ -12,8 +12,18 @@ export const FAQBlock: Block = {
   fields: [
     {
       name: 'title',
-      type: 'text',
+      type: 'richText',
       required: true,
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            FixedToolbarFeature(),
+            HeadingFeature({ enabledHeadingSizes: ['h2'] }),
+            InlineToolbarFeature(),
+          ]
+        },
+      }),
     },
     {
       name: 'questions',
@@ -28,12 +38,7 @@ export const FAQBlock: Block = {
           required: true,
           editor: lexicalEditor({
             features: ({ rootFeatures }) => {
-              return [
-                ...rootFeatures,
-                HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-                FixedToolbarFeature(),
-                InlineToolbarFeature(),
-              ]
+              return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
             },
           }),
         },
@@ -43,12 +48,7 @@ export const FAQBlock: Block = {
           required: true,
           editor: lexicalEditor({
             features: ({ rootFeatures }) => {
-              return [
-                ...rootFeatures,
-                HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-                FixedToolbarFeature(),
-                InlineToolbarFeature(),
-              ]
+              return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
             },
           }),
         },
