@@ -139,6 +139,7 @@ const config = {
               },
               h2: {
                 fontSize: '32px',
+                fontWeight: 600,
                 marginBottom: '18px',
               },
             },

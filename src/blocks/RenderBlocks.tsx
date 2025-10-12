@@ -37,7 +37,7 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <section
-                  className="my-16"
+                  className="my-32"
                   key={index}
                   id={blockName?.replaceAll(' ', '-').toLowerCase() || ''}
                 >
