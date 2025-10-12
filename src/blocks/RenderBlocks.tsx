@@ -29,17 +29,21 @@ export const RenderBlocks: React.FC<{
     return (
       <Fragment>
         {blocks.map((block, index) => {
-          const { blockType } = block
+          const { blockType, blockName } = block
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
 
             if (Block) {
               return (
-                <div className="my-16" key={index}>
+                <section
+                  className="my-16"
+                  key={index}
+                  id={blockName?.replaceAll(' ', '-').toLowerCase() || ''}
+                >
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} disableInnerContainer />
-                </div>
+                </section>
               )
             }
           }
