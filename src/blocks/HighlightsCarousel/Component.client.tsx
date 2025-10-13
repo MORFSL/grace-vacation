@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { EffectFade } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
-
-import 'swiper/css'
 
 import type { HighlightsCarouselBlock as HighlightsCarouselBlockProps } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
+import { MapPin } from 'lucide-react'
 
 interface Props {
   highlights: HighlightsCarouselBlockProps['highlights']
@@ -34,44 +34,45 @@ export const HighlightsCarouselClient: React.FC<Props> = ({ highlights }) => {
               <button
                 key={highlight.id}
                 onClick={() => handleTabClick(index)}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 leading-none ${
                   activeIndex === index
                     ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                    : 'bg-muted hover:bg-muted/80 text-foreground'
+                    : 'bg-primary-foreground text-foreground'
                 }`}
               >
-                {highlight.name}
+                <MapPin size={16} /> {highlight.name}
               </button>
             ))}
           </div>
-
           <Swiper
             spaceBetween={30}
             slidesPerView={1}
             pagination={{ clickable: true }}
             onSwiper={setSwiperInstance}
             onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+            modules={[EffectFade]}
             allowTouchMove={false}
-            loop
             className="overflow-hidden rounded-xl"
             autoplay={{
               delay: 1500,
               disableOnInteraction: true,
             }}
+            effect={'fade'}
+            loop
           >
             {highlights.map((highlight) => (
               <SwiperSlide key={highlight.id}>
-                <div className="overflow-hidden relative p-16 min-h-[500px] rounded-xl flex flex-col items-center justify-center bg-muted min-h-[400px]">
+                <div className="overflow-hidden relative p-16 min-h-[500px] rounded-xl flex flex-col items-center justify-end md:justify-center bg-muted min-h-[400px]">
                   {highlight.image && typeof highlight.image === 'object' && (
                     <Media
                       resource={highlight.image}
                       imgClassName="absolute inset-0 w-full h-full object-cover"
                     />
                   )}
-                  <div className="absolute inset-0 w-[50%] h-full bg-gradient-to-b md:bg-gradient-to-l from-transparent via-transparent/80 to-[#000000de] to-[70%]" />
+                  <div className="absolute inset-0 top-auto md:top-0 w-full md:w-[50%] h-[50%] md:h-full bg-gradient-to-b md:bg-gradient-to-l from-transparent via-transparent/80 to-[#000000de] to-[70%]" />
                   {highlight.content && (
                     <RichText
-                      className="relative max-w-[350px] ms-0 prose-h3:text-3xl z-5 text-white"
+                      className="relative md:max-w-[350px] ms-0 prose-h3:text-3xl z-5 text-white"
                       data={highlight.content}
                       enableGutter={false}
                     />

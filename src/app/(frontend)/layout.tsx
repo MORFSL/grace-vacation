@@ -9,9 +9,10 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
+import { getServerSideURL } from '@/utilities/getURL'
 
 import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
+import 'swiper/css'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -34,7 +35,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               preview: isEnabled,
             }}
           />
-
           <Header />
           {children}
           <Footer />

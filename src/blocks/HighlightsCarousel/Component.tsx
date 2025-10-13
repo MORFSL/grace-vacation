@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import type { HighlightsCarouselBlock as HighlightsCarouselBlockProps } from '@/payload-types'
 
 import RichText from '@/components/RichText'
@@ -11,7 +11,7 @@ export const HighlightsCarouselBlock: React.FC<HighlightsCarouselBlockProps> = (
   return (
     <div className="mx-auto container">
       {title && (
-        <RichText className="mb-12 md:max-w-3xl" data={title} enableGutter={false} center={true} />
+        <RichText className="mb-6 md:max-w-3xl" data={title} enableGutter={false} center={true} />
       )}
       <HighlightsCarouselClient highlights={highlights} />
     </div>
