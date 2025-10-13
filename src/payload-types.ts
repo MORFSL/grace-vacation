@@ -241,6 +241,7 @@ export interface Page {
     | FAQBlock
     | GalleryBlock
     | FeaturesBlock
+    | HighlightsCarouselBlock
   )[];
   meta?: {
     title?: string | null;
@@ -875,6 +876,52 @@ export interface FeaturesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HighlightsCarouselBlock".
+ */
+export interface HighlightsCarouselBlock {
+  title?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  highlights?:
+    | {
+        name: string;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'highlightsCarousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1166,6 +1213,7 @@ export interface PagesSelect<T extends boolean = true> {
         faq?: T | FAQBlockSelect<T>;
         gallery?: T | GalleryBlockSelect<T>;
         features?: T | FeaturesBlockSelect<T>;
+        highlightsCarousel?: T | HighlightsCarouselBlockSelect<T>;
       };
   meta?:
     | T
@@ -1305,6 +1353,23 @@ export interface FeaturesBlockSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HighlightsCarouselBlock_select".
+ */
+export interface HighlightsCarouselBlockSelect<T extends boolean = true> {
+  title?: T;
+  highlights?:
+    | T
+    | {
+        name?: T;
+        content?: T;
         image?: T;
         id?: T;
       };

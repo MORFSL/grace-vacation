@@ -23,6 +23,7 @@ import {
 import { FAQBlock } from '@/blocks/Faq/config'
 import { Gallery } from '@/blocks/Gallery/config'
 import { FeaturesBlock } from '@/blocks/Features/config'
+import { HighlightsCarouselBlock } from '@/blocks/HighlightsCarousel/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -87,6 +88,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FAQBlock,
                 Gallery,
                 FeaturesBlock,
+                HighlightsCarouselBlock,
               ],
               required: true,
               admin: {

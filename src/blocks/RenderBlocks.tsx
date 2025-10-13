@@ -10,6 +10,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { FAQBlock } from './Faq/Component'
 import { GalleryBlock } from './Gallery/Component'
 import { FeaturesBlock } from './Features/Component'
+import { HighlightsCarouselBlock } from './HighlightsCarousel/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -20,6 +21,7 @@ const blockComponents = {
   faq: FAQBlock,
   gallery: GalleryBlock,
   features: FeaturesBlock,
+  highlightsCarousel: HighlightsCarouselBlock,
 }
 
 export const RenderBlocks: React.FC<{
