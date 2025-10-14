@@ -11,6 +11,7 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { Testimonials } from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -19,6 +20,7 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { Socials } from './socials/config'
 import { Contacts } from './contacts/config'
+import { General } from './general/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -59,9 +61,9 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Testimonials, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Socials, Contacts],
+  globals: [General, Header, Footer, Socials, Contacts],
   plugins: [
     ...plugins,
     vercelBlobStorage({

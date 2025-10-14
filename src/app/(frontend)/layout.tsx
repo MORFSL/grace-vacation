@@ -13,6 +13,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 
 import './globals.css'
 import 'swiper/css'
+import 'swiper/css/pagination'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
