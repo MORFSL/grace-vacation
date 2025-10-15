@@ -21,6 +21,8 @@ import { getServerSideURL } from './utilities/getURL'
 import { Socials } from './socials/config'
 import { Contacts } from './contacts/config'
 import { General } from './general/config'
+import { Tags } from './collections/Tags'
+import { Itineraries } from './collections/Itineraries/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -61,7 +63,7 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Testimonials, Users],
+  collections: [Pages, Posts, Media, Categories, Testimonials, Users, Tags, Itineraries],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [General, Header, Footer, Socials, Contacts],
   plugins: [

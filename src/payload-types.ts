@@ -110,6 +110,8 @@ export interface Config {
     categories: Category;
     testimonials: Testimonial;
     users: User;
+    tags: Tag;
+    itineraries: Itinerary;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -127,6 +129,8 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    itineraries: ItinerariesSelect<false> | ItinerariesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -963,6 +967,109 @@ export interface Testimonial {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  imageIcon?: (number | null) | Media;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "itineraries".
+ */
+export interface Itinerary {
+  id: number;
+  title: string;
+  image: number | Media;
+  imageGallery?: (number | Media)[] | null;
+  duration?: string | null;
+  benefits?: {
+    title?: string | null;
+    items?:
+      | {
+          benefit?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  inclusions?: {
+    title?: string | null;
+    items?:
+      | {
+          inclusion?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  exclusions?: {
+    title?: string | null;
+    items?:
+      | {
+          exclusion?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  milestones?:
+    | {
+        title: string;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        media?: (number | Media)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  mapEmbed?: string | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1156,6 +1263,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'itineraries';
+        value: number | Itinerary;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1601,6 +1716,84 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  title?: T;
+  imageIcon?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "itineraries_select".
+ */
+export interface ItinerariesSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  imageGallery?: T;
+  duration?: T;
+  benefits?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              benefit?: T;
+              id?: T;
+            };
+      };
+  content?: T;
+  inclusions?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              inclusion?: T;
+              id?: T;
+            };
+      };
+  exclusions?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              exclusion?: T;
+              id?: T;
+            };
+      };
+  milestones?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        media?: T;
+        id?: T;
+      };
+  mapEmbed?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2152,6 +2345,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'itineraries';
+          value: number | Itinerary;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

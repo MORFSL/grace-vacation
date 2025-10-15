@@ -4,11 +4,11 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { slugField } from '@/fields/slug'
 
-export const Categories: CollectionConfig = {
-  slug: 'categories',
+export const Tags: CollectionConfig = {
+  slug: 'tags',
   labels: {
-    singular: 'Destination',
-    plural: 'Destinations',
+    singular: 'Tag',
+    plural: 'Tags',
   },
   access: {
     create: authenticated,
@@ -22,8 +22,16 @@ export const Categories: CollectionConfig = {
   fields: [
     {
       name: 'title',
+      label: 'Tag Name',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'imageIcon',
+      label: 'Image Icon',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
     },
     ...slugField(),
   ],
