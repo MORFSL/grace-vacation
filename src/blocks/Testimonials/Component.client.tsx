@@ -15,8 +15,9 @@ export const TestimonialsClient: React.FC<Props> = ({ testimonials }) => {
       <Swiper
         modules={[Pagination]}
         pagination={{
-          el: '#testimonialPagination',
           clickable: true,
+          renderBullet: (index, className) =>
+            `<span class="${className} !bg-primary w-3 h-3 rounded-full inline-block mx-1"></span>`,
         }}
         spaceBetween={30}
         slidesPerView={1}
@@ -25,21 +26,19 @@ export const TestimonialsClient: React.FC<Props> = ({ testimonials }) => {
           if (typeof testimonial === 'object' && testimonial) {
             return (
               <SwiperSlide key={testimonial.id}>
-                <div className="min-h-[200px] p-8 text-center cursor-grab">
-                  <blockquote className="text-lg mb-4 italic">
+                <div className="min-h-[250px] md:min-h-[200px] px-8 text-center cursor-grab">
+                  <blockquote className="text-lg mb-4">
                     &quot;{testimonial.message}&quot;
                   </blockquote>
-                  <cite className="text-sm font-semibold text-primary">— {testimonial.name}</cite>
+                  <cite className="block text-sm not-italic font-semibold text-primary">
+                    {testimonial.name}
+                  </cite>
                 </div>
               </SwiperSlide>
             )
           }
           return null
         })}
-        <div
-          id="testimonialPagination"
-          className="mt-2 flex justify-center items-center gap-2 text-primary"
-        ></div>
       </Swiper>
     </div>
   )
