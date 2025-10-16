@@ -18,7 +18,12 @@ import {
   HeadingFeature,
   FixedToolbarFeature,
   InlineToolbarFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
+import { Content } from '@/blocks/Content/config'
+import { TestimonialsBlock } from '@/blocks/Testimonials/config'
+import { FAQBlock } from '@/blocks/Faq/config'
 
 export const Itineraries: CollectionConfig = {
   slug: 'itineraries',
@@ -103,17 +108,13 @@ export const Itineraries: CollectionConfig = {
             },
             {
               name: 'content',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-                    FixedToolbarFeature(),
-                    InlineToolbarFeature(),
-                  ]
-                },
-              }),
+              type: 'blocks',
+              label: 'Content',
+              blocks: [Content],
+              required: true,
+              admin: {
+                initCollapsed: true,
+              },
             },
             {
               name: 'inclusions',
@@ -172,6 +173,8 @@ export const Itineraries: CollectionConfig = {
                       return [
                         ...rootFeatures,
                         HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+                        UnorderedListFeature(),
+                        OrderedListFeature(),
                         FixedToolbarFeature(),
                         InlineToolbarFeature(),
                       ]
@@ -189,6 +192,16 @@ export const Itineraries: CollectionConfig = {
             {
               name: 'mapEmbed',
               type: 'textarea',
+            },
+            {
+              name: 'otherBlocks',
+              type: 'blocks',
+              label: 'Other Layout Blocks',
+              blocks: [TestimonialsBlock, FAQBlock],
+              required: true,
+              admin: {
+                initCollapsed: true,
+              },
             },
           ],
         },

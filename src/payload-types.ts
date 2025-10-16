@@ -997,21 +997,7 @@ export interface Itinerary {
         }[]
       | null;
   };
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  content: ContentBlock[];
   inclusions?: {
     title?: string | null;
     items?:
@@ -1053,6 +1039,7 @@ export interface Itinerary {
       }[]
     | null;
   mapEmbed?: string | null;
+  otherBlocks: (TestimonialsBlock | FAQBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -1749,7 +1736,11 @@ export interface ItinerariesSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  content?: T;
+  content?:
+    | T
+    | {
+        content?: T | ContentBlockSelect<T>;
+      };
   inclusions?:
     | T
     | {
@@ -1781,6 +1772,12 @@ export interface ItinerariesSelect<T extends boolean = true> {
         id?: T;
       };
   mapEmbed?: T;
+  otherBlocks?:
+    | T
+    | {
+        testimonials?: T | TestimonialsBlockSelect<T>;
+        faq?: T | FAQBlockSelect<T>;
+      };
   meta?:
     | T
     | {
