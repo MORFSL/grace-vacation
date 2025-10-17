@@ -7,6 +7,7 @@ import {
   lexicalEditor,
   OrderedListFeature,
   UnorderedListFeature,
+  AlignFeature,
 } from '@payloadcms/richtext-lexical'
 
 import { link } from '@/fields/link'
@@ -47,10 +48,26 @@ const columnFields: Field[] = [
           OrderedListFeature(),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
+          AlignFeature(),
         ]
       },
     }),
     label: false,
+  },
+  {
+    name: 'enableMedia',
+    type: 'checkbox',
+  },
+  {
+    name: 'media',
+    type: 'upload',
+    relationTo: 'media',
+    required: false,
+    admin: {
+      condition: (_data, siblingData) => {
+        return Boolean(siblingData?.enableMedia)
+      },
+    },
   },
   {
     name: 'enableLink',
