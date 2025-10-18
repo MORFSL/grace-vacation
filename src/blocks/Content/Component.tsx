@@ -5,6 +5,7 @@ import RichText from '@/components/RichText'
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
+import { Media } from '@/components/Media'
 
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props
@@ -17,23 +18,40 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   }
 
   return (
-    <div className="container my-16">
+    <div className="container">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-16">
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
-            const { enableLink, link, richText, size } = col
+            const { type, enableLink, link, richText, size, media } = col
 
             return (
               <div
-                className={cn(`col-span-4 lg:col-span-${colsSpanClasses[size!]}`, {
-                  'md:col-span-2': size !== 'full',
-                })}
+                className={cn(
+                  `overflow-hidden rounded-xl relative h-full py-8 flex flex-col justify-center items-center md:items-start col-span-4 lg:col-span-${colsSpanClasses[size!]}`,
+                  {
+                    'md:col-span-2': size !== 'full',
+                    'order-1 md:order-none': type === 'richText',
+                    'order-2 md:order-none': type === 'media',
+                  },
+                )}
                 key={index}
               >
-                {richText && <RichText data={richText} enableGutter={false} />}
-
-                {enableLink && <CMSLink {...link} />}
+                {type === 'richText' ? (
+                  <>
+                    {richText && <RichText data={richText} enableGutter={false} />}
+                    {enableLink && <CMSLink className="mt-6 w-fit" {...link} />}
+                  </>
+                ) : (
+                  media && (
+                    <Media
+                      resource={media}
+                      className="h-full min-h-[20rem]"
+                      imgClassName="absolute inset-0 w-full h-full object-cover"
+                      videoClassName="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )
+                )}
               </div>
             )
           })}

@@ -9,6 +9,8 @@ import {
   UnorderedListFeature,
   TextStateFeature,
   AlignFeature,
+  BlocksFeature,
+  LinkFeature,
 } from '@payloadcms/richtext-lexical'
 
 import { link } from '@/fields/link'
@@ -38,8 +40,24 @@ const columnFields: Field[] = [
     ],
   },
   {
+    name: 'type',
+    type: 'select',
+    options: [
+      {
+        label: 'Rich Text',
+        value: 'richText',
+      },
+      {
+        label: 'Media',
+        value: 'media',
+      },
+    ],
+    defaultValue: 'richText',
+  },
+  {
     name: 'richText',
     type: 'richText',
+    label: false,
     editor: lexicalEditor({
       features: ({ rootFeatures }) => {
         return [
@@ -49,6 +67,7 @@ const columnFields: Field[] = [
           OrderedListFeature(),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
+          LinkFeature(),
           TextStateFeature({
             state: {
               color: {
@@ -73,26 +92,32 @@ const columnFields: Field[] = [
         ]
       },
     }),
-    label: false,
-  },
-  {
-    name: 'enableMedia',
-    type: 'checkbox',
+    admin: {
+      condition: (_data, siblingData) => {
+        return siblingData?.type === 'richText'
+      },
+    },
   },
   {
     name: 'media',
     type: 'upload',
     relationTo: 'media',
     required: false,
+    label: false,
     admin: {
       condition: (_data, siblingData) => {
-        return Boolean(siblingData?.enableMedia)
+        return siblingData?.type === 'media'
       },
     },
   },
   {
     name: 'enableLink',
     type: 'checkbox',
+    admin: {
+      condition: (_data, siblingData) => {
+        return siblingData?.type === 'richText'
+      },
+    },
   },
   link({
     overrides: {
