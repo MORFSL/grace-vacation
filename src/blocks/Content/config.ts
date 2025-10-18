@@ -9,7 +9,6 @@ import {
   UnorderedListFeature,
   TextStateFeature,
   AlignFeature,
-  BlocksFeature,
   LinkFeature,
 } from '@payloadcms/richtext-lexical'
 

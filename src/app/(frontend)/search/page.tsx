@@ -1,12 +1,12 @@
 import type { Metadata } from 'next/types'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
+import { CollectionArchive } from '@/components/ItineraryArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
-import { CardPostData } from '@/components/Card'
+import { CardItineraryData } from '@/components/Card'
 
 type Args = {
   searchParams: Promise<{
@@ -17,8 +17,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
 
-  const posts = await payload.find({
-    collection: 'search',
+  const itineraries = await payload.find({
+    collection: 'itineraries',
     depth: 1,
     limit: 12,
     select: {
@@ -72,8 +72,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         </div>
       </div>
 
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
+      {itineraries.totalDocs > 0 ? (
+        <CollectionArchive itineraries={itineraries.docs as CardItineraryData[]} />
       ) : (
         <div className="container">No results found.</div>
       )}

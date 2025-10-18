@@ -1,16 +1,13 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import RichText from '@/components/RichText'
 
-import type { Post } from '@/payload-types'
+import type { Itinerary } from '@/payload-types'
 
-import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -41,11 +38,11 @@ type Args = {
   }>
 }
 
-export default async function Post({ params: paramsPromise }: Args) {
+export default async function Itinerary({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const url = '/tours/' + slug
-  const tour = await queryPostBySlug({ slug })
+  const tour = await queryItineraryBySlug({ slug })
 
   if (!tour) return <PayloadRedirects url={url} />
 
@@ -67,12 +64,12 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  const post = await queryPostBySlug({ slug })
+  const itinerary = await queryItineraryBySlug({ slug })
 
-  return generateMeta({ doc: post })
+  return generateMeta({ doc: itinerary })
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryItineraryBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })

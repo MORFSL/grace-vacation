@@ -24,6 +24,7 @@ import {
 import { Content } from '@/blocks/Content/config'
 import { TestimonialsBlock } from '@/blocks/Testimonials/config'
 import { FAQBlock } from '@/blocks/Faq/config'
+import { populateAuthors } from './hooks/populateAuthors'
 
 export const Itineraries: CollectionConfig = {
   slug: 'itineraries',
@@ -237,10 +238,44 @@ export const Itineraries: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'authors',
+      type: 'relationship',
+      admin: {
+        position: 'sidebar',
+      },
+      hasMany: true,
+      relationTo: 'users',
+    },
+    // This field is only used to populate the user data via the `populateAuthors` hook
+    // This is because the `user` collection has access control locked to protect user privacy
+    // GraphQL will also not return mutated user data that differs from the underlying schema
+    {
+      name: 'populatedAuthors',
+      type: 'array',
+      access: {
+        update: () => false,
+      },
+      admin: {
+        disabled: true,
+        readOnly: true,
+      },
+      fields: [
+        {
+          name: 'id',
+          type: 'text',
+        },
+        {
+          name: 'name',
+          type: 'text',
+        },
+      ],
+    },
     ...slugField(),
   ],
   hooks: {
     afterChange: [revalidateItinerary],
+    afterRead: [populateAuthors],
     beforeChange: [populatePublishedAt],
     afterDelete: [revalidateDelete],
   },

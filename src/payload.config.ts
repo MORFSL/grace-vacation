@@ -1,16 +1,14 @@
-// storage-adapter-import-placeholder
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
-import sharp from 'sharp' // sharp-import
+import sharp from 'sharp'
 import path from 'path'
+
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
 import { Testimonials } from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
@@ -23,6 +21,7 @@ import { Contacts } from './contacts/config'
 import { General } from './general/config'
 import { Tags } from './collections/Tags'
 import { Itineraries } from './collections/Itineraries/config'
+import { Destinations } from './collections/Destinations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -63,7 +62,7 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Testimonials, Users, Tags, Itineraries],
+  collections: [Pages, Itineraries, Destinations, Tags, Testimonials, Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [General, Header, Footer, Socials, Contacts],
   plugins: [
