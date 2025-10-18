@@ -13,6 +13,10 @@ export async function Footer() {
   const contacts: Contact = await getCachedGlobal('contacts', 2)()
   const navItems = footer?.navItems || []
 
+  if (!navItems.length) {
+    return <Author />
+  }
+
   return (
     <footer className="relative mt-auto">
       <div className="rounded-lg px-16 py-8 mx-auto container bg-muted">
@@ -82,15 +86,17 @@ export async function Footer() {
           </div>
         )}
       </div>
-      <small className="px-4 py-4 mx-auto container flex flex-col lg:flex-row gap-4 justify-between text-sm text-center lg:text-start">
-        {footer.copyright && (
-          <p>{footer.copyright.replace('[year]', new Date().getFullYear().toString())}</p>
-        )}
-        <p>Designed by morf</p>
-      </small>
+      <Author copyright={footer?.copyright} />
     </footer>
   )
 }
+
+const Author = ({ copyright = 'All rights reserved [year]' }: { copyright?: string | null }) => (
+  <small className="px-4 py-4 mx-auto container flex flex-col lg:flex-row gap-4 justify-between text-sm text-center lg:text-start">
+    {copyright && <p>{copyright.replace('[year]', new Date().getFullYear().toString())}</p>}
+    <p>Designed by morf</p>
+  </small>
+)
 
 const Overlay = () => (
   <svg

@@ -7,8 +7,6 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-import { linkGroup } from '@/fields/linkGroup'
-
 export const hero: Field = {
   name: 'hero',
   type: 'group',
@@ -27,12 +25,8 @@ export const hero: Field = {
           label: 'Hero Inquiry',
           value: 'highImpact',
         },
-        // {
-        //   label: 'Medium Impact',
-        //   value: 'mediumImpact',
-        // },
         {
-          label: 'Minimal Hero',
+          label: 'Hero Minimal',
           value: 'lowImpact',
         },
       ],
@@ -53,19 +47,13 @@ export const hero: Field = {
       }),
       label: false,
     },
-    linkGroup({
-      overrides: {
-        maxRows: 2,
-      },
-    }),
     {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact'].includes(type),
+        condition: (_, { type } = {}) => ['highImpact', 'lowImpact'].includes(type),
       },
       relationTo: 'media',
-      required: true,
     },
   ],
   label: false,

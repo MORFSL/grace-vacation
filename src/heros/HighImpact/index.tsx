@@ -1,35 +1,22 @@
-'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
-  const { setHeaderTheme } = useHeaderTheme()
-
-  useEffect(() => {
-    setHeaderTheme('dark')
-  })
-
+export const HighImpactHero: React.FC<Page['hero']> = ({ media, richText }) => {
   return (
-    <div className="mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
+    <section className="mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
       <div className="container min-h-[600px] xl:min-h-[750px] flex items-center justify-center">
         <div className="z-10 text-center text-white">
-          {richText && <RichText data={richText} enableGutter={false} center={true} />}
-          {Array.isArray(links) && links.length > 0 && (
-            <ul className="flex md:justify-center gap-4">
-              {links.map(({ link }, i) => {
-                return (
-                  <li key={i}>
-                    <CMSLink {...link} />
-                  </li>
-                )
-              })}
-            </ul>
+          {richText && (
+            <RichText
+              data={richText}
+              enableGutter={false}
+              center={true}
+              className="prose-h1:text-[36px] md:prose-h1:text-[56px]"
+            />
           )}
         </div>
       </div>
@@ -51,6 +38,6 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           />
         </svg>
       </div>
-    </div>
+    </section>
   )
 }

@@ -8,9 +8,13 @@ import { Menu } from './Menu'
 export async function Header() {
   const header = (await getCachedGlobal('header', 1)()) as Header
 
+  if (!header.navItems?.length) {
+    return null
+  }
+
   return (
-    <header className="relative container mx-auto px-4">
-      <div className="flex justify-between items-center py-4">
+    <header className="relative container mx-auto">
+      <div className="flex justify-between items-center py-6">
         <div className="w-[180px] h-full">
           {header.logo && <Logo media={header.logo} className="object-contain" />}
         </div>
