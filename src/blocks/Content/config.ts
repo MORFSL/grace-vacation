@@ -9,7 +9,6 @@ import {
   UnorderedListFeature,
   TextStateFeature,
   AlignFeature,
-  defaultColors,
 } from '@payloadcms/richtext-lexical'
 
 import { link } from '@/fields/link'
