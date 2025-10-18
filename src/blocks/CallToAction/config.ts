@@ -5,6 +5,7 @@ import {
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  TextStateFeature,
 } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '../../fields/linkGroup'
@@ -23,6 +24,26 @@ export const CallToAction: Block = {
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
+            TextStateFeature({
+              state: {
+                color: {
+                  primaryColor: {
+                    label: 'Primary Color',
+                    css: {
+                      color: '#AD252F',
+                    },
+                  },
+                },
+                background: {
+                  primaryBackground: {
+                    label: 'Primary Background',
+                    css: {
+                      'background-color': '#AD252F',
+                    },
+                  },
+                },
+              },
+            }),
           ]
         },
       }),

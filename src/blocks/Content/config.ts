@@ -7,7 +7,9 @@ import {
   lexicalEditor,
   OrderedListFeature,
   UnorderedListFeature,
+  TextStateFeature,
   AlignFeature,
+  defaultColors,
 } from '@payloadcms/richtext-lexical'
 
 import { link } from '@/fields/link'
@@ -48,6 +50,26 @@ const columnFields: Field[] = [
           OrderedListFeature(),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
+          TextStateFeature({
+            state: {
+              color: {
+                primaryColor: {
+                  label: 'Primary Color',
+                  css: {
+                    color: '#AD252F',
+                  },
+                },
+              },
+              background: {
+                primaryBackground: {
+                  label: 'Primary Background',
+                  css: {
+                    'background-color': '#AD252F',
+                  },
+                },
+              },
+            },
+          }),
           AlignFeature(),
         ]
       },

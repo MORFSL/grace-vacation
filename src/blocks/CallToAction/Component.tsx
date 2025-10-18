@@ -13,13 +13,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText, im
       <div className="bg-muted rounded-xl overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-0">
           <div className="p-8 md:p-12 lg:p-16">
-            {richText && (
-              <RichText
-                className="mb-8 prose-em:text-primary prose-em:not-italic"
-                data={richText}
-                enableGutter={false}
-              />
-            )}
+            {richText && <RichText className="mb-8" data={richText} enableGutter={false} />}
             <div className="flex flex-col items-center md:items-start gap-4">
               {(links || []).map(({ link }, i) => {
                 return <CMSLink key={i} {...link} />
