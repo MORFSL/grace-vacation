@@ -74,6 +74,43 @@ export const Itineraries: CollectionConfig = {
       },
     },
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'price',
+          type: 'number',
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'priceType',
+          type: 'select',
+          options: [
+            {
+              label: 'Per Person',
+              value: 'person',
+            },
+            {
+              label: 'Group',
+              value: 'group',
+            },
+            {
+              label: 'Family',
+              value: 'family',
+            },
+            {
+              label: 'Couple',
+              value: 'couple',
+            },
+          ],
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
       type: 'tabs',
       tabs: [
         {

@@ -6,6 +6,21 @@ export const General: GlobalConfig = {
   label: 'General',
   fields: [
     {
+      name: 'payments',
+      type: 'group',
+      fields: [
+        {
+          name: 'currencyLabel',
+          type: 'select',
+          options: [
+            { label: '$', value: '$' },
+            { label: 'Rs.', value: 'Rs.' },
+            { label: 'LKR', value: 'LKR' },
+          ],
+        },
+      ],
+    },
+    {
       name: 'testimonials',
       type: 'group',
       fields: [

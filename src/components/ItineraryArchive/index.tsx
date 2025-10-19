@@ -1,32 +1,31 @@
-import { cn } from '@/utilities/ui'
 import React from 'react'
 
-import { Card, CardItineraryData } from '@/components/Card'
+import { Card } from '@/components/Card'
+
+import type { Itinerary as ItineraryType } from '@/payload-types'
 
 export type Props = {
-  itineraries: CardItineraryData[]
+  itineraries: ItineraryType[]
 }
 
-export const CollectionArchive: React.FC<Props> = (props) => {
+export const ItineraryArchive: React.FC<Props> = (props) => {
   const { itineraries } = props
 
   return (
-    <div className={cn('container')}>
-      <div>
-        <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-y-4 gap-x-4 lg:gap-y-8 lg:gap-x-8 xl:gap-x-8">
-          {itineraries?.map((result, index) => {
-            if (typeof result === 'object' && result !== null) {
-              return (
-                <div className="col-span-4" key={index}>
-                  <Card className="h-full" doc={result} relationTo="itineraries" showCategories />
-                </div>
-              )
-            }
-
-            return null
-          })}
-        </div>
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {itineraries?.map((itinerary, index) => {
+        if (itinerary && typeof itinerary === 'object') {
+          return (
+            <Card
+              key={index}
+              className="h-full"
+              doc={itinerary}
+              relationTo="itineraries"
+              showCategories
+            />
+          )
+        }
+      })}
     </div>
   )
 }

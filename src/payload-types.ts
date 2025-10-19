@@ -362,6 +362,8 @@ export interface Itinerary {
   id: number;
   title: string;
   destination: number | Destination;
+  price?: number | null;
+  priceType?: ('person' | 'group' | 'family' | 'couple') | null;
   image: number | Media;
   gallery?: (number | Media)[] | null;
   duration?: string | null;
@@ -1489,6 +1491,8 @@ export interface ItinerariesBlockSelect<T extends boolean = true> {
 export interface ItinerariesSelect<T extends boolean = true> {
   title?: T;
   destination?: T;
+  price?: T;
+  priceType?: T;
   image?: T;
   gallery?: T;
   duration?: T;
@@ -1964,6 +1968,9 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface General {
   id: number;
+  payments?: {
+    currencyLabel?: ('$' | 'Rs.' | 'LKR') | null;
+  };
   testimonials?: {
     platform?: ('Google Reviews' | 'Trip Advisor' | 'Facebook') | null;
     rating?: number | null;
@@ -2121,6 +2128,11 @@ export interface Contact {
  * via the `definition` "general_select".
  */
 export interface GeneralSelect<T extends boolean = true> {
+  payments?:
+    | T
+    | {
+        currencyLabel?: T;
+      };
   testimonials?:
     | T
     | {

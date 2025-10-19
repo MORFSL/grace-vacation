@@ -1,11 +1,11 @@
 import type { Metadata } from 'next/types'
 
-import { CollectionArchive } from '@/components/ItineraryArchive'
+import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
-import { CardItineraryData } from '@/components/Card'
+import type { Itinerary as ItineraryType } from '@/payload-types'
 
 type Args = {
   searchParams: Promise<{
@@ -71,7 +71,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {itineraries.totalDocs > 0 ? (
-        <CollectionArchive itineraries={itineraries.docs as CardItineraryData[]} />
+        <CollectionArchive itineraries={itineraries.docs as ItineraryType[]} />
       ) : (
         <div className="container">No results found.</div>
       )}

@@ -1,55 +1,75 @@
-'use client'
-
 import { cn } from '@/utilities/ui'
-import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Itinerary } from '@/payload-types'
+import type {
+  Destination as DestinationType,
+  General as GeneralType,
+  Itinerary as ItineraryType,
+} from '@/payload-types'
 
 import { Media } from '@/components/Media'
-
-export type CardItineraryData = Pick<Itinerary, 'slug' | 'meta' | 'title' | 'image'>
+import { MapPin } from 'lucide-react'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
-  doc?: CardItineraryData
+  doc?: ItineraryType
   relationTo?: 'itineraries'
   showCategories?: boolean
   title?: string
-}> = (props) => {
-  const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, title: titleFromProps } = props
+  destination?: DestinationType
+}> = async (props) => {
+  const general = (await getCachedGlobal('general')()) as GeneralType
 
-  const { slug, meta, title, image } = doc || {}
-  const { description } = meta || {}
+  const { className, doc, title: titleFromProps } = props
+  const { slug, title, image, duration, destination, price, priceType } = doc || {}
 
   const titleToUse = titleFromProps || title
-  const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
   const href = `/tours/${slug}`
 
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
+        'p-3 border border-primary/10 rounded-lg bg-muted hover:cursor-pointer',
         className,
       )}
-      ref={card.ref}
     >
-      <div className="relative w-full">
-        {image && typeof image !== 'string' && <Media resource={image} size="33vw" />}
-      </div>
-      {titleToUse && (
-        <div className="prose">
-          <h3>
-            <Link className="not-prose" href={href} ref={link.ref}>
-              {titleToUse}
-            </Link>
-          </h3>
+      <Link href={href}>
+        <div className="relative w-full pt-[80%]">
+          {image && typeof image !== 'string' && (
+            <Media
+              resource={image}
+              className="rounded-md overflow-hidden"
+              imgClassName="rounded-md overflow-hidden absolute inset-0 w-full h-full object-cover"
+            />
+          )}
         </div>
-      )}
-      {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
+        {(destination || duration) && (
+          <div className="mt-2 flex items-center justify-between gap-2 text-[13px] font-medium">
+            {destination && typeof destination === 'object' && (
+              <div className="flex items-center gap-1">
+                <MapPin size={14} /> {destination.title}
+              </div>
+            )}
+            {duration && <div>{duration}</div>}
+          </div>
+        )}
+        {titleToUse && (
+          <div className="prose mt-2">
+            <h3 className="text-lg font-medium">{titleToUse}</h3>
+          </div>
+        )}
+        {price && (
+          <div className="mt-2">
+            <span className="font-semibold">
+              {general?.payments?.currencyLabel} {price}
+            </span>
+            {priceType && <span className="text-slate-500 font-medium">/{priceType}</span>}
+          </div>
+        )}
+      </Link>
     </article>
   )
 }

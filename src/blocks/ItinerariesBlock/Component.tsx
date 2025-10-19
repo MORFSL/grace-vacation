@@ -64,15 +64,15 @@ export const ItinerariesBlock: React.FC<
 
   return (
     <section className="mx-auto container" id={`block-${id}`}>
-      <div className="mb-16 flex justify-between items-center">
+      <div className="mb-10 flex flex-col md:flex-row justify-center md:justify-between gap-4">
         {richText && (
           <RichText
-            className="ms-0 max-w-[48rem] prose-headings:mb-0"
+            className="mx-0 prose-headings:mb-0 text-center md:text-start"
             data={richText}
             enableGutter={false}
           />
         )}
-        {link && <CMSLink {...link} />}
+        {link && <CMSLink className="w-fit mx-auto md:mx-0" {...link} />}
       </div>
       <CollectionArchive itineraries={itineraries} />
     </section>
