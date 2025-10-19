@@ -6,6 +6,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { link } from '@/fields/link'
 
 export const ItinerariesBlock: Block = {
   slug: 'itinerariesBlock',
@@ -26,6 +27,19 @@ export const ItinerariesBlock: Block = {
         },
       }),
     },
+    {
+      name: 'enableLink',
+      type: 'checkbox',
+    },
+    link({
+      overrides: {
+        admin: {
+          condition: (_data, siblingData) => {
+            return Boolean(siblingData?.enableLink)
+          },
+        },
+      },
+    }),
     {
       name: 'populateBy',
       type: 'select',

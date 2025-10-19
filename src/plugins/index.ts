@@ -82,7 +82,7 @@ export const plugins: Plugin[] = [
     },
   }),
   searchPlugin({
-    collections: [],
+    collections: ['itineraries'],
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
       fields: ({ defaultFields }) => {
