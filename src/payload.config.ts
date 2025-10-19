@@ -1,5 +1,6 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { resendAdapter } from '@payloadcms/email-resend'
 
 import sharp from 'sharp'
 import path from 'path'
@@ -74,13 +75,17 @@ export default buildConfig({
       },
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
-    // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  email: resendAdapter({
+    defaultFromAddress: process.env.RESEND_FROM_ADDRESS || '',
+    defaultFromName: process.env.RESEND_FROM_NAME || '',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
