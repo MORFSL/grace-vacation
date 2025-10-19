@@ -31,7 +31,7 @@ export const ItinerariesBlock: React.FC<
   if (populateBy === 'collection') {
     const payload = await getPayload({ config: configPromise })
 
-    const flattenedDestinations = destinations?.map((destination: any) => {
+    const flattenedDestinations = destinations?.map((destination) => {
       if (typeof destination === 'object') return destination.id
       else return destination
     })
@@ -54,7 +54,7 @@ export const ItinerariesBlock: React.FC<
     itineraries = fetchedItineraries.docs
   } else {
     if (selectedDocs?.length) {
-      const filteredSelectedItineraries = selectedDocs.map((itinerary: any) => {
+      const filteredSelectedItineraries = selectedDocs.map((itinerary) => {
         if (typeof itinerary.value === 'object') return itinerary.value
       }) as Itinerary[]
 
