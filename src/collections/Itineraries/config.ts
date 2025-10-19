@@ -74,6 +74,16 @@ export const Itineraries: CollectionConfig = {
       },
     },
     {
+      name: 'duration',
+      type: 'text',
+    },
+    {
+      name: 'tags',
+      type: 'relationship',
+      relationTo: 'tags',
+      hasMany: true,
+    },
+    {
       type: 'row',
       fields: [
         {
@@ -111,47 +121,30 @@ export const Itineraries: CollectionConfig = {
       ],
     },
     {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+    },
+    {
+      name: 'gallery',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+    },
+    {
+      name: 'mapEmbed',
+      type: 'textarea',
+      admin: {
+        description: 'Enter the embed code for the map. (https://www.google.com/maps/d)',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {
           label: 'Content',
           fields: [
-            {
-              name: 'image',
-              type: 'upload',
-              relationTo: 'media',
-              required: true,
-            },
-            {
-              name: 'gallery',
-              type: 'upload',
-              relationTo: 'media',
-              hasMany: true,
-            },
-            {
-              name: 'duration',
-              type: 'text',
-            },
-            {
-              name: 'benefits',
-              type: 'group',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                },
-                {
-                  name: 'items',
-                  type: 'array',
-                  fields: [
-                    {
-                      name: 'benefit',
-                      type: 'text',
-                    },
-                  ],
-                },
-              ],
-            },
             {
               name: 'content',
               type: 'blocks',
@@ -161,46 +154,6 @@ export const Itineraries: CollectionConfig = {
               admin: {
                 initCollapsed: true,
               },
-            },
-            {
-              name: 'inclusions',
-              type: 'group',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                },
-                {
-                  name: 'items',
-                  type: 'array',
-                  fields: [
-                    {
-                      name: 'inclusion',
-                      type: 'text',
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'exclusions',
-              type: 'group',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                },
-                {
-                  name: 'items',
-                  type: 'array',
-                  fields: [
-                    {
-                      name: 'exclusion',
-                      type: 'text',
-                    },
-                  ],
-                },
-              ],
             },
             {
               name: 'milestones',
@@ -236,15 +189,72 @@ export const Itineraries: CollectionConfig = {
               ],
             },
             {
-              name: 'mapEmbed',
-              type: 'textarea',
+              name: 'inclusions',
+              type: 'group',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                },
+                {
+                  name: 'items',
+                  type: 'array',
+                  label: false,
+                  fields: [
+                    {
+                      name: 'inclusion',
+                      type: 'text',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'exclusions',
+              type: 'group',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                },
+                {
+                  name: 'items',
+                  type: 'array',
+                  label: false,
+                  fields: [
+                    {
+                      name: 'exclusion',
+                      type: 'text',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'benefits',
+              type: 'group',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                },
+                {
+                  name: 'items',
+                  type: 'array',
+                  label: false,
+                  fields: [
+                    {
+                      name: 'benefit',
+                      type: 'text',
+                    },
+                  ],
+                },
+              ],
             },
             {
               name: 'otherBlocks',
               type: 'blocks',
-              label: 'Other Layout Blocks',
               blocks: [TestimonialsBlock, FAQBlock],
-              required: true,
               admin: {
                 initCollapsed: true,
               },

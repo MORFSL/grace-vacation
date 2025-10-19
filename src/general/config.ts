@@ -21,6 +21,48 @@ export const General: GlobalConfig = {
       ],
     },
     {
+      name: 'itinerary',
+      type: 'group',
+      fields: [
+        {
+          name: 'pricePrefix',
+          type: 'text',
+          admin: {
+            description: 'This will be displayed before the price (Ex: Start from)',
+          },
+        },
+        {
+          name: 'coordinator',
+          type: 'group',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  admin: {
+                    width: '50%',
+                  },
+                },
+                {
+                  name: 'phone',
+                  type: 'email',
+                  admin: {
+                    width: '50%',
+                  },
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'testimonials',
       type: 'group',
       fields: [

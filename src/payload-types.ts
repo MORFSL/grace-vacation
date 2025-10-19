@@ -362,39 +362,17 @@ export interface Itinerary {
   id: number;
   title: string;
   destination: number | Destination;
+  duration?: string | null;
+  tags?: (number | Tag)[] | null;
   price?: number | null;
   priceType?: ('person' | 'group' | 'family' | 'couple') | null;
   image: number | Media;
   gallery?: (number | Media)[] | null;
-  duration?: string | null;
-  benefits?: {
-    title?: string | null;
-    items?:
-      | {
-          benefit?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
+  /**
+   * Enter the embed code for the map. (https://www.google.com/maps/d)
+   */
+  mapEmbed?: string | null;
   content: ContentBlock[];
-  inclusions?: {
-    title?: string | null;
-    items?:
-      | {
-          inclusion?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  exclusions?: {
-    title?: string | null;
-    items?:
-      | {
-          exclusion?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
   milestones?:
     | {
         title: string;
@@ -417,8 +395,34 @@ export interface Itinerary {
         id?: string | null;
       }[]
     | null;
-  mapEmbed?: string | null;
-  otherBlocks: (TestimonialsBlock | FAQBlock)[];
+  inclusions?: {
+    title?: string | null;
+    items?:
+      | {
+          inclusion?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  exclusions?: {
+    title?: string | null;
+    items?:
+      | {
+          exclusion?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  benefits?: {
+    title?: string | null;
+    items?:
+      | {
+          benefit?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  otherBlocks?: (TestimonialsBlock | FAQBlock)[] | null;
   meta?: {
     title?: string | null;
     /**
@@ -441,6 +445,17 @@ export interface Itinerary {
 export interface Destination {
   id: number;
   title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -971,17 +986,6 @@ export interface ItinerariesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  title: string;
-  image?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1491,26 +1495,25 @@ export interface ItinerariesBlockSelect<T extends boolean = true> {
 export interface ItinerariesSelect<T extends boolean = true> {
   title?: T;
   destination?: T;
+  duration?: T;
+  tags?: T;
   price?: T;
   priceType?: T;
   image?: T;
   gallery?: T;
-  duration?: T;
-  benefits?:
-    | T
-    | {
-        title?: T;
-        items?:
-          | T
-          | {
-              benefit?: T;
-              id?: T;
-            };
-      };
+  mapEmbed?: T;
   content?:
     | T
     | {
         content?: T | ContentBlockSelect<T>;
+      };
+  milestones?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        media?: T;
+        id?: T;
       };
   inclusions?:
     | T
@@ -1534,15 +1537,17 @@ export interface ItinerariesSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  milestones?:
+  benefits?:
     | T
     | {
         title?: T;
-        content?: T;
-        media?: T;
-        id?: T;
+        items?:
+          | T
+          | {
+              benefit?: T;
+              id?: T;
+            };
       };
-  mapEmbed?: T;
   otherBlocks?:
     | T
     | {
@@ -1971,6 +1976,17 @@ export interface General {
   payments?: {
     currencyLabel?: ('$' | 'Rs.' | 'LKR') | null;
   };
+  itinerary?: {
+    /**
+     * This will be displayed before the price (Ex: Start from)
+     */
+    pricePrefix?: string | null;
+    coordinator?: {
+      name?: string | null;
+      phone?: string | null;
+      description?: string | null;
+    };
+  };
   testimonials?: {
     platform?: ('Google Reviews' | 'Trip Advisor' | 'Facebook') | null;
     rating?: number | null;
@@ -2132,6 +2148,18 @@ export interface GeneralSelect<T extends boolean = true> {
     | T
     | {
         currencyLabel?: T;
+      };
+  itinerary?:
+    | T
+    | {
+        pricePrefix?: T;
+        coordinator?:
+          | T
+          | {
+              name?: T;
+              phone?: T;
+              description?: T;
+            };
       };
   testimonials?:
     | T
