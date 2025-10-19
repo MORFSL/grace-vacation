@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
+import { ItinerariesBlock } from '@/blocks/ItinerariesBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
@@ -14,7 +14,7 @@ import { HighlightsCarouselBlock } from './HighlightsCarousel/Component'
 import { TestimonialsBlock } from './Testimonials/Component'
 
 const blockComponents = {
-  archive: ArchiveBlock,
+  itinerariesBlock: ItinerariesBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,

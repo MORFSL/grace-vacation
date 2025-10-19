@@ -7,13 +7,14 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-export const Archive: Block = {
-  slug: 'archive',
-  interfaceName: 'ArchiveBlock',
+export const ItinerariesBlock: Block = {
+  slug: 'itinerariesBlock',
+  interfaceName: 'ItinerariesBlock',
   fields: [
     {
-      name: 'introContent',
+      name: 'richText',
       type: 'richText',
+      label: false,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [
@@ -24,7 +25,6 @@ export const Archive: Block = {
           ]
         },
       }),
-      label: 'Intro Content',
     },
     {
       name: 'populateBy',
@@ -57,7 +57,7 @@ export const Archive: Block = {
       ],
     },
     {
-      name: 'categories',
+      name: 'destinations',
       type: 'relationship',
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
@@ -88,7 +88,7 @@ export const Archive: Block = {
     },
   ],
   labels: {
-    plural: 'Archives',
-    singular: 'Archive',
+    plural: 'Itineraries Blocks',
+    singular: 'Itineraries Block',
   },
 }

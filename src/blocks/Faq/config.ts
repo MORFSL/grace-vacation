@@ -29,7 +29,6 @@ export const FAQBlock: Block = {
       name: 'questions',
       type: 'array',
       label: 'Questions & Answers',
-      interfaceName: 'FAQQuestion',
       required: true,
       fields: [
         {

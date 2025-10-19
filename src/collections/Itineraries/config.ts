@@ -66,6 +66,15 @@ export const Itineraries: CollectionConfig = {
       required: true,
     },
     {
+      name: 'destination',
+      type: 'relationship',
+      relationTo: 'destinations',
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {
