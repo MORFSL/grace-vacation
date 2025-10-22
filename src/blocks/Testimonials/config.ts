@@ -9,6 +9,7 @@ export const TestimonialsBlock: Block = {
     plural: 'Testimonials Block',
     singular: 'Testimonials Block',
   },
+  imageURL: '/static-media/testimonials-block.webp',
   fields: [
     {
       name: 'title',

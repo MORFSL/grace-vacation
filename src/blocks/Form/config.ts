@@ -10,6 +10,7 @@ import {
 export const FormBlock: Block = {
   slug: 'formBlock',
   interfaceName: 'FormBlock',
+  imageURL: '/static-media/form-block.webp',
   fields: [
     {
       name: 'form',

@@ -14,6 +14,7 @@ export const HighlightsCarouselBlock: Block = {
     plural: 'Highlights Carousel Block',
     singular: 'Highlights Carousel Block',
   },
+  imageURL: '/static-media/highlights-block.webp',
   fields: [
     {
       name: 'title',

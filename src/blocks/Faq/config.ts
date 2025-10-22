@@ -9,6 +9,7 @@ import {
 export const FAQBlock: Block = {
   slug: 'faq',
   interfaceName: 'FAQBlock',
+  imageURL: '/static-media/faq-block.webp',
   fields: [
     {
       name: 'title',

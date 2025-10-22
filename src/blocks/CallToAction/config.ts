@@ -13,6 +13,7 @@ import { linkGroup } from '../../fields/linkGroup'
 export const CallToAction: Block = {
   slug: 'cta',
   interfaceName: 'CallToActionBlock',
+  imageURL: '/static-media/cta-block.webp',
   fields: [
     {
       name: 'richText',

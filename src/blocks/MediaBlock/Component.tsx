@@ -27,6 +27,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
     media,
     staticImage,
     disableInnerContainer,
+    richText,
   } = props
 
   let caption
@@ -42,6 +43,14 @@ export const MediaBlock: React.FC<Props> = (props) => {
         className,
       )}
     >
+      {richText && (
+        <RichText
+          className="mb-8 md:max-w-3xl"
+          data={richText}
+          enableGutter={false}
+          center={true}
+        />
+      )}
       {(media || staticImage) && (
         <Media
           imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}

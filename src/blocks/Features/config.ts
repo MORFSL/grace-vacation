@@ -14,6 +14,7 @@ export const FeaturesBlock: Block = {
     plural: 'Features Block',
     singular: 'Features Block',
   },
+  imageURL: '/static-media/features-block.webp',
   fields: [
     {
       name: 'title',

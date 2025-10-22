@@ -610,6 +610,21 @@ export interface FAQBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   media: number | Media;
   id?: string | null;
   blockName?: string | null;
@@ -1426,6 +1441,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
  * via the `definition` "MediaBlock_select".
  */
 export interface MediaBlockSelect<T extends boolean = true> {
+  richText?: T;
   media?: T;
   id?: T;
   blockName?: T;

@@ -10,6 +10,7 @@ import {
 export const Gallery: Block = {
   slug: 'gallery',
   interfaceName: 'GalleryBlock',
+  imageURL: '/static-media/gallery-block.webp',
   fields: [
     {
       name: 'title',

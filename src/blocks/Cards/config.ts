@@ -14,6 +14,7 @@ export const CardsBlock: Block = {
     plural: 'Cards Block',
     singular: 'Cards Block',
   },
+  imageURL: '/static-media/cards-block.webp',
   fields: [
     {
       name: 'richText',

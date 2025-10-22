@@ -11,6 +11,7 @@ import { link } from '@/fields/link'
 export const ItinerariesBlock: Block = {
   slug: 'itinerariesBlock',
   interfaceName: 'ItinerariesBlock',
+  imageURL: '/static-media/itineraries-block.webp',
   fields: [
     {
       name: 'richText',
