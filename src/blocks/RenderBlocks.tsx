@@ -12,6 +12,7 @@ import { GalleryBlock } from './Gallery/Component'
 import { FeaturesBlock } from './Features/Component'
 import { HighlightsCarouselBlock } from './HighlightsCarousel/Component'
 import { TestimonialsBlock } from './Testimonials/Component'
+import { CardsBlock } from './Cards/Component'
 
 const blockComponents = {
   itinerariesBlock: ItinerariesBlock,
@@ -24,6 +25,7 @@ const blockComponents = {
   features: FeaturesBlock,
   highlightsCarousel: HighlightsCarouselBlock,
   testimonials: TestimonialsBlock,
+  cards: CardsBlock,
 }
 
 export const RenderBlocks: React.FC<{

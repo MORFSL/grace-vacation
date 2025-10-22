@@ -188,6 +188,7 @@ export interface Page {
     | HighlightsCarouselBlock
     | TestimonialsBlock
     | ItinerariesBlock
+    | CardsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -986,6 +987,51 @@ export interface ItinerariesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardsBlock".
+ */
+export interface CardsBlock {
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cards?:
+    | {
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        media?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -1297,6 +1343,7 @@ export interface PagesSelect<T extends boolean = true> {
         highlightsCarousel?: T | HighlightsCarouselBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
         itinerariesBlock?: T | ItinerariesBlockSelect<T>;
+        cards?: T | CardsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1485,6 +1532,22 @@ export interface ItinerariesBlockSelect<T extends boolean = true> {
   destinations?: T;
   limit?: T;
   selectedDocs?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardsBlock_select".
+ */
+export interface CardsBlockSelect<T extends boolean = true> {
+  richText?: T;
+  cards?:
+    | T
+    | {
+        richText?: T;
+        media?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

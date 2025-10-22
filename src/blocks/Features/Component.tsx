@@ -12,10 +12,10 @@ export const FeaturesBlock: React.FC<FeatureBlockProps> = ({ title, features }) 
         <RichText className="mb-12 md:max-w-xl" data={title} enableGutter={false} center={true} />
       )}
       {features && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 xl:gap-16">
+        <div className="flex justify-center gap-4 xl:gap-16">
           {features.map((feature) => (
             <div
-              className="p-10 rounded-xl border border-primary/30 flex flex-col items-center justify-center bg-muted"
+              className="flex-1 max-w-[24rem] p-10 rounded-xl border border-primary/30 flex flex-col items-center justify-center bg-muted"
               key={feature.id}
             >
               {feature.image && typeof feature.image === 'object' && (
