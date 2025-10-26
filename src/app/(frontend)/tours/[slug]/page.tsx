@@ -6,10 +6,19 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
-import type { Itinerary } from '@/payload-types'
+import type { General, Itinerary } from '@/payload-types'
 
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { TourMetaSection } from './TourMetaSection'
+import { TourGallerySection } from './TourGallerySection'
+import { TourPackage } from './TourPackage'
+import { TourContents } from './TourContents'
+import { TourInquiry } from './TourInquiry'
+import { TourBenefits } from './TourBenefits'
+import { TourCoordinator } from './TourCoordinator'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import { TourTags } from './TourTags'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -41,20 +50,34 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const url = '/tours/' + slug
-  const tour = await queryItineraryBySlug({ slug })
+  const itinerary = await queryItineraryBySlug({ slug })
+  const general = (await getCachedGlobal('general')()) as General
 
-  if (!tour) return <PayloadRedirects url={url} />
+  if (!itinerary) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
-      {/* Allows redirects for valid pages too */}
+    <article className="py-2">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
-      <section>
-        <div className="container">{tour.title}</div>
-      </section>
+      <TourMetaSection itinerary={itinerary} />
+      <TourGallerySection itinerary={itinerary} />
+
+      <div className="container">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="col-span-1 md:col-span-9">
+            <TourTags itinerary={itinerary} />
+            <TourContents itinerary={itinerary} />
+            <TourPackage itinerary={itinerary} />
+          </div>
+          <div className="col-span-1 md:col-span-3">
+            <TourInquiry itinerary={itinerary} general={general} />
+            <TourBenefits itinerary={itinerary} />
+            <TourCoordinator itinerary={general.itinerary} />
+          </div>
+        </div>
+      </div>
     </article>
   )
 }

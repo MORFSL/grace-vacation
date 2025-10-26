@@ -146,14 +146,27 @@ export const Itineraries: CollectionConfig = {
           label: 'Content',
           fields: [
             {
-              name: 'content',
-              type: 'blocks',
-              label: 'Content',
-              blocks: [Content],
-              required: true,
-              admin: {
-                initCollapsed: true,
-              },
+              name: 'contents',
+              type: 'array',
+              fields: [
+                {
+                  name: 'richText',
+                  type: 'richText',
+                  label: false,
+                  editor: lexicalEditor({
+                    features: ({ rootFeatures }) => {
+                      return [
+                        ...rootFeatures,
+                        HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
+                        FixedToolbarFeature(),
+                        InlineToolbarFeature(),
+                        OrderedListFeature(),
+                        UnorderedListFeature(),
+                      ]
+                    },
+                  }),
+                },
+              ],
             },
             {
               name: 'milestones',

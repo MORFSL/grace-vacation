@@ -47,7 +47,7 @@ export const General: GlobalConfig = {
                 },
                 {
                   name: 'phone',
-                  type: 'email',
+                  type: 'text',
                   admin: {
                     width: '50%',
                   },
