@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
-
-import { PayloadRedirects } from '@/components/PayloadRedirects'
-import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
+import configPromise from '@payload-config'
 
+import { PayloadRedirects } from '@/components/PayloadRedirects'
 import type { General, Itinerary } from '@/payload-types'
-
 import { generateMeta } from '@/utilities/generateMeta'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+
 import { TourMetaSection } from './TourMetaSection'
 import { TourGallerySection } from './TourGallerySection'
 import { TourPackage } from './TourPackage'
@@ -17,8 +17,10 @@ import { TourContents } from './TourContents'
 import { TourInquiry } from './TourInquiry'
 import { TourBenefits } from './TourBenefits'
 import { TourCoordinator } from './TourCoordinator'
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { TourMilestones } from './TourMilestones'
+import { TourMap } from './TourMap'
 import { TourTags } from './TourTags'
+import { TourBlocks } from './TourBlocks'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -64,20 +66,39 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
       <TourMetaSection itinerary={itinerary} />
       <TourGallerySection itinerary={itinerary} />
 
-      <div className="container">
+      <section className="container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <div className="col-span-1 md:col-span-9">
+          <div className="col-span-1 md:col-span-8">
             <TourTags itinerary={itinerary} />
             <TourContents itinerary={itinerary} />
             <TourPackage itinerary={itinerary} />
           </div>
-          <div className="col-span-1 md:col-span-3">
-            <TourInquiry itinerary={itinerary} general={general} />
-            <TourBenefits itinerary={itinerary} />
-            <TourCoordinator itinerary={general.itinerary} />
+          <div className="col-span-1 md:col-span-3 md:col-start-10">
+            <div className="md:sticky top-10">
+              <TourInquiry itinerary={itinerary} general={general} />
+              <TourBenefits itinerary={itinerary} />
+              <TourCoordinator itinerary={general.itinerary} />
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="container mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div className="col-span-1 md:col-span-8">
+            <TourMilestones itinerary={itinerary} />
+          </div>
+          <div className="col-span-1 md:col-span-3 md:col-start-10">
+            <div className="md:sticky top-10">
+              <TourMap itinerary={itinerary} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {itinerary.otherBlocks && itinerary.otherBlocks.length > 0 && (
+        <TourBlocks blocks={itinerary.otherBlocks} />
+      )}
     </article>
   )
 }
@@ -96,6 +117,7 @@ const queryItineraryBySlug = cache(async ({ slug }: { slug: string }) => {
 
   const result = await payload.find({
     collection: 'itineraries',
+    depth: 2,
     draft,
     limit: 1,
     overrideAccess: draft,

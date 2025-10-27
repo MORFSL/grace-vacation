@@ -21,7 +21,7 @@ import {
   OrderedListFeature,
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
-import { Content } from '@/blocks/Content/config'
+
 import { TestimonialsBlock } from '@/blocks/Testimonials/config'
 import { FAQBlock } from '@/blocks/Faq/config'
 
