@@ -13,6 +13,7 @@ import { Itinerary, Page } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { searchFields } from '@/search/fieldOverrides'
+import { DestinationSelectBlock } from '@/blocks/Form/DestinationSelect/config'
 
 const generateTitle: GenerateTitle<Itinerary | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -58,6 +59,7 @@ export const plugins: Plugin[] = [
   formBuilderPlugin({
     fields: {
       payment: false,
+      destinationSelect: DestinationSelectBlock,
     },
     formOverrides: {
       fields: ({ defaultFields }) => {

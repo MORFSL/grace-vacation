@@ -789,6 +789,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'textarea';
           }
+        | DestinationSelectBlock
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -848,6 +849,19 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DestinationSelectBlock".
+ */
+export interface DestinationSelectBlock {
+  /**
+   * Choose one or more destinations to display
+   */
+  destinations?: (number | Destination)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'destinationSelect';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1937,6 +1951,7 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        destinationSelect?: T | DestinationSelectBlockSelect<T>;
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1960,6 +1975,15 @@ export interface FormsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DestinationSelectBlock_select".
+ */
+export interface DestinationSelectBlockSelect<T extends boolean = true> {
+  destinations?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
