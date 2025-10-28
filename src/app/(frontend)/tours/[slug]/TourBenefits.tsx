@@ -10,12 +10,15 @@ export const TourBenefits = ({ itinerary }: Props) => {
   }
 
   return (
-    <div className="my-6 p-4 bg-muted rounded-xl">
-      {itinerary.benefits.title && (
-        <h2 className="text-lg font-bold">{itinerary.benefits.title}</h2>
-      )}
+    <div
+      className="my-6 bg-muted border border-primary/10 rounded-xl p-4"
+      style={{
+        boxShadow: '0 10px 40px 0 rgba(0, 0, 0, .05)',
+      }}
+    >
+      {itinerary.benefits.title && <h2 className="font-semibold">{itinerary.benefits.title}</h2>}
       {itinerary.benefits.items && (
-        <ul className="list-disc list-inside">
+        <ul className="mt-2 list-disc list-inside">
           {itinerary.benefits.items.map((item) => (
             <li key={item.id}>{item.benefit}</li>
           ))}

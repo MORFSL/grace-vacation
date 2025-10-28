@@ -1,3 +1,4 @@
+import { Media } from '@/components/Media'
 import { Itinerary } from '@/payload-types'
 
 interface Props {
@@ -10,11 +11,21 @@ export const TourTags = ({ itinerary }: Props) => {
   }
 
   return (
-    <div className="my-2 flex flex-wrap gap-2">
+    <div className="my-2 flex flex-wrap gap-4">
       {itinerary.tags?.map(
         (tag) =>
           typeof tag === 'object' && (
-            <div key={tag.id} className="text-sm border border-primary/10 rounded-md px-2 py-1">
+            <div
+              key={tag.id}
+              className="flex items-center gap-2 border border-primary/30 rounded-xl px-5 pt-2 pb-3 text-sm text-[#5F6178] font-medium"
+            >
+              {tag.image && (
+                <Media
+                  resource={tag.image}
+                  className="w-4 h-4"
+                  imgClassName="w-5 h-5 object-contain"
+                />
+              )}
               {tag.title}
             </div>
           ),

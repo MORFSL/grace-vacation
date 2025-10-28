@@ -10,10 +10,18 @@ export const TourCoordinator = ({ itinerary }: Props) => {
   }
 
   return (
-    <div className="my-6 bg-muted rounded-xl p-4 text-center">
-      <h2 className="text-lg font-bold">{itinerary.coordinator?.name}</h2>
-      <p className="text-sm text-muted-foreground">{itinerary.coordinator?.description}</p>
-      <a href={`tel:${itinerary.coordinator?.phone}`} className="text-sm text-muted-foreground">
+    <div
+      className="my-6 bg-muted border border-primary/10 rounded-xl p-4 text-center"
+      style={{
+        boxShadow: '0 10px 40px 0 rgba(0, 0, 0, .05)',
+      }}
+    >
+      <h2 className="text-2xl font-semibold">{itinerary.coordinator?.name}</h2>
+      <p className="mt-2 text-sm">{itinerary.coordinator?.description}</p>
+      <a
+        href={`tel:${itinerary.coordinator?.phone}`}
+        className="mt-2 inline-block text-xl font-medium text-primary"
+      >
         {itinerary.coordinator?.phone}
       </a>
     </div>

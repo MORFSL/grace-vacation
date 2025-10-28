@@ -27,7 +27,7 @@ export const Tags: CollectionConfig = {
     },
     {
       name: 'image',
-      label: 'Image',
+      label: 'Tag Icon',
       type: 'upload',
       relationTo: 'media',
       required: false,

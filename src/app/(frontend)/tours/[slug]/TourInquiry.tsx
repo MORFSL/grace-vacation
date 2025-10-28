@@ -8,7 +8,12 @@ interface Props {
 
 export const TourInquiry = ({ itinerary, general }: Props) => {
   return (
-    <div className="bg-muted rounded-xl p-4">
+    <div
+      className="my-6 bg-muted border border-primary/10 rounded-xl p-4 text-center"
+      style={{
+        boxShadow: '0 10px 40px 0 rgba(0, 0, 0, .05)',
+      }}
+    >
       <h2 className="text-lg font-bold">{general?.itinerary?.pricePrefix}</h2>
       <span className="text-2xl font-bold">
         <span className="font-semibold">

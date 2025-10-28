@@ -83,7 +83,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
         </div>
       </section>
 
-      <section className="container mt-12">
+      <section className="container mt-12 pt-8 border-t border-primary/10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           <div className="col-span-1 md:col-span-8">
             <TourMilestones itinerary={itinerary} />
@@ -97,7 +97,10 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
       </section>
 
       {itinerary.otherBlocks && itinerary.otherBlocks.length > 0 && (
-        <TourBlocks blocks={itinerary.otherBlocks} />
+        <>
+          <div className="container w-full border-t border-primary/10 my-12" />
+          <TourBlocks blocks={itinerary.otherBlocks} />
+        </>
       )}
     </article>
   )
