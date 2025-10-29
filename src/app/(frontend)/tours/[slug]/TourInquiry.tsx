@@ -9,22 +9,22 @@ interface Props {
 export const TourInquiry = ({ itinerary, general }: Props) => {
   return (
     <div
-      className="my-6 bg-muted border border-primary/10 rounded-xl p-4 text-center"
+      className="my-6 bg-muted border border-primary/10 rounded-xl p-6 text-center"
       style={{
         boxShadow: '0 10px 40px 0 rgba(0, 0, 0, .05)',
       }}
     >
-      <h2 className="text-lg font-bold">{general?.itinerary?.pricePrefix}</h2>
-      <span className="text-2xl font-bold">
+      <h2 className="font-medium text-muted-foreground">{general?.itinerary?.pricePrefix}</h2>
+      <div className="mt-1 text-2xl font-bold">
         <span className="font-semibold">
           {general?.payments?.currencyLabel} {itinerary.price}
         </span>
         {itinerary.priceType && (
-          <span className="text-slate-500 font-medium">/{itinerary.priceType}</span>
+          <span className="text-muted-foreground font-medium">/{itinerary.priceType}</span>
         )}
-      </span>
-      <p className="text-sm text-muted-foreground">{itinerary.duration}</p>
-      <Button className="mt-4 w-full">Make Inquiry</Button>
+      </div>
+      <p className="mt-2 text-sm">{itinerary.duration}</p>
+      <Button className="mt-6 w-full">Make Inquiry</Button>
     </div>
   )
 }

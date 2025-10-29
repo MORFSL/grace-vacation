@@ -11,7 +11,7 @@ export const TourCoordinator = ({ itinerary }: Props) => {
 
   return (
     <div
-      className="my-6 bg-muted border border-primary/10 rounded-xl p-4 text-center"
+      className="my-6 bg-muted border border-primary/10 rounded-xl p-6 text-center"
       style={{
         boxShadow: '0 10px 40px 0 rgba(0, 0, 0, .05)',
       }}

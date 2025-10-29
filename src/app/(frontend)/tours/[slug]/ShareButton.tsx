@@ -7,7 +7,7 @@ export const ShareButton = () => {
   return (
     <Button
       variant="ghost"
-      className="p-4 cursor-pointer"
+      className="py-2 px-0 cursor-pointer flex items-center gap-2"
       onClick={() => {
         navigator.share({
           title: 'Share this tour',
@@ -16,7 +16,7 @@ export const ShareButton = () => {
         })
       }}
     >
-      <Share2 size={16} />
+      <Share2 size={16} /> <span className="font-semibold">Share</span>
     </Button>
   )
 }

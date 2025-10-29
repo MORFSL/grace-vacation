@@ -11,7 +11,7 @@ export const TourContents = (props: Props) => {
         (content) =>
           content.richText && (
             <div key={content.id} className="my-8">
-              <RichText data={content.richText} enableGutter={false} />
+              <RichText data={content.richText} enableGutter={false} className="text-start" />
             </div>
           ),
       )}

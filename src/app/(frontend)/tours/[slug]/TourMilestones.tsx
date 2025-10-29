@@ -13,7 +13,7 @@ export const TourMilestones = ({ itinerary }: Props) => {
   }
 
   return (
-    <div className="my-8">
+    <div>
       <h2 className="text-2xl font-semibold mb-6">Trip Milestones</h2>
       <div className="space-y-8">
         {itinerary.milestones.map((milestone, index) => (
@@ -22,7 +22,7 @@ export const TourMilestones = ({ itinerary }: Props) => {
 
             {milestone.content && (
               <div className="mb-4">
-                <RichText data={milestone.content} enableGutter={false} />
+                <RichText data={milestone.content} enableGutter={false} className="text-start" />
               </div>
             )}
 

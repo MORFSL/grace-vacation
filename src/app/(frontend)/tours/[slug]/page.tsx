@@ -67,7 +67,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
       <TourGallerySection itinerary={itinerary} />
 
       <section className="container">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="col-span-1 md:col-span-8">
             <TourTags itinerary={itinerary} />
             <TourContents itinerary={itinerary} />
@@ -84,7 +84,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
       </section>
 
       <section className="container mt-12 pt-8 border-t border-primary/10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="col-span-1 md:col-span-8">
             <TourMilestones itinerary={itinerary} />
           </div>
