@@ -74,6 +74,7 @@ export interface Config {
     testimonials: Testimonial;
     media: Media;
     users: User;
+    payments: Payment;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -92,6 +93,7 @@ export interface Config {
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -110,6 +112,7 @@ export interface Config {
     footer: Footer;
     socials: Social;
     contacts: Contact;
+    email: Email;
   };
   globalsSelect: {
     general: GeneralSelect<false> | GeneralSelect<true>;
@@ -117,6 +120,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
     socials: SocialsSelect<false> | SocialsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
+    email: EmailSelect<false> | EmailSelect<true>;
   };
   locale: null;
   user: User & {
@@ -671,6 +675,8 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
+  formImage?: (number | null) | Media;
+  alignment?: ('left' | 'right') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -1105,6 +1111,59 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: number;
+  /**
+   * Predefined payment amount set by admin
+   */
+  amount: number;
+  /**
+   * Unique UUID identifier for the payment link (auto-generated)
+   */
+  linkId: string;
+  /**
+   * Payment link URL - Copy Link URL
+   */
+  paymentLink?: string | null;
+  /**
+   * Payment status (auto-managed)
+   */
+  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+  /**
+   * Date when payment was successfully completed
+   */
+  paidAt?: string | null;
+  /**
+   * Customer name from checkout
+   */
+  customerName?: string | null;
+  /**
+   * Customer email for receipt (populated during checkout)
+   */
+  customerEmail?: string | null;
+  /**
+   * Customer phone number (populated during checkout)
+   */
+  customerPhone?: string | null;
+  /**
+   * Payment gateway response stored as JSON (auto-populated)
+   */
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1304,6 +1363,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'payments';
+        value: number | Payment;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1487,6 +1550,8 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  formImage?: T;
+  alignment?: T;
   id?: T;
   blockName?: T;
 }
@@ -1825,6 +1890,23 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  amount?: T;
+  linkId?: T;
+  paymentLink?: T;
+  status?: T;
+  paidAt?: T;
+  customerName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  response?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2264,6 +2346,23 @@ export interface Contact {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email".
+ */
+export interface Email {
+  id: number;
+  /**
+   * Email address to receive email notifications.
+   */
+  adminEmail: string;
+  /**
+   * Company name used in email signatures.
+   */
+  signatureName: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "general_select".
  */
 export interface GeneralSelect<T extends boolean = true> {
@@ -2397,6 +2496,17 @@ export interface ContactsSelect<T extends boolean = true> {
   phone?: T;
   email?: T;
   address?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email_select".
+ */
+export interface EmailSelect<T extends boolean = true> {
+  adminEmail?: T;
+  signatureName?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

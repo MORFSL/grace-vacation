@@ -20,9 +20,11 @@ import { getServerSideURL } from './utilities/getURL'
 import { Socials } from './socials/config'
 import { Contacts } from './contacts/config'
 import { General } from './general/config'
+import { Email } from './email/config'
 import { Tags } from './collections/Tags'
 import { Itineraries } from './collections/Itineraries/config'
 import { Destinations } from './collections/Destinations'
+import { Payments } from './collections/Payments'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -63,9 +65,9 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Itineraries, Destinations, Tags, Testimonials, Media, Users],
+  collections: [Pages, Itineraries, Destinations, Tags, Testimonials, Media, Users, Payments],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [General, Header, Footer, Socials, Contacts],
+  globals: [General, Header, Footer, Socials, Contacts, Email],
   plugins: [
     ...plugins,
     vercelBlobStorage({
