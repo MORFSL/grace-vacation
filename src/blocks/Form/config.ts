@@ -41,6 +41,32 @@ export const FormBlock: Block = {
       }),
       label: 'Intro Content',
     },
+    {
+      name: 'formImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Form Image',
+    },
+    {
+      name: 'alignment',
+      type: 'radio',
+      options: [
+        {
+          label: 'Left',
+          value: 'left',
+        },
+        {
+          label: 'Right',
+          value: 'right',
+        },
+      ],
+      defaultValue: 'left',
+      admin: {
+        condition: (_, { formImage }) => Boolean(formImage),
+      },
+      label: 'Image Alignment',
+    },
   ],
   graphQL: {
     singularName: 'FormBlock',
