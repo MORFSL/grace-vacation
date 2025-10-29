@@ -8,6 +8,7 @@ import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import { CMSLink } from '@/components/Link'
+import { cn } from '@/utilities/ui'
 
 export const ItinerariesBlock: React.FC<
   ItinerariesBlockProps & {
@@ -19,6 +20,7 @@ export const ItinerariesBlock: React.FC<
     destinations,
     richText,
     link,
+    enableLink,
     limit: limitFromProps,
     populateBy,
     selectedDocs,
@@ -64,7 +66,12 @@ export const ItinerariesBlock: React.FC<
 
   return (
     <section className="mx-auto container" id={`block-${id}`}>
-      <div className="mb-10 flex flex-col md:flex-row justify-center md:justify-between gap-4">
+      <div
+        className={cn(
+          'mb-10 flex flex-col md:flex-row gap-4',
+          enableLink && link ? 'md:justify-between' : 'justify-center',
+        )}
+      >
         {richText && (
           <RichText
             className="mx-0 prose-headings:mb-0 text-center md:text-start"
@@ -72,7 +79,7 @@ export const ItinerariesBlock: React.FC<
             enableGutter={false}
           />
         )}
-        {link && <CMSLink className="w-fit mx-auto md:mx-0" {...link} />}
+        {enableLink && link && <CMSLink className="w-fit mx-auto md:mx-0" {...link} />}
       </div>
       <CollectionArchive itineraries={itineraries} />
     </section>
