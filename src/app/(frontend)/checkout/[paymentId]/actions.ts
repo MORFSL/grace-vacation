@@ -79,10 +79,10 @@ export async function processPayment(
       checkoutConfig.checkoutSecretKey,
     )
 
-    // Add return URLs
+    // Set callback URL - CyberSource will POST payment result here
     const serverUrl = getServerSideURL()
-    signedParams.override_custom_receipt_page = `${serverUrl}/checkout/${paymentId}/success`
-    signedParams.override_custom_cancel_page = `${serverUrl}/checkout/${paymentId}/failure`
+    signedParams.override_custom_receipt_page = `${serverUrl}/checkout/${paymentId}/callback`
+    signedParams.override_custom_cancel_page = `${serverUrl}/checkout/${paymentId}/callback`
 
     if (customerName) signedParams.bill_to_forename = customerName
     if (customerName) signedParams.bill_to_surname = customerName

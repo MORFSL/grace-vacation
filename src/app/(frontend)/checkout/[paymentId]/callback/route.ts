@@ -10,7 +10,29 @@ interface CyberSourceResponse {
   signed_field_names?: string
   signed_date_time?: string
   signature?: string
+  decision?: string
+  reason_code?: string
+  message?: string
+  reference_number?: string
   [key: string]: string | undefined
+}
+
+async function getPaymentData(paymentId: string) {
+  const payload = await getPayload({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'payments',
+    where: {
+      linkId: {
+        equals: paymentId,
+      },
+    },
+    limit: 1,
+    pagination: false,
+    overrideAccess: true,
+  })
+
+  return result.docs?.[0] || null
 }
 
 export async function POST(
@@ -65,39 +87,32 @@ export async function POST(
       )
     }
 
-    // Check transaction result
-    const decision = responseData.decision
-    const reasonCode = responseData.reason_code
-
-    if (decision !== 'ACCEPT') {
-      console.error('Transaction rejected:', reasonCode, responseData.message)
+    // Verify reference_number matches paymentId for security
+    const referenceNumber = responseData.reference_number
+    if (referenceNumber && referenceNumber !== paymentId) {
+      console.error('Payment ID mismatch:', { routePaymentId: paymentId, referenceNumber })
       return NextResponse.redirect(
-        new URL(
-          `/checkout/${paymentId}/failure?error=${encodeURIComponent(responseData.message || 'Transaction rejected')}`,
-          request.url,
-        ),
+        new URL(`/checkout/${paymentId}/failure?error=Payment+ID+mismatch`, request.url),
       )
     }
 
-    // Update payment status
+    // Check transaction result
+    const decision = responseData.decision
+
+    // Get payment record
+    const payment = await getPaymentData(paymentId)
+
+    if (!payment) {
+      return NextResponse.redirect(
+        new URL(`/checkout/${paymentId}/failure?error=Payment+not+found`, request.url),
+      )
+    }
+
+    // Handle success or failure based on decision
     const payload = await getPayload({ config: configPromise })
 
-    const result = await payload.find({
-      collection: 'payments',
-      where: {
-        linkId: {
-          equals: paymentId,
-        },
-      },
-      limit: 1,
-      pagination: false,
-      overrideAccess: true,
-    })
-
-    const payment = result.docs?.[0]
-
-    if (payment) {
-      // Store full response and mark as completed
+    if (decision === 'ACCEPT') {
+      // Update payment as completed
       await payload.update({
         collection: 'payments',
         id: payment.id,
@@ -108,18 +123,41 @@ export async function POST(
         },
         overrideAccess: true,
       })
+
+      revalidatePath(`/checkout/${paymentId}`)
+      revalidatePath(`/checkout/${paymentId}/success`)
+
+      // Redirect to success page
+      return NextResponse.redirect(new URL(`/checkout/${paymentId}/success`, request.url))
+    } else {
+      // Update payment as failed
+      await payload.update({
+        collection: 'payments',
+        id: payment.id,
+        data: {
+          status: 'failed',
+          response: responseData,
+        },
+        overrideAccess: true,
+      })
+
+      revalidatePath(`/checkout/${paymentId}`)
+      revalidatePath(`/checkout/${paymentId}/failure`)
+
+      // Redirect to failure page with error message
+      const errorMessage = responseData.message || 'Payment failed'
+      return NextResponse.redirect(
+        new URL(
+          `/checkout/${paymentId}/failure?error=${encodeURIComponent(errorMessage)}`,
+          request.url,
+        ),
+      )
     }
-
-    revalidatePath(`/checkout/${paymentId}`)
-    revalidatePath(`/checkout/${paymentId}/success`)
-
-    // Redirect to success page
-    return NextResponse.redirect(new URL(`/checkout/${paymentId}/success`, request.url))
   } catch (error) {
     console.error('Error processing CyberSource callback:', error)
+    const { paymentId } = await params
     return NextResponse.redirect(
       new URL(`/checkout/${paymentId}/failure?error=Internal+error`, request.url),
     )
   }
 }
-
