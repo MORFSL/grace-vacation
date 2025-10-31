@@ -113,6 +113,7 @@ export interface Config {
     socials: Social;
     contacts: Contact;
     email: Email;
+    checkout: Checkout;
   };
   globalsSelect: {
     general: GeneralSelect<false> | GeneralSelect<true>;
@@ -121,6 +122,7 @@ export interface Config {
     socials: SocialsSelect<false> | SocialsSelect<true>;
     contacts: ContactsSelect<false> | ContactsSelect<true>;
     email: EmailSelect<false> | EmailSelect<true>;
+    checkout: CheckoutSelect<false> | CheckoutSelect<true>;
   };
   locale: null;
   user: User & {
@@ -2179,6 +2181,9 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface General {
   id: number;
   payments?: {
+    /**
+     * Currency label displayed throughout the site.
+     */
     currencyLabel?: ('$' | 'Rs.' | 'LKR') | null;
   };
   itinerary?: {
@@ -2363,6 +2368,35 @@ export interface Email {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "checkout".
+ */
+export interface Checkout {
+  id: number;
+  /**
+   * Currency code compatible with CyberSource.
+   */
+  currencyCode?: ('USD' | 'LKR' | 'EUR') | null;
+  /**
+   * CyberSource Secure Acceptance Profile ID - Found in Business Center > Payment Configuration > Secure Acceptance Settings.
+   */
+  checkoutMerchantId?: string | null;
+  /**
+   * CyberSource Secure Acceptance Access Key - Found in the Secure Acceptance profile.
+   */
+  checkoutAccessKey?: string | null;
+  /**
+   * CyberSource Secure Acceptance Secret Key - Used for HMAC SHA256 signature generation. Keep this secure!
+   */
+  checkoutSecretKey?: string | null;
+  /**
+   * CyberSource Secure Acceptance Checkout URL - https://secureacceptance.cybersource.com/pay for production.
+   */
+  checkoutUrl?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "general_select".
  */
 export interface GeneralSelect<T extends boolean = true> {
@@ -2507,6 +2541,20 @@ export interface ContactsSelect<T extends boolean = true> {
 export interface EmailSelect<T extends boolean = true> {
   adminEmail?: T;
   signatureName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "checkout_select".
+ */
+export interface CheckoutSelect<T extends boolean = true> {
+  currencyCode?: T;
+  checkoutMerchantId?: T;
+  checkoutAccessKey?: T;
+  checkoutSecretKey?: T;
+  checkoutUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

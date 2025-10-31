@@ -5,20 +5,16 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { processPayment } from './actions'
+import { CheckCircle, Lock } from 'lucide-react'
 
 interface CheckoutFormProps {
   paymentId: string
   amount: number
 }
 
-export function CheckoutForm({ paymentId, amount }: CheckoutFormProps) {
+export function CheckoutForm({ paymentId }: CheckoutFormProps) {
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
-
-  const formattedAmount = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount)
 
   async function handleSubmit(formData: FormData) {
     setError(null)
@@ -28,8 +24,28 @@ export function CheckoutForm({ paymentId, amount }: CheckoutFormProps) {
 
       if (result.error) {
         setError(result.error)
+        return
       }
-      // If successful, redirect happens in the server action
+
+      if (result.cybersourceUrl && result.formParams) {
+        // Create a form to submit to CyberSource
+        const form = document.createElement('form')
+        form.method = 'POST'
+        form.action = result.cybersourceUrl
+
+        // Add all parameters as hidden inputs
+        Object.entries(result.formParams).forEach(([key, value]) => {
+          const input = document.createElement('input')
+          input.type = 'hidden'
+          input.name = key
+          input.value = value
+          form.appendChild(input)
+        })
+
+        // Append form to body and submit
+        document.body.appendChild(form)
+        form.submit()
+      }
     })
   }
 
@@ -78,16 +94,28 @@ export function CheckoutForm({ paymentId, amount }: CheckoutFormProps) {
         />
       </div>
 
-      <div className="pt-4">
-        <Button type="submit" disabled={isPending} className="w-full">
-          {isPending ? 'Processing Payment...' : `Pay Now`}
-        </Button>
+      <div className="rounded-md border border-border bg-muted p-4 text-muted-foreground">
+        <div className="flex items-start gap-3">
+          <Lock className="mt-0.5 h-4 w-4" />
+          <p className="text-xs leading-5">
+            A payment receipt will be automatically sent to your email once the transaction is
+            completed.
+          </p>
+        </div>
       </div>
 
-      <p className="text-sm text-muted-foreground mt-6 text-center">
-        Your payment will be processed securely. A receipt will be sent to your email address upon
-        completion.
-      </p>
+      <div className="pt-1">
+        <Button type="submit" disabled={isPending} className="w-full">
+          {isPending ? (
+            'Processing Payment...'
+          ) : (
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" />
+              Pay Now
+            </span>
+          )}
+        </Button>
+      </div>
     </form>
   )
 }

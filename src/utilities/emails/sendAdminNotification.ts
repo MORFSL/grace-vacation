@@ -2,6 +2,8 @@ import type { PayloadRequest } from 'payload'
 import { render } from '@react-email/render'
 
 import { AdminNotification } from '@/emails/AdminNotification'
+import { getCachedGlobal } from '../getGlobals'
+import { Checkout } from '@/payload-types'
 
 interface SendAdminNotificationParams {
   amount: number
@@ -20,6 +22,7 @@ export const sendAdminNotification = async ({
   customerPhone,
   req,
 }: SendAdminNotificationParams): Promise<void> => {
+  const checkoutConfig = (await getCachedGlobal('checkout')()) as Checkout
   const emailConfig = await req.payload.findGlobal({ slug: 'email' })
   const adminEmail =
     emailConfig?.adminEmail || process.env.ADMIN_EMAIL || process.env.RESEND_FROM_ADDRESS || ''
@@ -34,7 +37,7 @@ export const sendAdminNotification = async ({
 
   const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: checkoutConfig.currencyCode || 'USD',
   }).format(amount)
 
   const formattedDate = new Date().toLocaleDateString('en-US', {

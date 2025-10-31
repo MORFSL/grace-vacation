@@ -17,6 +17,9 @@ export const General: GlobalConfig = {
             { label: 'Rs.', value: 'Rs.' },
             { label: 'LKR', value: 'LKR' },
           ],
+          admin: {
+            description: 'Currency label displayed throughout the site.',
+          },
         },
       ],
     },

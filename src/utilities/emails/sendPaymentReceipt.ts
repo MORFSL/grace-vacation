@@ -2,6 +2,8 @@ import type { PayloadRequest } from 'payload'
 import { render } from '@react-email/render'
 
 import { PaymentReceipt } from '@/emails/PaymentReceipt'
+import { getCachedGlobal } from '../getGlobals'
+import { Checkout } from '@/payload-types'
 
 interface SendPaymentReceiptParams {
   email: string
@@ -18,12 +20,13 @@ export const sendPaymentReceipt = async ({
   linkId,
   req,
 }: SendPaymentReceiptParams): Promise<void> => {
+  const checkoutConfig = (await getCachedGlobal('checkout')()) as Checkout
   const emailConfig = await req.payload.findGlobal({ slug: 'email' })
   const signatureName = emailConfig?.signatureName || ''
 
   const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: checkoutConfig.currencyCode || 'USD',
   }).format(amount)
 
   const formattedDate = new Date().toLocaleDateString('en-US', {
