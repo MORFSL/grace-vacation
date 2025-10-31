@@ -35,12 +35,8 @@ async function getPaymentData(paymentId: string) {
   return result.docs?.[0] || null
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ paymentId: string }> },
-) {
+export async function POST(request: NextRequest) {
   try {
-    const { paymentId } = await params
     const formData = await request.formData()
 
     // Convert FormData to object
@@ -48,6 +44,13 @@ export async function POST(
     formData.forEach((value, key) => {
       responseData[key] = value.toString()
     })
+
+    // Get paymentId from Cybersource response reference_number
+    const paymentId = responseData.reference_number
+    if (!paymentId) {
+      console.error('Missing reference_number in CyberSource response')
+      return NextResponse.redirect(new URL('/checkout/failure?error=Invalid+response', request.url))
+    }
 
     // Get the secret key from checkout config
     const checkoutConfig = (await getCachedGlobal('checkout')()) as Checkout
@@ -84,15 +87,6 @@ export async function POST(
       console.error('Signature verification failed')
       return NextResponse.redirect(
         new URL(`/checkout/${paymentId}/failure?error=Signature+verification+failed`, request.url),
-      )
-    }
-
-    // Verify reference_number matches paymentId for security
-    const referenceNumber = responseData.reference_number
-    if (referenceNumber && referenceNumber !== paymentId) {
-      console.error('Payment ID mismatch:', { routePaymentId: paymentId, referenceNumber })
-      return NextResponse.redirect(
-        new URL(`/checkout/${paymentId}/failure?error=Payment+ID+mismatch`, request.url),
       )
     }
 
@@ -155,9 +149,7 @@ export async function POST(
     }
   } catch (error) {
     console.error('Error processing CyberSource callback:', error)
-    const { paymentId } = await params
-    return NextResponse.redirect(
-      new URL(`/checkout/${paymentId}/failure?error=Internal+error`, request.url),
-    )
+    // Try to get paymentId from error context if available, otherwise redirect to generic failure
+    return NextResponse.redirect(new URL('/checkout/failure?error=Internal+error', request.url))
   }
 }

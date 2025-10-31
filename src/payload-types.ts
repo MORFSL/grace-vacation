@@ -72,9 +72,9 @@ export interface Config {
     destinations: Destination;
     tags: Tag;
     testimonials: Testimonial;
+    payments: Payment;
     media: Media;
     users: User;
-    payments: Payment;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -91,9 +91,9 @@ export interface Config {
     destinations: DestinationsSelect<false> | DestinationsSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    payments: PaymentsSelect<false> | PaymentsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1088,31 +1088,6 @@ export interface CardsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payments".
  */
 export interface Payment {
@@ -1163,6 +1138,31 @@ export interface Payment {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1357,16 +1357,16 @@ export interface PayloadLockedDocument {
         value: number | Testimonial;
       } | null)
     | ({
+        relationTo: 'payments';
+        value: number | Payment;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
         relationTo: 'users';
         value: number | User;
-      } | null)
-    | ({
-        relationTo: 'payments';
-        value: number | Payment;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1779,6 +1779,23 @@ export interface TestimonialsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  amount?: T;
+  linkId?: T;
+  paymentLink?: T;
+  status?: T;
+  paidAt?: T;
+  customerName?: T;
+  customerEmail?: T;
+  customerPhone?: T;
+  response?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -1892,23 +1909,6 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payments_select".
- */
-export interface PaymentsSelect<T extends boolean = true> {
-  amount?: T;
-  linkId?: T;
-  paymentLink?: T;
-  status?: T;
-  paidAt?: T;
-  customerName?: T;
-  customerEmail?: T;
-  customerPhone?: T;
-  response?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
