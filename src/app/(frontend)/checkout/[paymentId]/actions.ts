@@ -48,7 +48,7 @@ export async function processPayment(
     const checkoutConfig = (await getCachedGlobal('checkout')()) as Checkout
 
     if (
-      !checkoutConfig.checkoutMerchantId ||
+      !checkoutConfig.checkoutProfileId ||
       !checkoutConfig.checkoutAccessKey ||
       !checkoutConfig.checkoutSecretKey ||
       !checkoutConfig.checkoutUrl
@@ -74,7 +74,7 @@ export async function processPayment(
       paymentId,
       payment.amount,
       currencyCode,
-      checkoutConfig.checkoutMerchantId,
+      checkoutConfig.checkoutProfileId,
       checkoutConfig.checkoutAccessKey,
       checkoutConfig.checkoutSecretKey,
     )

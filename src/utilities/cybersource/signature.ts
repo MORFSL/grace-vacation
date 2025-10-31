@@ -60,7 +60,7 @@ export function dateTimeSring(): string {
  * @param paymentId - Unique payment link ID
  * @param amount - Transaction amount
  * @param currencyCode - Currency code (e.g., USD, LKR, EUR)
- * @param merchantId - Merchant ID
+ * @param profileId - Profile ID
  * @param accessKey - Access key
  * @param secretKey - Secret key
  * @returns Parameters with generated signature
@@ -69,7 +69,7 @@ export function getSignedParameters(
   paymentId: string,
   amount: number,
   currencyCode: string,
-  merchantId: string,
+  profileId: string,
   accessKey: string,
   secretKey: string,
 ): Record<string, string> {
@@ -82,7 +82,7 @@ export function getSignedParameters(
     amount: amount.toFixed(2),
     currency: currencyCode.toLowerCase(),
     locale: 'en-US',
-    profile_id: merchantId,
+    profile_id: profileId,
     reference_number: paymentId,
     signed_date_time: signedDateTime,
     signed_field_names: [

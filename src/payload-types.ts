@@ -2379,7 +2379,7 @@ export interface Checkout {
   /**
    * CyberSource Secure Acceptance Profile ID - Found in Business Center > Payment Configuration > Secure Acceptance Settings.
    */
-  checkoutMerchantId?: string | null;
+  checkoutProfileId?: string | null;
   /**
    * CyberSource Secure Acceptance Access Key - Found in the Secure Acceptance profile.
    */
@@ -2551,7 +2551,7 @@ export interface EmailSelect<T extends boolean = true> {
  */
 export interface CheckoutSelect<T extends boolean = true> {
   currencyCode?: T;
-  checkoutMerchantId?: T;
+  checkoutProfileId?: T;
   checkoutAccessKey?: T;
   checkoutSecretKey?: T;
   checkoutUrl?: T;

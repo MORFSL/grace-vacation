@@ -18,7 +18,7 @@ export const Checkout: GlobalConfig = {
       },
     },
     {
-      name: 'checkoutMerchantId',
+      name: 'checkoutProfileId',
       type: 'text',
       admin: {
         description:
