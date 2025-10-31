@@ -1,4 +1,3 @@
-import type { TextField } from '@payloadcms/plugin-form-builder/types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 
 import { Input } from '@/components/ui/input'
@@ -8,12 +7,25 @@ import React from 'react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
-export const Text: React.FC<
-  TextField & {
-    errors: Partial<FieldErrorsImpl>
-    register: UseFormRegister<FieldValues>
-  }
-> = ({ name, defaultValue, errors, label, register, required, width }) => {
+type DateFieldProps = {
+  name: string
+  label: string
+  required?: boolean
+  width?: number | string
+  defaultValue?: string
+  errors: Partial<FieldErrorsImpl>
+  register: UseFormRegister<FieldValues>
+}
+
+export const Date: React.FC<DateFieldProps> = ({
+  name,
+  label,
+  required,
+  width,
+  defaultValue,
+  errors,
+  register,
+}) => {
   return (
     <Width width={width}>
       <Label htmlFor={name} className="text-[15px] font-medium">
@@ -28,7 +40,7 @@ export const Text: React.FC<
       <Input
         defaultValue={defaultValue}
         id={name}
-        type="text"
+        type="date"
         className="border-[#AD252F1A] bg-[#FEEFE854]"
         {...register(name, { required })}
       />

@@ -797,6 +797,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'textarea';
           }
+        | DateBlock
         | DestinationSelectBlock
       )[]
     | null;
@@ -857,6 +858,25 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DateBlock".
+ */
+export interface DateBlock {
+  /**
+   * Field name (lowercase, no spaces)
+   */
+  name: string;
+  label: string;
+  /**
+   * Width of the field as a percentage (e.g., 50 for half width, 100 for full width)
+   */
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'date';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2035,6 +2055,7 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        date?: T | DateBlockSelect<T>;
         destinationSelect?: T | DestinationSelectBlockSelect<T>;
       };
   submitButtonLabel?: T;
@@ -2059,6 +2080,18 @@ export interface FormsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DateBlock_select".
+ */
+export interface DateBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

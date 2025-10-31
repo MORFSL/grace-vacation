@@ -7,8 +7,9 @@ export const Providers: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
   return (
-    <ThemeProvider>
-      <HeaderThemeProvider>{children}</HeaderThemeProvider>
-    </ThemeProvider>
+    <HeaderThemeProvider>{children}</HeaderThemeProvider>
+    // <ThemeProvider>
+
+    // </ThemeProvider>
   )
 }

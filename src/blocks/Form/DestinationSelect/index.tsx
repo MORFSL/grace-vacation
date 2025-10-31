@@ -37,8 +37,17 @@ export const DestinationSelect: React.FC<DestinationSelectProps> = ({
       })) || []
 
   return (
-    <div className="mb-6">
-      <Label htmlFor={name}>Destination</Label>
+    <div
+      style={{
+        width: 'calc(50% - 1.5rem)',
+        minWidth: 'calc(50% - 1.5rem)',
+        flexGrow: 0,
+        flexShrink: 0,
+      }}
+    >
+      <Label htmlFor={name} className="text-[15px] font-medium">
+        Destination
+      </Label>
       <Controller
         control={control}
         defaultValue=""
@@ -48,7 +57,7 @@ export const DestinationSelect: React.FC<DestinationSelectProps> = ({
 
           return (
             <Select onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
-              <SelectTrigger className="w-full" id={name}>
+              <SelectTrigger className="w-full border-[#AD252F1A] bg-[#FEEFE854]" id={name}>
                 <SelectValue placeholder="Select a destination" />
               </SelectTrigger>
               <SelectContent>

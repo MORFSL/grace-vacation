@@ -15,11 +15,11 @@ export const Number: React.FC<
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
   return (
     <Width width={width}>
-      <Label htmlFor={name}>
+      <Label htmlFor={name} className="text-[15px] font-medium">
         {label}
 
         {required && (
-          <span className="required">
+          <span className="required text-[#AD252F] ml-1">
             * <span className="sr-only">(required)</span>
           </span>
         )}
@@ -28,6 +28,7 @@ export const Number: React.FC<
         defaultValue={defaultValue}
         id={name}
         type="number"
+        className="border-[#AD252F1A] bg-[#FEEFE854]"
         {...register(name, { required })}
       />
       {errors[name] && <Error name={name} />}

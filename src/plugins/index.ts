@@ -13,6 +13,7 @@ import { Itinerary, Page } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { searchFields } from '@/search/fieldOverrides'
+import { DateBlock } from '@/blocks/Form/Date/config'
 import { DestinationSelectBlock } from '@/blocks/Form/DestinationSelect/config'
 
 const generateTitle: GenerateTitle<Itinerary | Page> = ({ doc }) => {
@@ -59,6 +60,7 @@ export const plugins: Plugin[] = [
   formBuilderPlugin({
     fields: {
       payment: false,
+      date: DateBlock,
       destinationSelect: DestinationSelectBlock,
     },
     formOverrides: {
