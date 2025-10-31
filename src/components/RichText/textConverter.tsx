@@ -14,6 +14,24 @@ const colorState: TextStateFeatureProps['state'] = {
         color: 'rgb(var(--primary))',
       },
     },
+    black: {
+      label: 'Black',
+      css: {
+        color: '#000000',
+      },
+    },
+    white: {
+      label: 'White',
+      css: {
+        color: '#FFFFFF',
+      },
+    },
+    gray: {
+      label: 'Gray',
+      css: {
+        color: '#6B7280',
+      },
+    },
     primaryBackground: {
       label: 'Primary Background',
       css: {

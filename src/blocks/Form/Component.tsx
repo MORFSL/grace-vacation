@@ -6,10 +6,12 @@ import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
+import { Media } from '@/components/Media'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
+import { Media as MediaType } from '@/payload-types'
 
 export type FormBlockType = {
   blockName?: string
@@ -17,6 +19,8 @@ export type FormBlockType = {
   enableIntro: boolean
   form: FormType
   introContent?: DefaultTypedEditorState
+  formImage?: MediaType | number
+  alignment?: 'left' | 'right'
 }
 
 export const FormBlock: React.FC<
@@ -29,11 +33,16 @@ export const FormBlock: React.FC<
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
+    formImage,
+    alignment,
   } = props
 
   const formMethods = useForm({
     defaultValues: formFromProps.fields,
   })
+
+  console.log({ formImage, alignment })
+
   const {
     control,
     formState: { errors },
@@ -113,51 +122,98 @@ export const FormBlock: React.FC<
     [router, formID, redirect, confirmationType],
   )
 
+  const imageContent = formImage && typeof formImage !== 'number' && (
+    <div>
+      <div className="relative">
+        <Media resource={formImage} className="w-full h-full object-cover rounded-[0.8rem]" />
+        <div className="absolute -left-1 -bottom-1 -right-1 w-[100%] overflow-hidden">
+          <svg
+            viewBox="0 0 1840 33"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="scale-x-[2.5%] scale-y-[1.5%]"
+          >
+            <path
+              d="M0 19.5562C0 19.5562 47.3791 13.5965 90.8642 13.1808C134.998 12.765 172.642 13.1808 226.511 15.2597C299.852 18.0316 441.34 29.2579 516.628 23.1597C591.916 17.0614 595.16 16.7843 633.454 12.9036C676.289 8.46849 763.26 -0.401673 870.998 0.0141213C985.876 0.429906 1194.21 23.0211 1279.88 21.9123C1288.97 21.7737 1322.72 20.8036 1348.04 19.1404C1372.7 17.4773 1409.04 13.8738 1458.37 12.6263C1479.14 12.072 1512.24 11.1018 1550.54 11.379C1560.27 11.5176 1591.43 11.9334 1628.42 13.5965C1665.41 15.2597 1699.81 17.893 1730.96 18.7246C1797.81 20.2491 1840 18.0316 1840 18.0316V33H0V19.5562ZM147.33 17.3386C151.874 18.7246 160.31 17.893 175.239 17.893C190.166 17.893 214.829 19.5562 212.882 19.4176C210.935 19.279 192.761 17.3386 173.94 16.7843C154.469 16.0913 143.436 15.9526 147.33 17.3386ZM266.751 21.0807C266.751 21.0807 282.328 21.3579 303.097 22.3281C323.866 23.4369 369.947 26.2088 401.101 27.179C454.321 28.7035 503.647 27.179 499.104 27.0404C493.912 26.9017 436.798 27.8719 384.875 25.5159C363.457 24.5456 324.515 22.4667 304.395 21.7737C282.977 20.9421 266.751 21.0807 266.751 21.0807ZM637.997 21.2193C626.963 22.1896 724.317 14.7053 758.067 12.765C771.697 11.9333 798.307 10.5475 822.97 9.99303C848.282 9.4387 880.733 9.4387 880.084 9.30004C880.084 9.02283 842.441 8.19128 807.393 9.30004C772.346 10.4088 773.643 10.8246 758.067 11.5176C733.404 12.6263 649.03 20.2491 637.997 21.2193ZM547.781 23.4369C546.483 23.4369 552.973 23.9912 578.935 21.9123C604.896 19.8334 622.42 17.0614 623.718 16.7843C625.016 16.6456 601.002 19.279 580.882 20.9421C561.411 22.6053 548.43 23.4369 547.781 23.4369ZM3.24511 24.6842C3.8941 24.5456 15.5766 23.1597 34.3984 21.2193C53.2204 19.279 79.1816 17.3386 77.8835 17.4773C76.5856 17.4773 55.1676 18.3088 29.8554 20.9421C4.54323 23.5754 2.59611 24.8229 3.24511 24.6842ZM1636.85 16.9228C1636.2 17.2001 1649.18 17.2001 1666.06 18.586C1682.94 19.9719 1701.11 20.8036 1716.69 21.3579C1742.64 22.4667 1792.62 21.2193 1790.02 21.0807C1788.08 20.9421 1736.81 21.4966 1708.9 20.1106C1694.62 19.4176 1693.32 19.4176 1671.91 17.893C1650.48 16.3685 1637.5 16.5071 1636.85 16.9228ZM1366.21 20.2491C1363.61 20.3878 1343.5 22.4667 1311.69 23.8527C1279.88 25.3772 1253.93 24.5456 1253.93 24.9614C1253.93 25.3772 1260.42 26.2088 1294.16 25.3772C1327.92 24.5456 1368.81 20.1106 1366.21 20.2491ZM1375.3 23.7141C1374 23.5754 1353.23 25.5159 1338.3 26.0702C1323.37 26.486 1325.97 26.7632 1325.97 26.9017C1325.97 27.0404 1333.11 27.179 1343.5 26.6246C1354.53 25.9316 1376.6 23.8527 1375.3 23.7141ZM1232.5 26.9017C1231.86 26.6246 1209.79 25.793 1196.16 24.4071C1182.54 23.0211 1184.48 23.5754 1183.84 23.7141C1183.18 23.8527 1189.02 24.8229 1199.4 25.5159C1209.79 26.3474 1233.16 27.179 1232.5 26.9017ZM1415.53 17.6158C1416.19 17.2001 1413.59 16.9228 1403.2 17.893C1392.82 18.8632 1386.33 19.6948 1388.92 19.5562C1391.52 19.4176 1394.76 19.0018 1405.15 18.4474C1416.19 17.893 1414.89 18.0316 1415.53 17.6158ZM1616.08 15.8141C1617.38 15.8141 1602.46 14.7053 1594.67 14.5668C1586.88 14.4281 1581.68 14.4281 1581.68 14.8439C1581.68 15.2597 1582.34 15.5369 1592.07 15.3983C1602.46 15.2597 1614.78 15.8141 1616.08 15.8141ZM852.177 3.75621C852.826 3.61762 867.753 4.17201 900.854 4.17201C933.305 4.17201 989.122 7.49829 1012.49 9.02283C1035.85 10.5475 947.584 3.61761 905.397 3.34043C863.209 3.06323 851.528 3.89481 852.177 3.75621Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+      </div>
+      <div className="p-[51px]">
+        {formImage.caption && (
+          <RichText className="!p-0 text-black" style={{ padding: 0 }} data={formImage.caption} />
+        )}
+      </div>
+    </div>
+  )
+
+  const formContent = (
+    <div className="p-4 lg:p-6 border border-border rounded-[0.8rem]">
+      <FormProvider {...formMethods}>
+        {!isLoading && hasSubmitted && confirmationType === 'message' && (
+          <RichText data={confirmationMessage} />
+        )}
+        {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+        {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
+        {!hasSubmitted && (
+          <form id={formID} onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-4 last:mb-0">
+              {formFromProps &&
+                formFromProps.fields &&
+                formFromProps.fields?.map((field, index) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
+                  if (Field) {
+                    return (
+                      <div className="mb-6 last:mb-0" key={index}>
+                        <Field
+                          form={formFromProps}
+                          {...field}
+                          {...formMethods}
+                          control={control}
+                          errors={errors}
+                          register={register}
+                        />
+                      </div>
+                    )
+                  }
+                  return null
+                })}
+            </div>
+
+            <Button form={formID} type="submit" variant="default">
+              {submitButtonLabel}
+            </Button>
+          </form>
+        )}
+      </FormProvider>
+    </div>
+  )
+
   return (
-    <div className="container lg:max-w-[48rem]">
+    <div className="container">
       {enableIntro && introContent && !hasSubmitted && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
-      <div className="p-4 lg:p-6 border border-border rounded-[0.8rem]">
-        <FormProvider {...formMethods}>
-          {!isLoading && hasSubmitted && confirmationType === 'message' && (
-            <RichText data={confirmationMessage} />
-          )}
-          {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
-          {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
-          {!hasSubmitted && (
-            <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4 last:mb-0">
-                {formFromProps &&
-                  formFromProps.fields &&
-                  formFromProps.fields?.map((field, index) => {
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
-                    if (Field) {
-                      return (
-                        <div className="mb-6 last:mb-0" key={index}>
-                          <Field
-                            form={formFromProps}
-                            {...field}
-                            {...formMethods}
-                            control={control}
-                            errors={errors}
-                            register={register}
-                          />
-                        </div>
-                      )
-                    }
-                    return null
-                  })}
-              </div>
 
-              <Button form={formID} type="submit" variant="default">
-                {submitButtonLabel}
-              </Button>
-            </form>
+      {formImage && typeof formImage !== 'number' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+          {alignment === 'right' ? (
+            <>
+              {formContent}
+              {imageContent}
+            </>
+          ) : (
+            <>
+              {imageContent}
+              {formContent}
+            </>
           )}
-        </FormProvider>
-      </div>
+        </div>
+      ) : (
+        <div className="lg:max-w-[48rem] mx-auto">{formContent}</div>
+      )}
     </div>
   )
 }

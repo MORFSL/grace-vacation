@@ -2,8 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import {
   FixedToolbarFeature,
+  HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  TextStateFeature,
 } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -33,7 +35,34 @@ export const Media: CollectionConfig = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+          return [
+            ...rootFeatures,
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HeadingFeature({ enabledHeadingSizes: ['h2'] }),
+            TextStateFeature({
+              state: {
+                color: {
+                  primaryColor: {
+                    label: 'Primary Color',
+                    css: { color: '#AD252F' },
+                  },
+                  black: {
+                    label: 'Black',
+                    css: { color: '#000000' },
+                  },
+                  white: {
+                    label: 'White',
+                    css: { color: '#FFFFFF' },
+                  },
+                  gray: {
+                    label: 'Gray',
+                    css: { color: '#6B7280' },
+                  },
+                },
+              },
+            }),
+          ]
         },
       }),
     },
