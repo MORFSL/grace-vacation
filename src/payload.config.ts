@@ -26,6 +26,7 @@ import { Itineraries } from './collections/Itineraries/config'
 import { Destinations } from './collections/Destinations'
 import { Payments } from './collections/Payments'
 import { Checkout } from './checkout/config'
+import { ItineraryCategories } from './collections/ItineraryCategories'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -66,7 +67,17 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Itineraries, Destinations, Tags, Testimonials, Payments, Media, Users],
+  collections: [
+    Pages,
+    Itineraries,
+    ItineraryCategories,
+    Destinations,
+    Tags,
+    Testimonials,
+    Payments,
+    Media,
+    Users,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [General, Header, Footer, Socials, Contacts, Email, Checkout],
   plugins: [

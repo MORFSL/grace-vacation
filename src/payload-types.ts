@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     itineraries: Itinerary;
+    itineraryCategories: ItineraryCategory;
     destinations: Destination;
     tags: Tag;
     testimonials: Testimonial;
@@ -88,6 +89,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     itineraries: ItinerariesSelect<false> | ItinerariesSelect<true>;
+    itineraryCategories: ItineraryCategoriesSelect<false> | ItineraryCategoriesSelect<true>;
     destinations: DestinationsSelect<false> | DestinationsSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
@@ -369,6 +371,7 @@ export interface Itinerary {
   id: number;
   title: string;
   destination: number | Destination;
+  categories?: (number | ItineraryCategory)[] | null;
   duration?: string | null;
   tags?: (number | Tag)[] | null;
   price?: number | null;
@@ -469,6 +472,16 @@ export interface Itinerary {
  * via the `definition` "destinations".
  */
 export interface Destination {
+  id: number;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "itineraryCategories".
+ */
+export interface ItineraryCategory {
   id: number;
   title: string;
   updatedAt: string;
@@ -1375,6 +1388,10 @@ export interface PayloadLockedDocument {
         value: number | Itinerary;
       } | null)
     | ({
+        relationTo: 'itineraryCategories';
+        value: number | ItineraryCategory;
+      } | null)
+    | ({
         relationTo: 'destinations';
         value: number | Destination;
       } | null)
@@ -1704,6 +1721,7 @@ export interface CardsBlockSelect<T extends boolean = true> {
 export interface ItinerariesSelect<T extends boolean = true> {
   title?: T;
   destination?: T;
+  categories?: T;
   duration?: T;
   tags?: T;
   price?: T;
@@ -1777,6 +1795,15 @@ export interface ItinerariesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "itineraryCategories_select".
+ */
+export interface ItineraryCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

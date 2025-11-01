@@ -74,6 +74,13 @@ export const Itineraries: CollectionConfig = {
       },
     },
     {
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'itineraryCategories',
+      hasMany: true,
+      maxRows: 2,
+    },
+    {
       name: 'duration',
       type: 'text',
     },
