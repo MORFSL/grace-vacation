@@ -13,7 +13,10 @@ export const Width: React.FC<{
   }
 
   return (
-    <div className={cn(className)} style={{ width: width ? calculatedWidth : undefined }}>
+    <div
+      className={cn(className, 'max-xl:!w-full')}
+      style={{ width: width ? calculatedWidth : undefined }}
+    >
       {children}
     </div>
   )
