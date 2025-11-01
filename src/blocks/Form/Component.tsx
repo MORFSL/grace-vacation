@@ -1,9 +1,9 @@
 'use client'
 
-import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
-import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useCallback, useState, useMemo } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
@@ -38,8 +38,60 @@ export const FormBlock: React.FC<
     alignment,
   } = props
 
+  const searchParams = useSearchParams()
+
+  const defaultValues = useMemo(() => {
+    const values: Record<string, string | undefined> = {}
+
+    if (!formFromProps.fields) return values
+
+    const destination = searchParams.get('destination')
+    const dateFrom = searchParams.get('dateFrom')
+    const dateTo = searchParams.get('dateTo')
+    const tourType = searchParams.get('tourType')
+
+    // Map query params to form fields
+    formFromProps.fields.forEach((field) => {
+      if (!('name' in field) || !field.name) return
+
+      const fieldName = field.name.toLowerCase()
+      const blockType = 'blockType' in field ? field.blockType : undefined
+
+      // Set default value from field if it exists
+      if (
+        'defaultValue' in field &&
+        field.defaultValue !== undefined &&
+        field.defaultValue !== null
+      ) {
+        values[field.name] = String(field.defaultValue)
+      }
+
+      if (
+        destination &&
+        (fieldName.includes('destination') || (blockType as string) === 'destinationSelect')
+      ) {
+        values[field.name] = destination
+      }
+
+      if (tourType && (fieldName.includes('tour') || fieldName.includes('category'))) {
+        values[field.name] = tourType
+      }
+
+      if (dateFrom && (blockType as string) === 'dateRange') {
+        values[field.name] = dateTo ? `${dateFrom},${dateTo}` : dateFrom
+      } else if (
+        dateFrom &&
+        (blockType === 'date' || fieldName.includes('date') || fieldName.includes('when'))
+      ) {
+        values[field.name] = dateFrom
+      }
+    })
+
+    return values
+  }, [formFromProps.fields, searchParams])
+
   const formMethods = useForm({
-    defaultValues: formFromProps.fields,
+    defaultValues,
   })
 
   const {
@@ -47,7 +99,13 @@ export const FormBlock: React.FC<
     formState: { errors },
     handleSubmit,
     register,
+    reset,
   } = formMethods
+
+  // Reset form when query params change
+  React.useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
@@ -55,7 +113,7 @@ export const FormBlock: React.FC<
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: FormFieldBlock[]) => {
+    (data: Record<string, string | undefined>) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)

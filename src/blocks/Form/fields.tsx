@@ -1,6 +1,7 @@
 import { Checkbox } from './Checkbox'
 import { Country } from './Country'
 import { Date } from './Date'
+import { DateRange } from './DateRange'
 import { DestinationSelect } from './DestinationSelect'
 import { Email } from './Email'
 import { Message } from './Message'
@@ -14,6 +15,7 @@ export const fields = {
   checkbox: Checkbox,
   country: Country,
   date: Date,
+  dateRange: DateRange,
   email: Email,
   message: Message,
   number: Number,

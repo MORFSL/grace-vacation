@@ -55,6 +55,16 @@ export const hero: Field = {
       },
       relationTo: 'media',
     },
+    {
+      name: 'redirect',
+      type: 'relationship',
+      relationTo: 'pages',
+      required: false,
+      admin: {
+        condition: (_, { type } = {}) => type === 'highImpact',
+        description: 'Redirect users to a form page to submit their inquiry.',
+      },
+    },
   ],
   label: false,
 }

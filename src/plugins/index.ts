@@ -14,6 +14,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { searchFields } from '@/search/fieldOverrides'
 import { DateBlock } from '@/blocks/Form/Date/config'
+import { DateRangeBlock } from '@/blocks/Form/DateRange/config'
 import { DestinationSelectBlock } from '@/blocks/Form/DestinationSelect/config'
 
 const generateTitle: GenerateTitle<Itinerary | Page> = ({ doc }) => {
@@ -61,6 +62,7 @@ export const plugins: Plugin[] = [
     fields: {
       payment: false,
       date: DateBlock,
+      dateRange: DateRangeBlock,
       destinationSelect: DestinationSelectBlock,
     },
     formOverrides: {

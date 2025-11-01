@@ -4,6 +4,8 @@
 
 @plugin "@tailwindcss/typography";
 
+@import 'react-day-picker/dist/style.css';
+
 @layer base {
   :root {
     --primary: 173 37 47;

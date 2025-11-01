@@ -184,6 +184,10 @@ export interface Page {
       [k: string]: unknown;
     } | null;
     media?: (number | null) | Media;
+    /**
+     * Redirect users to a form page to submit their inquiry.
+     */
+    redirect?: (number | null) | Page;
   };
   layout: (
     | CallToActionBlock
@@ -811,6 +815,7 @@ export interface Form {
             blockType: 'textarea';
           }
         | DateBlock
+        | DateRangeBlock
         | DestinationSelectBlock
       )[]
     | null;
@@ -890,6 +895,25 @@ export interface DateBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'date';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DateRangeBlock".
+ */
+export interface DateRangeBlock {
+  /**
+   * Field name (lowercase, no spaces)
+   */
+  name: string;
+  label: string;
+  /**
+   * Width of the field as a percentage (e.g., 50 for half width, 100 for full width)
+   */
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dateRange';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1489,6 +1513,7 @@ export interface PagesSelect<T extends boolean = true> {
         type?: T;
         richText?: T;
         media?: T;
+        redirect?: T;
       };
   layout?:
     | T
@@ -2093,6 +2118,7 @@ export interface FormsSelect<T extends boolean = true> {
               blockName?: T;
             };
         date?: T | DateBlockSelect<T>;
+        dateRange?: T | DateRangeBlockSelect<T>;
         destinationSelect?: T | DestinationSelectBlockSelect<T>;
       };
   submitButtonLabel?: T;
@@ -2123,6 +2149,18 @@ export interface FormsSelect<T extends boolean = true> {
  * via the `definition` "DateBlock_select".
  */
 export interface DateBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DateRangeBlock_select".
+ */
+export interface DateRangeBlockSelect<T extends boolean = true> {
   name?: T;
   label?: T;
   width?: T;

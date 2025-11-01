@@ -1,14 +1,37 @@
 import React from 'react'
 
 import type { Page } from '@/payload-types'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { TripPlanningWidget } from '@/components/TripPlanningWidget'
 
-export const HighImpactHero: React.FC<Page['hero']> = ({ media, richText }) => {
+export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, redirect }) => {
+  const payload = await getPayload({ config: configPromise })
+
+  const [destinationsResult, categoriesResult] = await Promise.all([
+    payload.find({
+      collection: 'destinations',
+      limit: 0,
+      pagination: false,
+    }),
+    payload.find({
+      collection: 'itineraryCategories',
+      limit: 0,
+      pagination: false,
+    }),
+  ])
+
+  const destinations = destinationsResult.docs
+  const categories = categoriesResult.docs
+  const redirectUrl =
+    typeof redirect === 'object' && redirect?.slug ? `/${redirect?.slug}` : undefined
+
   return (
     <section className="mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
-      <div className="container min-h-[600px] xl:min-h-[750px] flex items-center justify-center">
+      <div className="container min-h-[600px] xl:min-h-[750px] flex flex-col items-center justify-center gap-8">
         <div className="z-10 text-center text-white">
           {richText && (
             <RichText
@@ -18,6 +41,13 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ media, richText }) => {
               className="prose-h1:text-[36px] md:prose-h1:text-[56px]"
             />
           )}
+        </div>
+        <div className="z-10 w-full max-w-5xl">
+          <TripPlanningWidget
+            destinations={destinations}
+            categories={categories}
+            redirect={redirectUrl}
+          />
         </div>
       </div>
       {media && typeof media === 'object' && (
