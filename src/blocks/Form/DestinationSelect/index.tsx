@@ -13,21 +13,25 @@ import React from 'react'
 import { Controller } from 'react-hook-form'
 
 import { Error } from '../Error'
+import { Width } from '../Width'
 
 type DestinationSelectProps = {
-  destinations?: (number | Destination)[] | null
+  name: string
+  label: string
   control: Control
   errors: Partial<FieldErrorsImpl>
+  destinations?: (number | Destination)[] | null
+  width?: number
 }
 
 export const DestinationSelect: React.FC<DestinationSelectProps> = ({
-  destinations,
+  name,
+  label,
   control,
   errors,
+  destinations,
+  width,
 }) => {
-  const name = 'destination'
-
-  // Convert destinations to options, filtering out any that are just IDs
   const destinationOptions =
     destinations
       ?.filter((dest): dest is Destination => typeof dest === 'object')
@@ -37,16 +41,9 @@ export const DestinationSelect: React.FC<DestinationSelectProps> = ({
       })) || []
 
   return (
-    <div
-      style={{
-        width: 'calc(50% - 1.5rem)',
-        minWidth: 'calc(50% - 1.5rem)',
-        flexGrow: 0,
-        flexShrink: 0,
-      }}
-    >
+    <Width width={width}>
       <Label htmlFor={name} className="text-[15px] font-medium">
-        Destination
+        {label}
       </Label>
       <Controller
         control={control}
@@ -74,6 +71,6 @@ export const DestinationSelect: React.FC<DestinationSelectProps> = ({
         }}
       />
       {errors[name] && <Error name={name} />}
-    </div>
+    </Width>
   )
 }

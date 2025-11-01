@@ -884,6 +884,16 @@ export interface DateBlock {
  */
 export interface DestinationSelectBlock {
   /**
+   * Field name (lowercase, no spaces)
+   */
+  name: string;
+  label: string;
+  /**
+   * Width of the field as a percentage (e.g., 50 for half width, 100 for full width)
+   */
+  width?: number | null;
+  required?: boolean | null;
+  /**
    * Choose one or more destinations to display
    */
   destinations?: (number | Destination)[] | null;
@@ -2098,6 +2108,10 @@ export interface DateBlockSelect<T extends boolean = true> {
  * via the `definition` "DestinationSelectBlock_select".
  */
 export interface DestinationSelectBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
   destinations?: T;
   id?: T;
   blockName?: T;
