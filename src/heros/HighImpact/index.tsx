@@ -6,7 +6,7 @@ import { getPayload } from 'payload'
 
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
-import { TripPlanningWidget } from '@/components/TripPlanningWidget'
+import { InquiryWidget } from '@/components/InquiryWidget'
 
 export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, redirect }) => {
   const payload = await getPayload({ config: configPromise })
@@ -43,7 +43,7 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, 
           )}
         </div>
         <div className="z-10 w-full max-w-5xl">
-          <TripPlanningWidget
+          <InquiryWidget
             destinations={destinations}
             categories={categories}
             redirect={redirectUrl}

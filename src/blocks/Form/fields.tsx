@@ -3,6 +3,7 @@ import { Country } from './Country'
 import { Date } from './Date'
 import { DateRange } from './DateRange'
 import { DestinationSelect } from './DestinationSelect'
+import { ItineraryCategorySelect } from './ItineraryCategorySelect'
 import { Email } from './Email'
 import { Message } from './Message'
 import { Number } from './Number'
@@ -24,4 +25,5 @@ export const fields = {
   text: Text,
   textarea: Textarea,
   destinationSelect: DestinationSelect,
+  itineraryCategorySelect: ItineraryCategorySelect,
 }

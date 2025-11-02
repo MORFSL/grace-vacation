@@ -1,11 +1,11 @@
 import type { Block } from 'payload'
 
-export const DestinationSelectBlock: Block = {
-  slug: 'destinationSelect',
-  interfaceName: 'DestinationSelectBlock',
+export const ItineraryCategorySelectBlock: Block = {
+  slug: 'itineraryCategorySelect',
+  interfaceName: 'ItineraryCategorySelectBlock',
   labels: {
-    plural: 'Destination Select',
-    singular: 'Destination Select',
+    plural: 'Itinerary Category Select',
+    singular: 'Itinerary Category Select',
   },
   fields: [
     {

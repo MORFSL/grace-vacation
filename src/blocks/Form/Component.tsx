@@ -3,7 +3,7 @@
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
@@ -40,15 +40,17 @@ export const FormBlock: React.FC<
 
   const searchParams = useSearchParams()
 
+  // Extract query params once
+  const destination = searchParams.get('destination')
+  const arrival = searchParams.get('arrival')
+  const departure = searchParams.get('departure')
+  const type = searchParams.get('type')
+
+  // Build default values from hardcoded query param keys
   const defaultValues = useMemo(() => {
     const values: Record<string, string | undefined> = {}
 
     if (!formFromProps.fields) return values
-
-    const destination = searchParams.get('destination')
-    const dateFrom = searchParams.get('dateFrom')
-    const dateTo = searchParams.get('dateTo')
-    const tourType = searchParams.get('tourType')
 
     // Map query params to form fields
     formFromProps.fields.forEach((field) => {
@@ -66,31 +68,25 @@ export const FormBlock: React.FC<
         values[field.name] = String(field.defaultValue)
       }
 
-      if (
-        destination &&
-        (fieldName.includes('destination') || (blockType as string) === 'destinationSelect')
-      ) {
+      if (destination && fieldName.includes('destination')) {
         values[field.name] = destination
       }
 
-      if (tourType && (fieldName.includes('tour') || fieldName.includes('category'))) {
-        values[field.name] = tourType
+      if (type && fieldName.includes('type')) {
+        values[field.name] = type
       }
 
-      if (dateFrom && (blockType as string) === 'dateRange') {
-        values[field.name] = dateTo ? `${dateFrom},${dateTo}` : dateFrom
-      } else if (
-        dateFrom &&
-        (blockType === 'date' || fieldName.includes('date') || fieldName.includes('when'))
-      ) {
-        values[field.name] = dateFrom
+      if (arrival && (blockType as string) === 'dateRange') {
+        values[field.name] = departure ? `${arrival},${departure}` : arrival
+      } else if (arrival && fieldName.includes('arrival')) {
+        values[field.name] = arrival
       }
     })
 
     return values
-  }, [formFromProps.fields, searchParams])
+  }, [formFromProps.fields, destination, arrival, departure, type])
 
-  const formMethods = useForm({
+  const formMethods = useForm<Record<string, string | undefined>>({
     defaultValues,
   })
 
@@ -102,14 +98,10 @@ export const FormBlock: React.FC<
     reset,
   } = formMethods
 
-  // Reset form when query params change
-  React.useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues, reset])
-
   const [isLoading, setIsLoading] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
+  const [showSuccess, setShowSuccess] = useState<boolean>(false)
   const router = useRouter()
 
   const onSubmit = useCallback(
@@ -117,6 +109,7 @@ export const FormBlock: React.FC<
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
+        setShowSuccess(false)
 
         const dataToSend = Object.entries(data).map(([name, value]) => ({
           field: name,
@@ -156,14 +149,20 @@ export const FormBlock: React.FC<
           }
 
           setIsLoading(false)
-          setHasSubmitted(true)
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
 
             const redirectUrl = url
 
-            if (redirectUrl) router.push(redirectUrl)
+            if (redirectUrl) {
+              setHasSubmitted(true)
+              router.push(redirectUrl)
+            }
+          } else {
+            // Show success message and reset form
+            setShowSuccess(true)
+            reset()
           }
         } catch (err) {
           console.warn(err)
@@ -176,12 +175,12 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [router, formID, redirect, confirmationType, reset],
   )
 
   const imageContent = formImage && typeof formImage !== 'number' && (
     <div className="rounded-xl w-full h-full bg-muted order-1 md:order-none">
-      <div className="relative max-h-[500px] overflow-hidden w-full">
+      <div className="relative min-h-[500px] overflow-hidden w-full">
         <Media resource={formImage} className="w-full h-full object-cover" />
         <div className="absolute left-0 -bottom-1 right-0 w-full">
           <svg
@@ -240,11 +239,22 @@ export const FormBlock: React.FC<
       )}
 
       <FormProvider {...formMethods}>
-        {!isLoading && hasSubmitted && confirmationType === 'message' && (
-          <RichText data={confirmationMessage} />
+        {showSuccess && confirmationMessage && (
+          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
+            <RichText
+              className="text-green-800 font-medium"
+              data={confirmationMessage}
+              enableProse={false}
+              enableGutter={false}
+            />
+          </div>
+        )}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-800 font-medium">{`${error.status || '500'}: ${error.message || ''}`}</p>
+          </div>
         )}
         {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
-        {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
         {!hasSubmitted && (
           <form id={formID} onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-wrap gap-5">

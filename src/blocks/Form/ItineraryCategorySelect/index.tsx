@@ -1,26 +1,26 @@
 import type { Control, FieldErrorsImpl } from 'react-hook-form'
-import type { Destination } from '@/payload-types'
+import type { ItineraryCategory } from '@/payload-types'
 
 import { Label } from '@/components/ui/label'
 import React, { useEffect, useState } from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { ItineraryCategorySelectClient as Select } from './Select.client'
 import { getClientSideURL } from '@/utilities/getURL'
-import { DestinationSelectClient as Select } from './Select.client'
 
-type DestinationSelectProps = {
+type ItineraryCategorySelectProps = {
   name: string
   label: string
   control: Control
   errors: Partial<FieldErrorsImpl>
-  destinations?: (number | Destination)[] | null
+  itineraryCategories?: (number | ItineraryCategory)[] | null
   width?: number
   required?: boolean
   defaultValue?: string
 }
 
-export const DestinationSelect: React.FC<DestinationSelectProps> = ({
+export const ItineraryCategorySelect: React.FC<ItineraryCategorySelectProps> = ({
   name,
   label,
   control,
@@ -34,7 +34,7 @@ export const DestinationSelect: React.FC<DestinationSelectProps> = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`${getClientSideURL()}/api/destinations`, {
+        const res = await fetch(`${getClientSideURL()}/api/itineraryCategories`, {
           next: {
             revalidate: 60,
           },
@@ -66,7 +66,7 @@ export const DestinationSelect: React.FC<DestinationSelectProps> = ({
       <Select
         name={name}
         control={control}
-        destinations={docs}
+        itineraryCategories={docs}
         required={required}
         defaultValue={defaultValue}
       />

@@ -2,13 +2,14 @@
 
 import React from 'react'
 import { format } from 'date-fns'
+import { CalendarIcon, ChevronDownIcon } from 'lucide-react'
 import type { DateRange as DateRangeType } from 'react-day-picker'
 import type { Control, FieldErrorsImpl } from 'react-hook-form'
 
+import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/utilities/ui'
 import { Controller } from 'react-hook-form'
 
 import { Error } from '../Error'
@@ -87,36 +88,19 @@ export const DateRange: React.FC<DateRangeFieldProps> = ({
           return (
             <Popover>
               <PopoverTrigger asChild>
-                <button
-                  type="button"
+                <Button
+                  variant="outline"
                   id={name}
-                  className={cn(
-                    'w-full justify-start text-left font-normal border border-[#AD252F1A] bg-[#FEEFE854] rounded-md px-3 py-2 text-sm',
-                    !dateRange && 'text-muted-foreground',
-                  )}
+                  className="w-full justify-between font-normal border-[#AD252F1A] bg-[#FEEFE854] hover:bg-[#FEEFE854] px-4"
                 >
-                  {dateRange?.from ? (
-                    dateRange.to ? (
-                      <>
-                        {format(dateRange.from, 'LLL dd, y')} - {format(dateRange.to, 'LLL dd, y')}
-                      </>
-                    ) : (
-                      format(dateRange.from, 'LLL dd, y')
-                    )
-                  ) : (
-                    <span>Select date range</span>
-                  )}
-                </button>
+                  {dateRange?.from && dateRange?.to
+                    ? `${dateRange.from.toLocaleDateString()} - ${dateRange.to.toLocaleDateString()}`
+                    : 'Pick a date'}
+                  <CalendarIcon className="h-4 w-4 opacity-50" />
+                </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 z-50" align="start">
-                <Calendar
-                  initialFocus
-                  mode="range"
-                  defaultMonth={dateRange?.from || new Date()}
-                  selected={dateRange}
-                  onSelect={handleSelect}
-                  numberOfMonths={2}
-                />
+              <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                <Calendar mode="range" selected={dateRange} onSelect={handleSelect} />
               </PopoverContent>
             </Popover>
           )

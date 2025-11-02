@@ -817,6 +817,7 @@ export interface Form {
         | DateBlock
         | DateRangeBlock
         | DestinationSelectBlock
+        | ItineraryCategorySelectBlock
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -930,13 +931,28 @@ export interface DestinationSelectBlock {
    */
   width?: number | null;
   required?: boolean | null;
-  /**
-   * Choose one or more destinations to display
-   */
-  destinations?: (number | Destination)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'destinationSelect';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ItineraryCategorySelectBlock".
+ */
+export interface ItineraryCategorySelectBlock {
+  /**
+   * Field name (lowercase, no spaces)
+   */
+  name: string;
+  label: string;
+  /**
+   * Width of the field as a percentage (e.g., 50 for half width, 100 for full width)
+   */
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'itineraryCategorySelect';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2120,6 +2136,7 @@ export interface FormsSelect<T extends boolean = true> {
         date?: T | DateBlockSelect<T>;
         dateRange?: T | DateRangeBlockSelect<T>;
         destinationSelect?: T | DestinationSelectBlockSelect<T>;
+        itineraryCategorySelect?: T | ItineraryCategorySelectBlockSelect<T>;
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -2177,7 +2194,18 @@ export interface DestinationSelectBlockSelect<T extends boolean = true> {
   label?: T;
   width?: T;
   required?: T;
-  destinations?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ItineraryCategorySelectBlock_select".
+ */
+export interface ItineraryCategorySelectBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
   id?: T;
   blockName?: T;
 }
