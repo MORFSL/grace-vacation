@@ -31,7 +31,7 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, 
 
   return (
     <section className="mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
-      <div className="container min-h-[600px] xl:min-h-[750px] flex flex-col items-center justify-center gap-8">
+      <div className="container min-h-[650px] xl:min-h-[750px] max-lg:pt-32 pb-10 px-12 lg:px-0 flex flex-col items-center justify-center gap-8">
         <div className="z-10 text-center text-white">
           {richText && (
             <RichText
@@ -42,7 +42,7 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, 
             />
           )}
         </div>
-        <div className="z-10 w-full max-w-5xl">
+        <div className="max-lg:w-full z-10 ">
           <InquiryWidget
             destinations={destinations}
             categories={categories}

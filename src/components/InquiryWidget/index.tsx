@@ -54,7 +54,7 @@ export const InquiryWidget: React.FC<InquiryWidgetProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-xl p-4 flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+    <div className="bg-white rounded-xl py-4 px-6 flex flex-col lg:flex-row gap-4 lg:gap-10 items-stretch lg:items-center">
       <DestinationField
         value={selectedDestination}
         onChange={setSelectedDestination}
@@ -68,7 +68,7 @@ export const InquiryWidget: React.FC<InquiryWidgetProps> = ({
       />
       <Button
         onClick={handlePlanTrip}
-        className="bg-[#AD252F] hover:bg-[#8a1d25] text-white font-bold px-6 py-6 rounded-lg whitespace-nowrap h-auto"
+        className="bg-[#AD252F] hover:bg-[#8a1d25] text-white font-medium text-md px-6 py-2 lg:py-4 rounded-lg whitespace-nowrap h-auto"
       >
         Plan My Trip
       </Button>

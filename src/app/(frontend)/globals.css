@@ -57,3 +57,11 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   -webkit-box-shadow: 0 0 0px 1000px var(--muted, #ffffff00) inset;
 }
+
+.rdp-today:not(.rdp-outside) {
+  color: rgb(var(--primary)) !important;
+}
+
+.rdp-selected .rdp-day_button {
+  border-color: rgb(var(--primary)) !important;
+}
