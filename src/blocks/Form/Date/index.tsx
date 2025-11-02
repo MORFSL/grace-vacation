@@ -41,7 +41,7 @@ export const Date: React.FC<DateFieldProps> = ({
         defaultValue={defaultValue}
         id={name}
         type="date"
-        className="border-[#AD252F1A] bg-[#FEEFE854]"
+        className="border-[#AD252F1A] bg-[#FEEFE854] mt-2"
         {...register(name, { required })}
       />
       {errors[name] && <Error name={name} />}

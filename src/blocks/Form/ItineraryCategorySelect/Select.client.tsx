@@ -42,7 +42,7 @@ export const ItineraryCategorySelectClient: React.FC<ItineraryCategorySelectProp
       render={({ field: { onChange, value } }) => {
         return (
           <Select onValueChange={(val) => onChange(val)} value={value || undefined}>
-            <SelectTrigger className="w-full border-[#AD252F1A] bg-[#FEEFE854]" id={name}>
+            <SelectTrigger className="w-full border-[#AD252F1A] bg-[#FEEFE854] mt-2" id={name}>
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>

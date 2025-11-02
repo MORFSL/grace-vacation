@@ -29,7 +29,7 @@ export const Email: React.FC<
         defaultValue={defaultValue}
         id={name}
         type="text"
-        className="border-[#AD252F1A] bg-[#FEEFE854]"
+        className="border-[#AD252F1A] bg-[#FEEFE854] mt-2"
         {...register(name, { pattern: /^\S[^\s@]*@\S+$/, required })}
       />
 

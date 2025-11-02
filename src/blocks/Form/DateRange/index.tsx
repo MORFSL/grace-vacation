@@ -91,7 +91,7 @@ export const DateRange: React.FC<DateRangeFieldProps> = ({
                 <Button
                   variant="outline"
                   id={name}
-                  className="w-full justify-between font-normal border-[#AD252F1A] bg-[#FEEFE854] hover:bg-[#FEEFE854] px-4"
+                  className="w-full justify-between font-normal border-[#AD252F1A] bg-[#FEEFE854] hover:bg-[#FEEFE854] px-4 mt-2"
                 >
                   {dateRange?.from && dateRange?.to
                     ? `${dateRange.from.toLocaleDateString()} - ${dateRange.to.toLocaleDateString()}`

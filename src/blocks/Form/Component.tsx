@@ -179,8 +179,8 @@ export const FormBlock: React.FC<
   )
 
   const imageContent = formImage && typeof formImage !== 'number' && (
-    <div className="rounded-xl w-full h-full bg-muted order-1 md:order-none">
-      <div className="relative min-h-[500px] overflow-hidden w-full">
+    <div className="rounded-xl w-full h-fit bg-muted order-1 md:order-none">
+      <div className="relative  overflow-hidden w-full">
         <Media resource={formImage} className="w-full h-full object-cover" />
         <div className="absolute left-0 -bottom-1 right-0 w-full">
           <svg
@@ -235,7 +235,11 @@ export const FormBlock: React.FC<
   const formContent = (
     <div className="p-4 lg:p-6">
       {enableIntro && introContent && !hasSubmitted && (
-        <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
+        <RichText
+          className="mb-8 lg:mb-12 max-w-[437px] mx-0"
+          data={introContent}
+          enableGutter={false}
+        />
       )}
 
       <FormProvider {...formMethods}>

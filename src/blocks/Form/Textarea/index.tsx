@@ -31,7 +31,7 @@ export const Textarea: React.FC<
         defaultValue={defaultValue}
         id={name}
         rows={rows}
-        className="border-[#AD252F1A] bg-[#FEEFE854]"
+        className="border-[#AD252F1A] bg-[#FEEFE854] mt-2"
         {...register(name, { required: required })}
       />
 

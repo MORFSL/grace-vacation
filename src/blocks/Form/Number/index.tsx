@@ -28,7 +28,7 @@ export const Number: React.FC<
         defaultValue={defaultValue}
         id={name}
         type="number"
-        className="border-[#AD252F1A] bg-[#FEEFE854]"
+        className="border-[#AD252F1A] bg-[#FEEFE854] mt-2"
         {...register(name, { required })}
       />
       {errors[name] && <Error name={name} />}
