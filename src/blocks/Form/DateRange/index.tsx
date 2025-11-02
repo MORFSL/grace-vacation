@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { format } from 'date-fns'
-import { CalendarIcon, ChevronDownIcon } from 'lucide-react'
+import { CalendarIcon } from 'lucide-react'
 import type { DateRange as DateRangeType } from 'react-day-picker'
 import type { Control, FieldErrorsImpl } from 'react-hook-form'
 
