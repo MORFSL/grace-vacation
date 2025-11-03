@@ -1,6 +1,6 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 import sharp from 'sharp'
 import path from 'path'
@@ -82,12 +82,19 @@ export default buildConfig({
   globals: [General, Header, Footer, Socials, Contacts, Email, Checkout],
   plugins: [
     ...plugins,
-    vercelBlobStorage({
-      enabled: true,
+    s3Storage({
       collections: {
         media: true,
       },
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+        },
+        region: process.env.S3_REGION || 'auto',
+        endpoint: process.env.S3_ENDPOINT || '',
+      },
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,
