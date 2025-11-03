@@ -677,6 +677,7 @@ export interface MediaBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
+  formTitle?: string | null;
   form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
@@ -1637,6 +1638,7 @@ export interface MediaBlockSelect<T extends boolean = true> {
  * via the `definition` "FormBlock_select".
  */
 export interface FormBlockSelect<T extends boolean = true> {
+  formTitle?: T;
   form?: T;
   enableIntro?: T;
   introContent?: T;

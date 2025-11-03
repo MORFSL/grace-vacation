@@ -67,7 +67,7 @@ export default function RichText(props: Props) {
     <ConvertRichText
       converters={jsxConverters}
       className={cn(
-        'payload-richtext text-center',
+        'payload-richtext text-center max-md:[&_br]:hidden',
         {
           'md:text-center': center,
           'md:text-start': !center,
