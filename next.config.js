@@ -23,6 +23,7 @@ function buildRemotePattern(urlString) {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    qualities: [10, 25, 50, 75, 90, 100],
     remotePatterns: [
       buildRemotePattern(NEXT_PUBLIC_SERVER_URL),
       buildRemotePattern(NEXT_PUBLIC_BLOB_URL),
