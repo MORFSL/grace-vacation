@@ -41,10 +41,14 @@ export const textConverter: JSXConverters<SerializedTextNode> = {
           Object.assign(styles, stateValues[stateValue].css)
         }
       })
+    }
 
-      if (node.$) {
-        return <span style={styles}>{node.text}</span>
-      }
+    if (node.format) {
+      return <strong style={styles}>{node.text}</strong>
+    }
+
+    if (node.$ && Object.keys(styles).length > 0) {
+      return <span style={styles}>{node.text}</span>
     }
 
     return node.text
