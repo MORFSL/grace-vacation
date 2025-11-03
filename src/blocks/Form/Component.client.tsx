@@ -20,6 +20,7 @@ export type FormBlockType = {
   form: FormType
   introContent?: DefaultTypedEditorState
   formImage?: MediaType | number
+  formTitle?: string
   alignment?: 'left' | 'right'
 }
 
@@ -29,10 +30,8 @@ export const FormBlockClient: React.FC<
   } & FormBlockType
 > = (props) => {
   const {
-    enableIntro,
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
-    introContent,
   } = props
 
   const searchParams = useSearchParams()
@@ -177,14 +176,7 @@ export const FormBlockClient: React.FC<
 
   return (
     <div className="p-4 lg:p-6">
-      {enableIntro && introContent && !hasSubmitted && (
-        <RichText
-          className="mb-8 lg:mb-12 max-w-[437px] mx-0"
-          data={introContent}
-          enableGutter={false}
-        />
-      )}
-
+      {props.formTitle && <h3 className="text-3xl font-semibold mb-5">{props.formTitle}</h3>}
       <FormProvider {...formMethods}>
         {showSuccess && confirmationMessage && (
           <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">

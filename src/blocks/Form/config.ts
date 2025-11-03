@@ -5,6 +5,7 @@ import {
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
+  TextStateFeature,
 } from '@payloadcms/richtext-lexical'
 
 export const FormBlock: Block = {
@@ -12,6 +13,10 @@ export const FormBlock: Block = {
   interfaceName: 'FormBlock',
   imageURL: '/static-media/form-block.webp',
   fields: [
+    {
+      name: 'formTitle',
+      type: 'text',
+    },
     {
       name: 'form',
       type: 'relationship',
@@ -36,10 +41,29 @@ export const FormBlock: Block = {
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
+            TextStateFeature({
+              state: {
+                color: {
+                  primaryColor: {
+                    label: 'Primary Color',
+                    css: {
+                      color: '#AD252F',
+                    },
+                  },
+                },
+                background: {
+                  primaryBackground: {
+                    label: 'Primary Background',
+                    css: {
+                      'background-color': '#AD252F',
+                    },
+                  },
+                },
+              },
+            }),
           ]
         },
       }),
-      label: 'Intro Content',
     },
     {
       name: 'formImage',

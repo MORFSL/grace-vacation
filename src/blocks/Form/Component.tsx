@@ -28,8 +28,8 @@ export const FormBlock: React.FC<
   const { formImage, alignment } = props
 
   const imageContent = formImage && typeof formImage !== 'number' && (
-    <div className="rounded-xl w-full h-fit bg-muted order-1 md:order-none">
-      <div className="relative  overflow-hidden w-full">
+    <div className="overflow-hidden rounded-xl w-full h-fit bg-muted order-1 md:order-none">
+      <div className="relative overflow-hidden w-full">
         <Media resource={formImage} className="w-full h-full object-cover" />
         <div className="absolute left-0 -bottom-1 right-0 w-full">
           <Image
@@ -41,11 +41,11 @@ export const FormBlock: React.FC<
         </div>
       </div>
       <div className="p-[51px]">
-        {formImage.caption && (
+        {props.enableIntro && props.introContent && (
           <RichText
             className="!p-0 text-black prose-h2:text-2xl prose-h2:mb-3"
-            style={{ padding: 0 }}
-            data={formImage.caption}
+            data={props.introContent}
+            enableGutter={false}
           />
         )}
       </div>
