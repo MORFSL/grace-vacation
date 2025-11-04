@@ -144,6 +144,7 @@ export async function POST(request: NextRequest) {
       // Redirect to success page
       return NextResponse.redirect(
         new URL(`${getClientSideURL()}/checkout/${paymentId}/success`, request.url),
+        301,
       )
     } else {
       // Update payment as failed
