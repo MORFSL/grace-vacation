@@ -61,14 +61,17 @@ export async function processPayment(
       collection: 'payments',
       id: payment.id,
       data: {
-        customerName: customerName || null,
-        customerEmail,
-        customerPhone: customerPhone || null,
+        customerName: customerName,
+        customerEmail: customerEmail,
+        customerPhone: customerPhone,
       },
       overrideAccess: true,
     })
 
     const currencyCode = mapCurrencyCode(checkoutConfig.currencyCode || 'USD')
+
+    const serverUrl = getServerSideURL()
+    const callbackUrl = `${serverUrl}/checkout/callback`
 
     const signedParams = getSignedParameters(
       paymentId,
@@ -77,17 +80,15 @@ export async function processPayment(
       checkoutConfig.checkoutProfileId,
       checkoutConfig.checkoutAccessKey,
       checkoutConfig.checkoutSecretKey,
+      {
+        receiptPageUrl: callbackUrl,
+        cancelPageUrl: callbackUrl,
+        billToForename: customerName || undefined,
+        billToSurname: customerName || undefined,
+        billToEmail: customerEmail || undefined,
+        billToPhone: customerPhone || undefined,
+      },
     )
-
-    // Set callback URL - CyberSource will POST payment result here
-    const serverUrl = getServerSideURL()
-    signedParams.override_custom_receipt_page = `${serverUrl}/checkout/callback`
-    signedParams.override_custom_cancel_page = `${serverUrl}/checkout/callback`
-
-    if (customerName) signedParams.bill_to_forename = customerName
-    if (customerName) signedParams.bill_to_surname = customerName
-    if (customerEmail) signedParams.bill_to_email = customerEmail
-    if (customerPhone) signedParams.bill_to_phone = customerPhone
 
     revalidatePath(`/checkout/${paymentId}`)
 

@@ -10,15 +10,23 @@ export function generateSignature(params: Record<string, string>, secretKey: str
   // Get the list of field names to sign from signed_field_names parameter
   const signedFieldNames = params.signed_field_names || ''
 
-  // If no signed_field_names, sign all fields except signature itself
+  // If no signed_field_names, sign all fields except signature itself and sensitive card data
   const fieldsToSign = signedFieldNames
     ? signedFieldNames.split(',')
-    : Object.keys(params).filter((key) => key !== 'signature')
+    : Object.keys(params).filter(
+        (key) => key !== 'signature' && key !== 'card_number' && key !== 'card_cvn',
+      )
 
-  // Build signed data string in the order specified by signed_field_names
+  // CRITICAL: Build signed data string in the EXACT order specified by signed_field_names
+  // DO NOT sort - CyberSource requires the sequence to match signed_field_names exactly
   const signedData = fieldsToSign
-    .sort() // Sort alphabetically
-    .map((field) => `${field}=${params[field]}`)
+    .map((field) => {
+      const value = params[field]
+      if (value === undefined || value === null) {
+        throw new Error(`Missing required field for signature: ${field}`)
+      }
+      return `${field}=${value}`
+    })
     .join(',')
 
   // Create HMAC SHA256 hash with secret key
@@ -49,7 +57,7 @@ export function verifySignature(
  * Generate CyberSource Secure Acceptance date time string
  * @returns date time string in the format of YYYY-MM-DDTHH:MM:SSZ
  */
-export function dateTimeSring(): string {
+export function dateTimeString(): string {
   const date = new Date()
   const dateString = date.toISOString()
   return dateString.substring(0, 19) + 'Z'
@@ -63,6 +71,7 @@ export function dateTimeSring(): string {
  * @param profileId - Profile ID
  * @param accessKey - Access key
  * @param secretKey - Secret key
+ * @param options - Optional parameters including callback URLs and customer info
  * @returns Parameters with generated signature
  */
 export function getSignedParameters(
@@ -72,34 +81,48 @@ export function getSignedParameters(
   profileId: string,
   accessKey: string,
   secretKey: string,
+  options?: {
+    receiptPageUrl?: string
+    cancelPageUrl?: string
+    billToForename?: string
+    billToSurname?: string
+    billToEmail?: string
+    billToPhone?: string
+  },
 ): Record<string, string> {
   const transactionUuid = crypto.randomUUID()
-  const signedDateTime = dateTimeSring()
+  const signedDateTime = dateTimeString()
 
-  // Required parameters for signing (alphabetical order)
+  // Define signed_field_names in the EXACT order they will appear in the signature
+  // CRITICAL: This order must match the order used when building the signature string
+  const signedFieldNames: string[] = [
+    'access_key',
+    'profile_id',
+    'transaction_uuid',
+    'signed_field_names',
+    'unsigned_field_names',
+    'signed_date_time',
+    'locale',
+    'transaction_type',
+    'reference_number',
+    'amount',
+    'currency',
+  ]
+
+  // Add override pages to signed_field_names if provided (they must be signed)
+  if (options?.receiptPageUrl) {
+    signedFieldNames.push('override_custom_receipt_page')
+  }
+  if (options?.cancelPageUrl) {
+    signedFieldNames.push('override_custom_cancel_page')
+  }
+
+  // Build parameters object in the order specified by signed_field_names
   const params: Record<string, string> = {
     access_key: accessKey,
-    amount: amount.toFixed(2),
-    currency: currencyCode.toLowerCase(),
-    locale: 'en-US',
     profile_id: profileId,
-    reference_number: paymentId,
-    signed_date_time: signedDateTime,
-    signed_field_names: [
-      'access_key',
-      'profile_id',
-      'transaction_uuid',
-      'signed_field_names',
-      'unsigned_field_names',
-      'signed_date_time',
-      'locale',
-      'transaction_type',
-      'reference_number',
-      'amount',
-      'currency',
-      'override_custom_cancel_page',
-      'override_custom_receipt_page',
-    ].join(','),
+    transaction_uuid: transactionUuid,
+    signed_field_names: signedFieldNames.join(','),
     unsigned_field_names: [
       'signature',
       'bill_to_forename',
@@ -107,12 +130,39 @@ export function getSignedParameters(
       'bill_to_email',
       'bill_to_phone',
     ].join(','),
+    signed_date_time: signedDateTime,
+    locale: 'en-US',
     transaction_type: 'sale',
-    transaction_uuid: transactionUuid,
+    reference_number: paymentId,
+    amount: amount.toFixed(2),
+    currency: currencyCode.toLowerCase(),
+  }
+
+  // Add override pages BEFORE generating signature (they're in signed_field_names)
+  if (options?.receiptPageUrl) {
+    params.override_custom_receipt_page = options.receiptPageUrl
+  }
+  if (options?.cancelPageUrl) {
+    params.override_custom_cancel_page = options.cancelPageUrl
   }
 
   // Generate and add signature
+  // Signature is calculated on fields in signed_field_names in the exact order specified
   params.signature = generateSignature(params, secretKey)
+
+  // Add unsigned fields AFTER signature generation (these are not included in signature)
+  if (options?.billToForename) {
+    params.bill_to_forename = options.billToForename
+  }
+  if (options?.billToSurname) {
+    params.bill_to_surname = options.billToSurname
+  }
+  if (options?.billToEmail) {
+    params.bill_to_email = options.billToEmail
+  }
+  if (options?.billToPhone) {
+    params.bill_to_phone = options.billToPhone
+  }
 
   return params
 }
