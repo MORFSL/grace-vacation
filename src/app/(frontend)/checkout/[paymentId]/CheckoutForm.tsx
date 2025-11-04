@@ -4,8 +4,11 @@ import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Combobox } from '@/components/ui/combobox'
+import { countryOptions } from '@/blocks/Form/Country/options'
 import { processPayment } from './actions'
 import { CheckCircle, Lock } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
 
 interface CheckoutFormProps {
   paymentId: string
@@ -15,9 +18,15 @@ interface CheckoutFormProps {
 export function CheckoutForm({ paymentId }: CheckoutFormProps) {
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
+  const [country, setCountry] = useState<string>('')
 
   async function handleSubmit(formData: FormData) {
     setError(null)
+
+    if (!country) {
+      setError('Please select a country')
+      return
+    }
 
     startTransition(async () => {
       const result = await processPayment(paymentId, formData)
@@ -81,14 +90,62 @@ export function CheckoutForm({ paymentId }: CheckoutFormProps) {
       </div>
 
       <div>
-        <Label htmlFor="customerPhone">Phone</Label>
+        <Label htmlFor="customerPhone">
+          Phone <span className="text-destructive">*</span>
+        </Label>
         <Input
           id="customerPhone"
           name="customerPhone"
           type="tel"
           className="mt-1"
           disabled={isPending}
+          required
         />
+      </div>
+
+      <div>
+        <Label htmlFor="billToAddressLine1">
+          Address <span className="text-destructive">*</span>
+        </Label>
+        <Textarea
+          id="billToAddressLine1"
+          name="billToAddressLine1"
+          required
+          className="mt-1"
+          disabled={isPending}
+          rows={2}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="billToAddressCity">
+          City <span className="text-destructive">*</span>
+        </Label>
+        <Input
+          id="billToAddressCity"
+          name="billToAddressCity"
+          type="text"
+          required
+          className="mt-1"
+          disabled={isPending}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="billToAddressCountry">
+          Country <span className="text-destructive">*</span>
+        </Label>
+        <input type="hidden" name="billToAddressCountry" value={country} />
+        <div className="mt-1">
+          <Combobox
+            options={countryOptions}
+            value={country}
+            onValueChange={setCountry}
+            placeholder="Select a country"
+            searchPlaceholder="Search countries..."
+            disabled={isPending}
+          />
+        </div>
       </div>
 
       <div className="rounded-md border border-border bg-muted p-4 text-muted-foreground">
