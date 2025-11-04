@@ -40,6 +40,11 @@ export async function processPayment(
     const customerName = formData.get('customerName') as string
     const customerEmail = formData.get('customerEmail') as string
     const customerPhone = formData.get('customerPhone') as string
+    const billToAddressCity = formData.get('billToAddressCity') as string
+    const billToAddressCountry = formData.get('billToAddressCountry') as string
+    const billToAddressLine1 = (formData.get('billToAddressLine1') as string)
+      ?.replace(/\s+/g, ' ')
+      .trim()
 
     if (!customerEmail) {
       return { error: 'Customer email is required' }
@@ -56,18 +61,6 @@ export async function processPayment(
       return { error: 'Payment gateway configuration is incomplete. Please contact support.' }
     }
 
-    // Update payment with customer information
-    await payload.update({
-      collection: 'payments',
-      id: payment.id,
-      data: {
-        customerName: customerName,
-        customerEmail: customerEmail,
-        customerPhone: customerPhone,
-      },
-      overrideAccess: true,
-    })
-
     const currencyCode = mapCurrencyCode(checkoutConfig.currencyCode || 'USD')
 
     const serverUrl = getServerSideURL()
@@ -83,10 +76,13 @@ export async function processPayment(
       {
         receiptPageUrl: callbackUrl,
         cancelPageUrl: callbackUrl,
-        billToForename: customerName || undefined,
-        billToSurname: customerName || undefined,
+        billToForename: customerName.split(' ')[0] || undefined,
+        billToSurname: customerName.split(' ')[1] || undefined,
         billToEmail: customerEmail || undefined,
         billToPhone: customerPhone || undefined,
+        billToAddressLine1: billToAddressLine1 || undefined,
+        billToAddressCity: billToAddressCity || undefined,
+        billToAddressCountry: billToAddressCountry || undefined,
       },
     )
 

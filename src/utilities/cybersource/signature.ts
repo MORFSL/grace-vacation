@@ -88,6 +88,9 @@ export function getSignedParameters(
     billToSurname?: string
     billToEmail?: string
     billToPhone?: string
+    billToAddressLine1?: string
+    billToAddressCity?: string
+    billToAddressCountry?: string
   },
 ): Record<string, string> {
   const transactionUuid = crypto.randomUUID()
@@ -129,6 +132,9 @@ export function getSignedParameters(
       'bill_to_surname',
       'bill_to_email',
       'bill_to_phone',
+      'bill_to_address_line1',
+      'bill_to_address_city',
+      'bill_to_address_country',
     ].join(','),
     signed_date_time: signedDateTime,
     locale: 'en-US',
@@ -162,6 +168,15 @@ export function getSignedParameters(
   }
   if (options?.billToPhone) {
     params.bill_to_phone = options.billToPhone
+  }
+  if (options?.billToAddressLine1) {
+    params.bill_to_address_line1 = options.billToAddressLine1
+  }
+  if (options?.billToAddressCity) {
+    params.bill_to_address_city = options.billToAddressCity
+  }
+  if (options?.billToAddressCountry) {
+    params.bill_to_address_country = options.billToAddressCountry
   }
 
   return params

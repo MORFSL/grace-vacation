@@ -5,6 +5,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Checkout } from '@/payload-types'
 import { verifySignature } from '@/utilities/cybersource/signature'
 import { revalidatePath } from 'next/cache'
+import { getClientSideURL } from '@/utilities/getURL'
 
 interface CyberSourceResponse {
   signed_field_names?: string
@@ -13,7 +14,7 @@ interface CyberSourceResponse {
   decision?: string
   reason_code?: string
   message?: string
-  reference_number?: string
+  req_reference_number: string
   [key: string]: string | undefined
 }
 
@@ -40,16 +41,21 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData()
 
     // Convert FormData to object
-    const responseData: CyberSourceResponse = {}
+    const responseData: CyberSourceResponse = {
+      req_reference_number: '',
+    }
+
     formData.forEach((value, key) => {
       responseData[key] = value.toString()
     })
 
     // Get paymentId from Cybersource response reference_number
-    const paymentId = responseData.reference_number
+    const paymentId = responseData.req_reference_number
     if (!paymentId) {
       console.error('Missing reference_number in CyberSource response')
-      return NextResponse.redirect(new URL('/checkout/failure?error=Invalid+response', request.url))
+      return NextResponse.redirect(
+        new URL(`${getClientSideURL()}/checkout/failure?error=Invalid+response`, request.url),
+      )
     }
 
     // Get the secret key from checkout config
@@ -59,7 +65,10 @@ export async function POST(request: NextRequest) {
     if (!secretKey) {
       console.error('Secret key not found in checkout config')
       return NextResponse.redirect(
-        new URL(`/checkout/${paymentId}/failure?error=Configuration+error`, request.url),
+        new URL(
+          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Configuration+error`,
+          request.url,
+        ),
       )
     }
 
@@ -68,7 +77,10 @@ export async function POST(request: NextRequest) {
     if (!receivedSignature || !responseData.signed_field_names || !responseData.signed_date_time) {
       console.error('Missing required signature fields')
       return NextResponse.redirect(
-        new URL(`/checkout/${paymentId}/failure?error=Invalid+response`, request.url),
+        new URL(
+          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Invalid+response`,
+          request.url,
+        ),
       )
     }
 
@@ -86,7 +98,10 @@ export async function POST(request: NextRequest) {
     if (!isValid) {
       console.error('Signature verification failed')
       return NextResponse.redirect(
-        new URL(`/checkout/${paymentId}/failure?error=Signature+verification+failed`, request.url),
+        new URL(
+          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Signature+verification+failed`,
+          request.url,
+        ),
       )
     }
 
@@ -98,7 +113,10 @@ export async function POST(request: NextRequest) {
 
     if (!payment) {
       return NextResponse.redirect(
-        new URL(`/checkout/${paymentId}/failure?error=Payment+not+found`, request.url),
+        new URL(
+          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Payment+not+found`,
+          request.url,
+        ),
       )
     }
 
@@ -106,7 +124,6 @@ export async function POST(request: NextRequest) {
     const payload = await getPayload({ config: configPromise })
 
     if (decision === 'ACCEPT') {
-      // Update payment as completed
       await payload.update({
         collection: 'payments',
         id: payment.id,
@@ -114,6 +131,9 @@ export async function POST(request: NextRequest) {
           status: 'completed',
           response: responseData,
           paidAt: new Date().toISOString(),
+          customerName: responseData.bill_to_forename,
+          customerEmail: responseData.bill_to_email,
+          customerPhone: responseData.bill_to_phone,
         },
         overrideAccess: true,
       })
@@ -122,7 +142,9 @@ export async function POST(request: NextRequest) {
       revalidatePath(`/checkout/${paymentId}/success`)
 
       // Redirect to success page
-      return NextResponse.redirect(new URL(`/checkout/${paymentId}/success`, request.url))
+      return NextResponse.redirect(
+        new URL(`${getClientSideURL()}/checkout/${paymentId}/success`, request.url),
+      )
     } else {
       // Update payment as failed
       await payload.update({
@@ -142,7 +164,7 @@ export async function POST(request: NextRequest) {
       const errorMessage = responseData.message || 'Payment failed'
       return NextResponse.redirect(
         new URL(
-          `/checkout/${paymentId}/failure?error=${encodeURIComponent(errorMessage)}`,
+          `${getClientSideURL()}/checkout/${paymentId}/failure?error=${encodeURIComponent(errorMessage)}`,
           request.url,
         ),
       )
@@ -150,6 +172,8 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error processing CyberSource callback:', error)
     // Try to get paymentId from error context if available, otherwise redirect to generic failure
-    return NextResponse.redirect(new URL('/checkout/failure?error=Internal+error', request.url))
+    return NextResponse.redirect(
+      new URL(`${getClientSideURL()}/checkout/failure?error=Internal+error`, request.url),
+    )
   }
 }
