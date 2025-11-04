@@ -28,12 +28,10 @@ export function CheckoutForm({ paymentId }: CheckoutFormProps) {
       }
 
       if (result.cybersourceUrl && result.formParams) {
-        // Create a form to submit to CyberSource
         const form = document.createElement('form')
         form.method = 'POST'
         form.action = result.cybersourceUrl
 
-        // Add all parameters as hidden inputs
         Object.entries(result.formParams).forEach(([key, value]) => {
           const input = document.createElement('input')
           input.type = 'hidden'
@@ -42,7 +40,6 @@ export function CheckoutForm({ paymentId }: CheckoutFormProps) {
           form.appendChild(input)
         })
 
-        // Append form to body and submit
         document.body.appendChild(form)
         form.submit()
       }
