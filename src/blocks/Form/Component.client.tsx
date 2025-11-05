@@ -20,7 +20,7 @@ export type FormBlockType = {
   form: FormType
   introContent?: DefaultTypedEditorState
   formImage?: MediaType | number
-  formTitle?: string
+  formTitle?: string | null
   alignment?: 'left' | 'right'
 }
 
