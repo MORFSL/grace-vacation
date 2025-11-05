@@ -28,11 +28,12 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
             return (
               <div
                 className={cn(
-                  `overflow-hidden rounded-xl relative h-full py-8 flex flex-col justify-center items-center md:items-start col-span-4 lg:col-span-${colsSpanClasses[size!]}`,
+                  `overflow-hidden rounded-xl relative h-full flex flex-col justify-center items-center md:items-start col-span-4 lg:col-span-${colsSpanClasses[size!]}`,
                   {
                     'md:col-span-2': size !== 'full',
                     'order-1 md:order-none': type === 'media',
                     'order-2 md:order-none': type === 'richText',
+                    'py-8': columns.length > 1,
                   },
                 )}
                 key={index}
