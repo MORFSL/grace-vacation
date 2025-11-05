@@ -4,6 +4,7 @@ import type { CardsBlock as CardsBlockProps } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
+import { cn } from '@/utilities/ui'
 
 export const CardsBlock: React.FC<CardsBlockProps> = ({ richText, cards }) => {
   return (
@@ -17,9 +18,20 @@ export const CardsBlock: React.FC<CardsBlockProps> = ({ richText, cards }) => {
         />
       )}
       {cards && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          className={cn('gap-4', {
+            'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4': cards.length === 4,
+            'flex flex-col md:flex-row justify-center': cards.length < 4,
+          })}
+        >
           {cards.map((card) => (
-            <div className="p-3 border border-primary/10 rounded-lg bg-muted" key={card.id}>
+            <div
+              className={cn('w-full p-3 border border-primary/10 rounded-lg bg-muted', {
+                'lg:w-1/4': cards.length < 4,
+                'lg:w-full': cards.length === 4,
+              })}
+              key={card.id}
+            >
               <div className="relative w-full pt-[100%]">
                 {card.media && typeof card.media === 'object' && (
                   <Media

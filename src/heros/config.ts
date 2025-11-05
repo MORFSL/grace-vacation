@@ -48,10 +48,29 @@ export const hero: Field = {
       label: false,
     },
     {
-      name: 'media',
+      name: 'image',
       type: 'upload',
       admin: {
         condition: (_, { type } = {}) => ['highImpact', 'lowImpact'].includes(type),
+      },
+      filterOptions: {
+        mimeType: {
+          contains: 'image/',
+        },
+      },
+      relationTo: 'media',
+    },
+    {
+      name: 'video',
+      type: 'upload',
+      admin: {
+        condition: (_, { type } = {}) => ['highImpact'].includes(type),
+        description: 'If a video is uploaded, the image will be used as the thumbnail.',
+      },
+      filterOptions: {
+        mimeType: {
+          contains: 'video/',
+        },
       },
       relationTo: 'media',
     },

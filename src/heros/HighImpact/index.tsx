@@ -8,7 +8,12 @@ import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { InquiryWidget } from '@/components/InquiryWidget'
 
-export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, redirect }) => {
+export const HighImpactHero: React.FC<Page['hero']> = async ({
+  image,
+  video,
+  richText,
+  redirect,
+}) => {
   const payload = await getPayload({ config: configPromise })
 
   const [destinationsResult, categoriesResult] = await Promise.all([
@@ -50,15 +55,26 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({ media, richText, 
           />
         </div>
       </div>
-      {media && typeof media === 'object' && (
+      {video && typeof video === 'object' ? (
         <Media
           videoClassName="rounded-t-3xl w-full h-full object-cover"
-          imgClassName="rounded-t-3xl w-full h-full object-cover"
           className="absolute left-0 top-0 right-0 bottom-0"
           priority
           fill
-          resource={media}
+          resource={video}
+          poster={image}
         />
+      ) : (
+        image &&
+        typeof image === 'object' && (
+          <Media
+            imgClassName="rounded-t-3xl w-full h-full object-cover"
+            className="absolute left-0 top-0 right-0 bottom-0"
+            priority
+            fill
+            resource={image}
+          />
+        )
       )}
       <div className="absolute -left-1 -bottom-1 -right-1 w-[105%]">
         <svg viewBox="0 0 1840 33" fill="none" xmlns="http://www.w3.org/2000/svg">
