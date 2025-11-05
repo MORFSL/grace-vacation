@@ -9,7 +9,6 @@ import type { HighlightsCarouselBlock as HighlightsCarouselBlockProps } from '@/
 
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
-import { MapPin } from 'lucide-react'
 
 interface Props {
   highlights: HighlightsCarouselBlockProps['highlights']
@@ -40,7 +39,7 @@ export const HighlightsCarouselClient: React.FC<Props> = ({ highlights }) => {
                     : 'bg-primary-foreground text-foreground'
                 }`}
               >
-                <MapPin size={16} /> {highlight.name}
+                {highlight.name}
               </button>
             ))}
           </div>
