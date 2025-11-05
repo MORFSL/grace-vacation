@@ -48,7 +48,7 @@ export const InquiryWidget: React.FC<InquiryWidgetProps> = ({
     }
 
     const queryString = params.toString()
-    const url = `${redirect ?? ''}${queryString ? `?${queryString}` : ''}`
+    const url = `${redirect ?? ''}${queryString ? `?${queryString}#inquiry` : ''}`
 
     router.push(url)
   }
