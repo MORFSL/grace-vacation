@@ -13,14 +13,25 @@ export const TourGallerySection = (props: Props) => {
   return (
     <section className="my-8">
       <div className="container">
-        <div className="md:min-h-[640px] grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-4">
+        <div
+          className={cn('md:min-h-[640px] grid grid-cols-1 gap-4', {
+            'md:grid-cols-12': props.itinerary.gallery?.length,
+            'md:grid-cols-1': !props.itinerary.gallery?.length,
+            'md:min-h-[250px]': !props.itinerary.gallery?.length,
+            'grid-rows-2': props.itinerary.gallery?.length,
+          })}
+        >
           {typeof props.itinerary.image === 'object' && (
             <Media
               key={props.itinerary.image.id}
               resource={props.itinerary.image}
               className={cn(
                 mediaItemWrapperClassName,
-                'overflow-hidden rounded-md md:row-span-2 md:col-span-6 pt-[80%] md:pt-[100%]',
+                'overflow-hidden rounded-md md:row-span-2 md:col-span-6 pt-[80%]',
+                {
+                  'md:pt-[100%]': props.itinerary.gallery?.length,
+                  'md:pt-[35%]': !props.itinerary.gallery?.length,
+                },
               )}
               videoClassName={mediaItemClassName}
               imgClassName={mediaItemClassName}

@@ -68,11 +68,16 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
 
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="col-span-1 md:col-span-8">
-            <TourTags itinerary={itinerary} />
-            <TourContents itinerary={itinerary} />
-            <TourPackage itinerary={itinerary} />
-          </div>
+          {itinerary?.tags?.length ||
+          itinerary?.contents?.length ||
+          itinerary?.inclusions?.items?.length ||
+          itinerary?.exclusions?.items?.length ? (
+            <div className="col-span-1 md:col-span-8">
+              <TourTags itinerary={itinerary} />
+              <TourContents itinerary={itinerary} />
+              <TourPackage itinerary={itinerary} />
+            </div>
+          ) : null}
           <div className="col-span-1 md:col-span-3 md:col-start-10">
             <div className="md:sticky top-10">
               <TourInquiry itinerary={itinerary} general={general} />
@@ -83,18 +88,20 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
         </div>
       </section>
 
-      <section className="container mt-12 pt-8 border-t border-primary/10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="col-span-1 md:col-span-8">
-            <TourMilestones itinerary={itinerary} />
-          </div>
-          <div className="col-span-1 md:col-span-3 md:col-start-10">
-            <div className="md:sticky top-10">
-              <TourMap itinerary={itinerary} />
+      {itinerary.milestones && itinerary.milestones.length > 0 && (
+        <section className="container mt-12 pt-8 border-t border-primary/10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div className="col-span-1 md:col-span-8">
+              <TourMilestones itinerary={itinerary} />
+            </div>
+            <div className="col-span-1 md:col-span-3 md:col-start-10">
+              <div className="md:sticky top-10">
+                <TourMap itinerary={itinerary} />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {itinerary.otherBlocks && itinerary.otherBlocks.length > 0 && (
         <>

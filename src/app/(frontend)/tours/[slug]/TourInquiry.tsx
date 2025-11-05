@@ -7,6 +7,10 @@ interface Props {
 }
 
 export const TourInquiry = ({ itinerary, general }: Props) => {
+  if (!itinerary.price) {
+    return null
+  }
+
   return (
     <div
       className="my-6 bg-muted border border-primary/10 rounded-xl p-6 text-center"

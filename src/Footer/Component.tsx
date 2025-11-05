@@ -67,7 +67,7 @@ export async function Footer() {
           })}
         </nav>
         {footer.paymentMethods && (
-          <div className="mt-10 lg:mt-0 flex flex-col lg:flex-row items-center gap-4">
+          <div className="mt-10 lg:mt-8 flex flex-col lg:flex-row items-center gap-4">
             <div className="font-medium text-sm">{footer.paymentMethods.label}</div>
             <div className="flex items-center gap-3">
               {footer.paymentMethods.method?.map((method) => {
