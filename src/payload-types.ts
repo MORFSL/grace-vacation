@@ -183,7 +183,11 @@ export interface Page {
       };
       [k: string]: unknown;
     } | null;
-    media?: (number | null) | Media;
+    image?: (number | null) | Media;
+    /**
+     * If a video is uploaded, the image will be used as the thumbnail.
+     */
+    video?: (number | null) | Media;
     /**
      * Redirect users to a form page to submit their inquiry.
      */
@@ -1529,7 +1533,8 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         type?: T;
         richText?: T;
-        media?: T;
+        image?: T;
+        video?: T;
         redirect?: T;
       };
   layout?:

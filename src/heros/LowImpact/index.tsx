@@ -3,27 +3,34 @@ import React from 'react'
 import type { Page } from '@/payload-types'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
+import { cn } from '@/utilities/ui'
 
-export const LowImpactHero: React.FC<Page['hero']> = ({ media, richText }) => {
+export const LowImpactHero: React.FC<Page['hero']> = ({ image, richText }) => {
   return (
     <section className="mx-auto container">
-      <div className="relative">
+      <div
+        className={cn('relative overflow-hidden rounded-t-2xl ', {
+          'bg-muted': !image,
+        })}
+      >
         {richText && (
           <RichText
             data={richText}
             enableGutter={false}
             center={true}
-            className="py-40 prose-h1:font-semibold text-center text-white"
+            className={cn('py-40 prose-h1:font-semibold text-center', {
+              'text-white': image,
+            })}
           />
         )}
-        {media && typeof media === 'object' && (
+        {image && typeof image === 'object' && (
           <Media
             videoClassName="w-full h-full object-cover opacity-70"
             imgClassName="w-full h-full object-cover opacity-70"
-            className="overflow-hidden rounded-t-2xl absolute left-0 top-0 right-0 bottom-0 -z-10 bg-black"
+            className="absolute left-0 top-0 right-0 bottom-0 -z-10 bg-black"
             priority
             fill
-            resource={media}
+            resource={image}
           />
         )}
         <div className="overflow-x-clip absolute left-0 -bottom-1 right-0 w-full">
