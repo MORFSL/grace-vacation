@@ -35,7 +35,7 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({
     typeof redirect === 'object' && redirect?.slug ? `/${redirect?.slug}` : undefined
 
   return (
-    <section className="mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
+    <section className="mb-20 mx-2 md:mx-8 lg:mx-6 2xl:mx-16 overflow-x-clip relative">
       <div className="container min-h-[650px] xl:min-h-[750px] max-lg:pt-32 pb-10 px-12 lg:px-0 flex flex-col items-center justify-center gap-8">
         <div className="z-10 text-center text-white">
           {richText && (

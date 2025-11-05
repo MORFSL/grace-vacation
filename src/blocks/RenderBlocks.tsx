@@ -13,6 +13,7 @@ import { FeaturesBlock } from './Features/Component'
 import { HighlightsCarouselBlock } from './HighlightsCarousel/Component'
 import { TestimonialsBlock } from './Testimonials/Component'
 import { CardsBlock } from './Cards/Component'
+import { cn } from '@/utilities/ui'
 
 const blockComponents = {
   itinerariesBlock: ItinerariesBlock,
@@ -47,7 +48,10 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <section
-                  className="my-32"
+                  className={cn('my-32', {
+                    'mt-16': index === 0,
+                    'mb-20': index === blocks.length - 1,
+                  })}
                   key={index}
                   id={blockName?.replaceAll(' ', '-').toLowerCase() || ''}
                 >
