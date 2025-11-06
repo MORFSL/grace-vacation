@@ -37,6 +37,9 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     user: Users.slug,
+    components: {
+      beforeDashboard: ['@/app/(payload)/admin/components/PaymentsDashboard#PaymentsDashboard'],
+    },
     livePreview: {
       breakpoints: [
         {

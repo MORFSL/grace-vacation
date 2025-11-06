@@ -42,23 +42,28 @@ export const ItinerariesBlock: React.FC<
       collection: 'itineraries',
       depth: 1,
       limit,
-      ...(flattenedDestinations && flattenedDestinations.length > 0
-        ? {
-            where: {
+      where: {
+        _status: {
+          equals: 'published',
+        },
+        ...(flattenedDestinations && flattenedDestinations.length > 0
+          ? {
               destination: {
                 in: flattenedDestinations,
               },
-            },
-          }
-        : {}),
+            }
+          : {}),
+      },
     })
 
     itineraries = fetchedItineraries.docs
   } else {
     if (selectedDocs?.length) {
-      const filteredSelectedItineraries = selectedDocs.map((itinerary) => {
-        if (typeof itinerary.value === 'object') return itinerary.value
-      }) as Itinerary[]
+      const filteredSelectedItineraries = selectedDocs
+        .map((itinerary) => {
+          if (typeof itinerary.value === 'object') return itinerary.value
+        })
+        .filter((itinerary) => itinerary?._status === 'published') as Itinerary[]
 
       itineraries = filteredSelectedItineraries
     }
