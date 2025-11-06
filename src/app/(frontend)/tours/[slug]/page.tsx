@@ -59,7 +59,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
 
   return (
     <article className="py-2">
-      <PayloadRedirects disableNotFound url={url} />
+      <PayloadRedirects url={url} />
 
       {draft && <LivePreviewListener />}
 
