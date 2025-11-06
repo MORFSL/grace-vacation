@@ -1,6 +1,7 @@
 'use client'
 
 import type { StaticImageData } from 'next/image'
+import { PlaceholderValue } from 'next/dist/shared/lib/get-img-props'
 
 import { cn } from '@/utilities/ui'
 import NextImage from 'next/image'
@@ -10,12 +11,12 @@ import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { toBase64 } from '@/utilities/base64'
+import { shimmer } from '../Shimmer'
 
 const { breakpoints } = cssVariables
 
-// A base64 encoded image to use as a placeholder while the image is loading
-const placeholderBlur =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII='
+const placeholder: PlaceholderValue = `data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`
 
 export const ImageMedia: React.FC<MediaProps> = (props) => {
   const {
@@ -64,7 +65,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         fill={fill}
         height={!fill ? height : undefined}
         placeholder="blur"
-        blurDataURL={placeholderBlur}
+        blurDataURL={placeholder}
         priority={priority}
         quality={100}
         loading={loading}

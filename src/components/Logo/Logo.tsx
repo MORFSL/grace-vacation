@@ -5,8 +5,6 @@ import Link from 'next/link'
 
 interface Props {
   className?: string
-  loading?: 'lazy' | 'eager'
-  priority?: 'auto' | 'high' | 'low'
   media?: Mediatype | number
 }
 
@@ -16,7 +14,7 @@ export const Logo = (props: Props) => {
   if (media) {
     return (
       <Link href="/">
-        <Media resource={media} />
+        <Media resource={media} priority />
       </Link>
     )
   }
