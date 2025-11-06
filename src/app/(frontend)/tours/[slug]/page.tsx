@@ -30,6 +30,11 @@ export async function generateStaticParams() {
     limit: 1000,
     overrideAccess: false,
     pagination: false,
+    where: {
+      _status: {
+        equals: 'published',
+      },
+    },
     select: {
       slug: true,
     },
@@ -59,7 +64,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
 
   return (
     <article className="py-2">
-      <PayloadRedirects url={url} />
+      <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
@@ -135,6 +140,9 @@ const queryItineraryBySlug = cache(async ({ slug }: { slug: string }) => {
     where: {
       slug: {
         equals: slug,
+      },
+      _status: {
+        equals: 'published',
       },
     },
   })
