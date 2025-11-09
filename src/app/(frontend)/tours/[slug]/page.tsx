@@ -30,11 +30,6 @@ export async function generateStaticParams() {
     limit: 1000,
     overrideAccess: false,
     pagination: false,
-    where: {
-      _status: {
-        equals: 'published',
-      },
-    },
     select: {
       slug: true,
     },
@@ -140,9 +135,6 @@ const queryItineraryBySlug = cache(async ({ slug }: { slug: string }) => {
     where: {
       slug: {
         equals: slug,
-      },
-      _status: {
-        equals: 'published',
       },
     },
   })
