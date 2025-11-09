@@ -7,7 +7,7 @@ import type { SelectFieldClientComponent } from 'payload'
 import type { Option } from '@payloadcms/ui/elements/ReactSelect'
 import { List } from 'react-window'
 
-const ICON_BASE_URL = 'https://cdn.jsdelivr.net/npm/lucide-static@0.508.0/icons/'
+const ICON_BASE_URL = 'https://cdn.jsdelivr.net/npm/lucide-static@0.553.0/icons/'
 
 const IconPreview: React.FC<{ name: string }> = React.memo(({ name }) => (
   <img
