@@ -1,4 +1,4 @@
-import { Media } from '@/components/Media'
+import DynamicIcon from '@/components/Icon/DynamicIcon'
 import { Itinerary } from '@/payload-types'
 
 interface Props {
@@ -17,16 +17,9 @@ export const TourTags = ({ itinerary }: Props) => {
           typeof tag === 'object' && (
             <div
               key={tag.id}
-              className="flex items-center gap-2 border border-primary/30 rounded-xl px-5 pt-2 pb-3 text-sm text-[#5F6178] font-medium"
+              className="flex items-center gap-2 border border-primary/30 rounded-xl px-5 py-2 text-sm text-[#5F6178] font-medium [&>svg]:text-primary"
             >
-              {tag.image && (
-                <Media
-                  resource={tag.image}
-                  className="w-4 h-4"
-                  imgClassName="w-5 h-5 object-contain"
-                />
-              )}
-              {tag.title}
+              {tag.icon && <DynamicIcon name={tag.icon} size={18} strokeWidth={1.5} />} {tag.title}
             </div>
           ),
       )}

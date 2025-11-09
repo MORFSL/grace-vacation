@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { iconField } from '@/fields/icon'
 
 export const Tags: CollectionConfig = {
   slug: 'tags',
@@ -25,17 +26,6 @@ export const Tags: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    {
-      name: 'image',
-      label: 'Tag Icon',
-      type: 'upload',
-      relationTo: 'media',
-      required: false,
-      filterOptions: {
-        mimeType: {
-          contains: 'image/',
-        },
-      },
-    },
+    iconField(),
   ],
 }
