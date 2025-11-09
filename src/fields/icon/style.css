@@ -1,0 +1,35 @@
+.icon-field-component {
+  width: 100%;
+}
+
+.icon-preview {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.custom-option {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.custom-option.focused {
+  background-color: #0f0f0f;
+}
+
+.custom-option:hover {
+  background-color: #0f0f0f;
+}
+
+.custom-single-value {
+  display: flex;
+  align-items: center;
+  position: absolute;
+}
+
+html[data-theme='dark'] .icon-preview {
+  filter: invert(1);
+}
