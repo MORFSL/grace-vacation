@@ -45,9 +45,10 @@ export const TourGallerySection = (props: Props) => {
               'md:grid-cols-1': !props.itinerary.gallery?.length,
               'md:min-h-[250px]': !props.itinerary.gallery?.length,
               'grid-rows-2': props.itinerary.gallery?.length,
+              hidden: !props.itinerary.image,
             })}
           >
-            {typeof props.itinerary.image === 'object' && (
+            {props.itinerary.image && typeof props.itinerary.image === 'object' && (
               <div
                 className={cn(
                   mediaItemWrapperClassName,
