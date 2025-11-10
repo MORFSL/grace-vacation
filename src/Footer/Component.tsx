@@ -18,8 +18,8 @@ export async function Footer() {
   }
 
   return (
-    <footer className="relative mt-auto">
-      <div className="rounded-lg px-16 py-8 mx-auto container bg-muted">
+    <footer className="relative mx-auto container">
+      <div className="rounded-lg px-16 py-8 bg-muted">
         <Overlay />
         <div className="py-10 flex flex-col lg:flex-row w-full justify-between gap-12 lg:gap-4">
           {footer.phoneLabel && (
