@@ -15,6 +15,19 @@ export const General: GlobalConfig = {
       required: true,
     },
     {
+      name: 'favicon',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'The favicon of the site. (Recommended size: 32x32)',
+      },
+      filterOptions: {
+        mimeType: {
+          contains: 'image/',
+        },
+      },
+    },
+    {
       name: 'payments',
       type: 'group',
       fields: [
