@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { getServerSideURL } from './getURL'
+import { General } from '@/payload-types'
+import { getCachedGlobal } from './getGlobals'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
@@ -13,9 +15,15 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   title: 'Payload Website Template',
 }
 
-export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {
+export const mergeOpenGraph = async (
+  og?: Metadata['openGraph'],
+): Promise<Metadata['openGraph']> => {
+  const general: General = (await getCachedGlobal('general', 1)()) as General
+
   return {
     ...defaultOpenGraph,
+    siteName: general.siteName,
+    title: general.siteName,
     ...og,
     images: og?.images ? og.images : defaultOpenGraph.images,
   }

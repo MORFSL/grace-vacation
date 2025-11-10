@@ -4013,6 +4013,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface General {
   id: number;
+  /**
+   * The name of the site.
+   */
+  siteName: string;
   payments?: {
     /**
      * Currency label displayed throughout the site.
@@ -4033,6 +4037,12 @@ export interface General {
   testimonials?: {
     platform?: ('Google Reviews' | 'Trip Advisor' | 'Facebook') | null;
     rating?: number | null;
+  };
+  /**
+   * SEO settings for the site.
+   */
+  seo?: {
+    googleAnalyticsId?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4233,6 +4243,7 @@ export interface Checkout {
  * via the `definition` "general_select".
  */
 export interface GeneralSelect<T extends boolean = true> {
+  siteName?: T;
   payments?:
     | T
     | {
@@ -4255,6 +4266,11 @@ export interface GeneralSelect<T extends boolean = true> {
     | {
         platform?: T;
         rating?: T;
+      };
+  seo?:
+    | T
+    | {
+        googleAnalyticsId?: T;
       };
   updatedAt?: T;
   createdAt?: T;

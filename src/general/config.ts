@@ -6,6 +6,15 @@ export const General: GlobalConfig = {
   label: 'General',
   fields: [
     {
+      name: 'siteName',
+      type: 'text',
+      admin: {
+        description: 'The name of the site.',
+      },
+      defaultValue: 'Payload Website Template',
+      required: true,
+    },
+    {
       name: 'payments',
       type: 'group',
       fields: [
@@ -95,6 +104,23 @@ export const General: GlobalConfig = {
               max: 10,
             },
           ],
+        },
+      ],
+    },
+    {
+      name: 'seo',
+      label: 'SEO',
+      admin: {
+        description: 'SEO settings for the site.',
+      },
+      type: 'group',
+      fields: [
+        {
+          name: 'googleAnalyticsId',
+          type: 'text',
+          admin: {
+            placeholder: 'G-XYZ',
+          },
         },
       ],
     },
