@@ -4017,6 +4017,10 @@ export interface General {
    * The name of the site.
    */
   siteName: string;
+  /**
+   * The favicon of the site. (Recommended size: 32x32)
+   */
+  favicon?: (number | null) | Media;
   payments?: {
     /**
      * Currency label displayed throughout the site.
@@ -4244,6 +4248,7 @@ export interface Checkout {
  */
 export interface GeneralSelect<T extends boolean = true> {
   siteName?: T;
+  favicon?: T;
   payments?:
     | T
     | {

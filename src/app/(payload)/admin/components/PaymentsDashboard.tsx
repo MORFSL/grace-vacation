@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getCachedGlobal } from '@/utilities/getGlobals'
