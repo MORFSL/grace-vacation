@@ -9,10 +9,13 @@ import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 import { getServerSideURL } from '@/utilities/getURL'
+import { GoogleAnalytics } from '@next/third-parties/google'
+import { General } from '@/payload-types'
 
 import './globals.css'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -20,6 +23,7 @@ const workSans = Work_Sans({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const general: General = (await getCachedGlobal('general', 1)()) as General
 
   return (
     <html className={cn(workSans.className)} lang="en" suppressHydrationWarning>
@@ -39,13 +43,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Footer />
         </Providers>
       </body>
+      {general.seo?.googleAnalyticsId && <GoogleAnalytics gaId={general.seo.googleAnalyticsId} />}
     </html>
   )
 }
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
+  openGraph: await mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
     creator: '@payloadcms',

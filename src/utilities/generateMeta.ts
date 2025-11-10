@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
-import type { Media, Page, Itinerary, Config } from '../payload-types'
+import type { Media, Page, Itinerary, Config, General } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
+import { getCachedGlobal } from './getGlobals'
 
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
@@ -25,14 +26,13 @@ export const generateMeta = async (args: {
   const { doc } = args
 
   const ogImage = getImageURL(doc?.meta?.image)
+  const general: General = (await getCachedGlobal('general', 1)()) as General
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Payload Website Template'
-    : 'Payload Website Template'
+  const title = doc?.meta?.title ? doc?.meta?.title + ' | ' + general.siteName : general.siteName
 
   return {
     description: doc?.meta?.description,
-    openGraph: mergeOpenGraph({
+    openGraph: await mergeOpenGraph({
       description: doc?.meta?.description || '',
       images: ogImage
         ? [
