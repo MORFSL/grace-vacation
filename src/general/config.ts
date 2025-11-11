@@ -15,6 +15,17 @@ export const General: GlobalConfig = {
       required: true,
     },
     {
+      name: 'logo',
+      label: 'Logo',
+      type: 'upload',
+      relationTo: 'media',
+      filterOptions: {
+        mimeType: {
+          contains: 'image/',
+        },
+      },
+    },
+    {
       name: 'favicon',
       type: 'upload',
       relationTo: 'media',

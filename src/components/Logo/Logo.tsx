@@ -1,20 +1,16 @@
-import { Media as Mediatype } from '@/payload-types'
+import { General } from '@/payload-types'
 import React from 'react'
-import { Media } from '../Media'
 import Link from 'next/link'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import { Media } from '../Media'
 
-interface Props {
-  className?: string
-  media?: Mediatype | number
-}
+export const Logo = async () => {
+  const general = (await getCachedGlobal('general', 1)()) as General
 
-export const Logo = (props: Props) => {
-  const { media } = props
-
-  if (media) {
+  if (general.logo) {
     return (
       <Link href="/">
-        <Media resource={media} priority />
+        <Media resource={general.logo} priority />
       </Link>
     )
   }

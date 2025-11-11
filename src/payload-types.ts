@@ -4017,6 +4017,7 @@ export interface General {
    * The name of the site.
    */
   siteName: string;
+  logo?: (number | null) | Media;
   /**
    * The favicon of the site. (Recommended size: 32x32)
    */
@@ -4057,7 +4058,6 @@ export interface General {
  */
 export interface Header {
   id: number;
-  logo?: (number | null) | Media;
   navItems?:
     | {
         link: {
@@ -4248,6 +4248,7 @@ export interface Checkout {
  */
 export interface GeneralSelect<T extends boolean = true> {
   siteName?: T;
+  logo?: T;
   favicon?: T;
   payments?:
     | T
@@ -4286,7 +4287,6 @@ export interface GeneralSelect<T extends boolean = true> {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  logo?: T;
   navItems?:
     | T
     | {

@@ -39,6 +39,9 @@ export default buildConfig({
     user: Users.slug,
     components: {
       beforeDashboard: ['@/app/(payload)/admin/components/PaymentsDashboard#PaymentsDashboard'],
+      graphics: {
+        Logo: '@/graphics/Logo',
+      },
     },
     livePreview: {
       breakpoints: [
