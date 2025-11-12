@@ -1,20 +1,23 @@
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
-import { Itinerary } from '@/payload-types'
+import { General, Itinerary } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 
 interface Props {
   itinerary: Itinerary
+  general: General
 }
 
-export const TourMilestones = ({ itinerary }: Props) => {
+export const TourMilestones = ({ itinerary, general }: Props) => {
   if (!itinerary.milestones || itinerary.milestones.length === 0) {
     return null
   }
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6">Trip Milestones</h2>
+      {general.itinerary?.milestonesTitle && (
+        <h2 className="text-2xl font-semibold mb-6">{general.itinerary.milestonesTitle}</h2>
+      )}
       <div className="space-y-8">
         {itinerary.milestones.map((milestone, index) => (
           <div key={milestone.id || index} className="py-4">

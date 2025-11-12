@@ -4038,6 +4038,10 @@ export interface General {
       phone?: string | null;
       description?: string | null;
     };
+    /**
+     * The title of the itinerary milestones section.
+     */
+    milestonesTitle?: string | null;
   };
   testimonials?: {
     platform?: ('Google Reviews' | 'Trip Advisor' | 'Facebook') | null;
@@ -4266,6 +4270,7 @@ export interface GeneralSelect<T extends boolean = true> {
               phone?: T;
               description?: T;
             };
+        milestonesTitle?: T;
       };
   testimonials?:
     | T

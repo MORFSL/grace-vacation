@@ -40,7 +40,7 @@ export const TourGallerySection = (props: Props) => {
       <section className="my-8">
         <div className="container">
           <div
-            className={cn('md:min-h-[640px] grid grid-cols-1 gap-4', {
+            className={cn('md:min-h-[400px] lg:min-h-[640px] grid grid-cols-1 gap-4', {
               'md:grid-cols-12': props.itinerary.gallery?.length,
               'md:grid-cols-1': !props.itinerary.gallery?.length,
               'md:min-h-[250px]': !props.itinerary.gallery?.length,
@@ -130,7 +130,7 @@ export const TourGallerySection = (props: Props) => {
                         }}
                       >
                         <Camera className="h-4 w-4" />
-                        Show All Photos
+                        <span className="md:hidden lg:block">Show All Photos</span>
                       </Button>
                     )}
                   </div>

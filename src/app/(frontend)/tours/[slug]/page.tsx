@@ -66,7 +66,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
       <TourMetaSection itinerary={itinerary} />
       <TourGallerySection itinerary={itinerary} />
 
-      <section className="container">
+      <section className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           {itinerary?.tags?.length ||
           itinerary?.contents?.length ||
@@ -89,23 +89,30 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
       </section>
 
       {itinerary.milestones && itinerary.milestones.length > 0 && (
-        <section className="container mt-12 pt-8 border-t border-primary/10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            <div className="col-span-1 md:col-span-8">
-              <TourMilestones itinerary={itinerary} />
-            </div>
-            <div className="col-span-1 md:col-span-3 md:col-start-10">
-              <div className="md:sticky top-10">
-                <TourMap itinerary={itinerary} />
+        <>
+          <div className="container mx-auto">
+            <div className="w-full border-t border-primary/10 my-12" />
+          </div>
+          <section className="container mb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <div className="col-span-1 md:col-span-8">
+                <TourMilestones itinerary={itinerary} general={general} />
+              </div>
+              <div className="col-span-1 md:col-span-3 md:col-start-10">
+                <div className="md:sticky top-10">
+                  <TourMap itinerary={itinerary} />
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </>
       )}
 
       {itinerary.otherBlocks && itinerary.otherBlocks.length > 0 && (
         <>
-          <div className="container w-full border-t border-primary/10 my-12" />
+          <div className="container mx-auto">
+            <div className="w-full border-t border-primary/10 mb-12" />
+          </div>
           <TourBlocks blocks={itinerary.otherBlocks} />
         </>
       )}
