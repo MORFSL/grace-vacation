@@ -11,7 +11,7 @@ export const TourTags = ({ itinerary }: Props) => {
   }
 
   return (
-    <div className="my-2 flex flex-wrap gap-4">
+    <div className="mt-6 mb-2 flex flex-wrap gap-4">
       {itinerary.tags?.map(
         (tag) =>
           typeof tag === 'object' && (

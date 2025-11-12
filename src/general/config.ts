@@ -96,6 +96,14 @@ export const General: GlobalConfig = {
             },
           ],
         },
+        {
+          name: 'milestonesTitle',
+          type: 'text',
+          admin: {
+            description: 'The title of the itinerary milestones section.',
+          },
+          defaultValue: 'Tour Milestones',
+        },
       ],
     },
     {

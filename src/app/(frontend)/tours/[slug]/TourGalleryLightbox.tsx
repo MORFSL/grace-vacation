@@ -2,7 +2,7 @@
 
 import { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
@@ -33,6 +33,12 @@ export const TourGalleryLightbox = ({ media, open, onOpenChange, initialIndex = 
     }
   }
 
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onOpenChange(false)
+    }
+  }
+
   useEffect(() => {
     setCurrentIndex(initialIndex)
   }, [initialIndex])
@@ -41,13 +47,18 @@ export const TourGalleryLightbox = ({ media, open, onOpenChange, initialIndex = 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         hideCloseButton
-        className="max-w-[100vw] max-h-[100vh] w-[100vw] h-[100vh] p-0 border-0 bg-black/90 overflow-hidden"
+        className="rounded-none max-w-[100vw] max-h-[100vh] w-[100vw] h-[100vh] p-0 border-0 bg-black/90 overflow-hidden"
         onKeyDown={handleKeyDown}
+        onInteractOutside={(e) => {
+          e.preventDefault()
+          onOpenChange(false)
+        }}
       >
+        <DialogTitle hidden>Tour Gallery</DialogTitle>
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-3 top-3 md:right-6 md:top-6 z-50 h-9 w-9 md:h-10 md:w-10 rounded-full bg-red-500/30 hover:bg-red-500/50 hover:text-white text-white backdrop-blur-sm"
+          className="absolute right-3 top-3 md:right-10 md:top-6 z-50 h-9 w-9 md:h-10 md:w-10 rounded-full bg-red-500/30 hover:bg-red-500/50 hover:text-white text-white backdrop-blur-sm"
           onClick={() => onOpenChange(false)}
           aria-label="Close"
         >
@@ -59,7 +70,7 @@ export const TourGalleryLightbox = ({ media, open, onOpenChange, initialIndex = 
             <Button
               variant="ghost"
               size="icon"
-              className="fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
+              className="fixed left-2 md:left-10 top-1/2 -translate-y-1/2 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/10 text-white backdrop-blur-sm"
               onClick={goToPrevious}
               aria-label="Previous image"
             >
@@ -68,7 +79,7 @@ export const TourGalleryLightbox = ({ media, open, onOpenChange, initialIndex = 
             <Button
               variant="ghost"
               size="icon"
-              className="fixed right-2 md:right-6 top-1/2 -translate-y-1/2 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
+              className="fixed right-2 md:right-10 top-1/2 -translate-y-1/2 z-50 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/10 text-white backdrop-blur-sm"
               onClick={goToNext}
               aria-label="Next image"
             >
@@ -77,9 +88,12 @@ export const TourGalleryLightbox = ({ media, open, onOpenChange, initialIndex = 
           </>
         )}
 
-        <div className="w-full h-full flex items-center justify-center px-0 py-12 md:px-24 md:py-20">
+        <div
+          className="w-full h-full flex items-center justify-center px-0 py-12 md:px-32 md:py-20"
+          onClick={handleContentClick}
+        >
           {typeof media[currentIndex] === 'object' && (
-            <div className="relative w-full h-full md:max-w-[85vw] md:max-h-[80vh] flex items-center justify-center">
+            <div className="relative h-full md:max-w-[85vw] md:max-h-[80vh] flex items-center justify-center">
               <Media
                 resource={media[currentIndex]}
                 className="h-full"
