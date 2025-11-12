@@ -95,11 +95,11 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
           </div>
           <section className="container mb-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-              <div className="col-span-1 md:col-span-8">
+              <div className="col-span-1 lg:col-span-8">
                 <TourMilestones itinerary={itinerary} general={general} />
               </div>
-              <div className="col-span-1 md:col-span-3 md:col-start-10">
-                <div className="md:sticky top-10">
+              <div className="col-span-1 lg:col-span-3 lg:col-start-10">
+                <div className="md:sticky mt-6 lg:mt-0 top-10">
                   <TourMap itinerary={itinerary} />
                 </div>
               </div>
