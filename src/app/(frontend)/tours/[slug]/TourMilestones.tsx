@@ -10,6 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { MapPin, ChevronDown } from 'lucide-react'
 
 interface Props {
   itinerary: Itinerary
@@ -20,57 +21,54 @@ export const TourMilestones = ({ itinerary, general }: Props) => {
   if (!itinerary.milestones || itinerary.milestones.length === 0) {
     return null
   }
-  console.log(general.itinerary?.milestonesTitle)
 
   return (
     <div>
       {general.itinerary?.milestonesTitle && (
         <h2 className="text-2xl font-semibold mb-8">{general.itinerary.milestonesTitle}</h2>
       )}
-      <div className="relative pl-16">
-        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-primary/60" />
-        <div className="absolute left-6 top-0 bottom-0 w-2 bg-primary/20 blur-sm -translate-x-1/2" />
-        <Accordion type="single" collapsible defaultValue="item-0">
+      <div className="relative">
+        <Accordion type="single" collapsible>
           {itinerary.milestones?.map((milestone, index) => (
             <AccordionItem
               key={milestone.id || index}
               value={`item-${index}`}
-              className={cn(
-                'relative group border-none',
-                index < (itinerary.milestones?.length || 0) - 1 && 'mb-6',
-              )}
+              className={cn('relative group border-none')}
             >
-              <div className="absolute -left-16 top-4 w-12 h-12 flex items-center justify-center z-10">
-                <div className="absolute inset-0 rounded-full bg-primary/20 blur-md group-hover:bg-primary/30 transition-all duration-300" />
-                <div className="relative w-12 h-12 rounded-full bg-primary shadow-lg ring-4 ring-white group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm drop-shadow-sm">{index + 1}</span>
+              <div
+                className={cn(
+                  'absolute left-5 top-0 bottom-0 w-0.5',
+                  'group-data-[state=closed]:bg-gray-300',
+                  'group-data-[state=open]:bg-primary',
+                )}
+              />
+              <div
+                className={cn(
+                  'absolute left-5 top-0 bottom-0 w-2 blur-sm -translate-x-1/2',
+                  'group-data-[state=closed]:bg-gray-300/40',
+                  'group-data-[state=open]:bg-primary/20',
+                )}
+              />
+              <div className="absolute left-0 top-4 w-10 h-10 flex items-center justify-center z-10">
+                <div className="relative w-10 h-10 rounded-full bg-primary shadow-lg ring-4 ring-white group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                  <span className="text-white font-bold text-sm drop-shadow-sm">
+                    <MapPin className="w-4 h-4" />
+                  </span>
                 </div>
-                <div className="absolute inset-2 rounded-full bg-white/20" />
+                <div className="absolute inset-2 rounded-full bg-white/15" />
               </div>
 
-              <div className="bg-white/50 backdrop-blur-sm transition-all duration-300 overflow-hidden">
+              <div className="ml-12 bg-white/50 backdrop-blur-sm transition-all duration-300 overflow-hidden">
                 <AccordionTrigger className="w-full text-left py-6 pl-3 flex items-center justify-between gap-4 hover:bg-white/30 transition-colors duration-200 group [&[data-state=open]>h3]:text-primary">
-                  <h3 className="font-medium group-hover:text-primary transition-colors duration-300">
+                  <h3 className="text-sm md:text-base font-medium group-hover:text-primary transition-colors duration-300">
                     {milestone.title}
                   </h3>
                   <span className="flex-shrink-0">
-                    <svg
-                      className="w-5 h-5 text-gray-500 transition-all duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
+                    <ChevronDown className="w-5 h-5 text-gray-500 transition-all duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-primary" />
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden">
-                  <div className="px-3 py-0">
+                  <div className="px-3 pb-2">
                     {milestone.content && (
                       <div className="mb-4 text-gray-700">
                         <RichText
@@ -93,7 +91,7 @@ export const TourMilestones = ({ itinerary, general }: Props) => {
                             <Media
                               key={mediaItem.id}
                               resource={mediaItem}
-                              className="overflow-hidden rounded-md relative pt-[340px] shadow-md group-hover:shadow-lg transition-shadow duration-300"
+                              className="overflow-hidden rounded-md relative pt-[340px]"
                               imgClassName="absolute inset-0 w-full h-full object-cover"
                               videoClassName="absolute inset-0 w-full h-full object-cover"
                             />
