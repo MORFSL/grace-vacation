@@ -25,7 +25,7 @@ export const DateField: React.FC<DateFieldProps> = ({ value, onChange }) => {
           <PopoverTrigger asChild>
             <Button
               variant="ghost"
-              className="w-full justify-between font-medium px-0 py-0 text-md text-slate-500 hover:text-black h-fit"
+              className="w-full justify-between font-medium px-0 py-0 text-sm text-slate-500 hover:text-black h-fit"
             >
               {value?.from && value?.to
                 ? `${value.from.toLocaleDateString()} - ${value.to.toLocaleDateString()}`
