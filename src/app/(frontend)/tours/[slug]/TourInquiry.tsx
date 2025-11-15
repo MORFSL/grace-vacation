@@ -24,7 +24,9 @@ export const TourInquiry = ({ itinerary, general }: Props) => {
           {general?.payments?.currencyLabel} {itinerary.price}
         </span>
         {itinerary.priceType && (
-          <span className="text-muted-foreground font-medium">/{itinerary.priceType}</span>
+          <span className="text-muted-foreground font-medium">
+            /<span className="text-lg">{itinerary.priceType}</span>
+          </span>
         )}
       </div>
       <p className="mt-2 text-sm">{itinerary.duration}</p>

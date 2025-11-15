@@ -47,7 +47,7 @@ export const TourGalleryLightbox = ({ media, open, onOpenChange, initialIndex = 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         hideCloseButton
-        className="rounded-none max-w-[100vw] max-h-[100vh] w-[100vw] h-[100vh] p-0 border-0 bg-black/90 overflow-hidden"
+        className="rounded-none max-w-[100vw] max-h-[100vh] w-[100vw] h-[100vh] p-0 border-0 bg-black/20 overflow-hidden"
         onKeyDown={handleKeyDown}
         onInteractOutside={(e) => {
           e.preventDefault()
