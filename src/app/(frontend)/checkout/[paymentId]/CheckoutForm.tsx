@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -20,13 +20,16 @@ export function CheckoutForm({ paymentId }: CheckoutFormProps) {
   const [isPending, startTransition] = useTransition()
   const [country, setCountry] = useState<string>('')
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     setError(null)
 
     if (!country) {
       setError('Please select a country')
       return
     }
+
+    const formData = new FormData(e.currentTarget)
 
     startTransition(async () => {
       const result = await processPayment(paymentId, formData)
@@ -56,7 +59,7 @@ export function CheckoutForm({ paymentId }: CheckoutFormProps) {
   }
 
   return (
-    <form action={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
         <div className="bg-destructive/10 text-destructive p-4 rounded-md mb-6">{error}</div>
       )}

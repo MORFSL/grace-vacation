@@ -8,13 +8,20 @@ import { revalidatePath } from 'next/cache'
 import { getClientSideURL } from '@/utilities/getURL'
 
 interface CyberSourceResponse {
-  signed_field_names?: string
-  signed_date_time?: string
-  signature?: string
-  decision?: string
-  reason_code?: string
-  message?: string
+  signed_field_names: string
+  signed_date_time: string
+  signature: string
+  decision: string
+  reason_code: string
+  message: string
+  req_bill_to_forename: string
+  req_bill_to_surname: string
+  req_bill_to_email: string
+  req_bill_to_phone: string
   req_reference_number: string
+  req_bill_to_address_city: string
+  req_bill_to_address_line1: string
+  req_bill_to_address_country: string
   [key: string]: string | undefined
 }
 
@@ -43,6 +50,19 @@ export async function POST(request: NextRequest) {
     // Convert FormData to object
     const responseData: CyberSourceResponse = {
       req_reference_number: '',
+      signed_field_names: '',
+      signed_date_time: '',
+      signature: '',
+      decision: '',
+      reason_code: '',
+      message: '',
+      req_bill_to_forename: '',
+      req_bill_to_surname: '',
+      req_bill_to_email: '',
+      req_bill_to_phone: '',
+      req_bill_to_address_city: '',
+      req_bill_to_address_line1: '',
+      req_bill_to_address_country: '',
     }
 
     formData.forEach((value, key) => {
@@ -131,9 +151,9 @@ export async function POST(request: NextRequest) {
           status: 'completed',
           response: responseData,
           paidAt: new Date().toISOString(),
-          customerName: responseData.bill_to_forename,
-          customerEmail: responseData.bill_to_email,
-          customerPhone: responseData.bill_to_phone,
+          customerName: responseData.req_bill_to_forename + ' ' + responseData.req_bill_to_surname,
+          customerEmail: responseData.req_bill_to_email,
+          customerPhone: responseData.req_bill_to_phone,
         },
         overrideAccess: true,
       })
