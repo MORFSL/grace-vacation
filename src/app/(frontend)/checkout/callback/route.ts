@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
 
-    // Convert FormData to object
     const responseData: CyberSourceResponse = {
       req_reference_number: '',
       signed_field_names: '',
@@ -69,38 +68,29 @@ export async function POST(request: NextRequest) {
       responseData[key] = value.toString()
     })
 
-    // Get paymentId from Cybersource response reference_number
     const paymentId = responseData.req_reference_number
     if (!paymentId) {
-      console.error('Missing reference_number in CyberSource response')
       return NextResponse.redirect(
         new URL(`${getClientSideURL()}/checkout/failure?error=Invalid+response`, request.url),
+        301,
       )
     }
 
-    // Get the secret key from checkout config
     const checkoutConfig = (await getCachedGlobal('checkout')()) as Checkout
     const secretKey = checkoutConfig.checkoutSecretKey
 
     if (!secretKey) {
-      console.error('Secret key not found in checkout config')
       return NextResponse.redirect(
-        new URL(
-          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Configuration+error`,
-          request.url,
-        ),
+        new URL(`${getClientSideURL()}/checkout/failure?error=Configuration+error`, request.url),
+        301,
       )
     }
 
-    // Verify signature
     const receivedSignature = responseData.signature
     if (!receivedSignature || !responseData.signed_field_names || !responseData.signed_date_time) {
-      console.error('Missing required signature fields')
       return NextResponse.redirect(
-        new URL(
-          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Invalid+response`,
-          request.url,
-        ),
+        new URL(`${getClientSideURL()}/checkout/failure?error=Invalid+response`, request.url),
+        301,
       )
     }
 
@@ -116,31 +106,25 @@ export async function POST(request: NextRequest) {
     const isValid = verifySignature(paramsToVerify, secretKey, receivedSignature)
 
     if (!isValid) {
-      console.error('Signature verification failed')
       return NextResponse.redirect(
         new URL(
-          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Signature+verification+failed`,
+          `${getClientSideURL()}/checkout/failure?error=Signature+verification+failed`,
           request.url,
         ),
+        301,
       )
     }
 
-    // Check transaction result
     const decision = responseData.decision
-
-    // Get payment record
     const payment = await getPaymentData(paymentId)
 
     if (!payment) {
       return NextResponse.redirect(
-        new URL(
-          `${getClientSideURL()}/checkout/${paymentId}/failure?error=Payment+not+found`,
-          request.url,
-        ),
+        new URL(`${getClientSideURL()}/checkout/failure?error=Payment+not+found`, request.url),
+        301,
       )
     }
 
-    // Handle success or failure based on decision
     const payload = await getPayload({ config: configPromise })
 
     if (decision === 'ACCEPT') {
@@ -161,13 +145,11 @@ export async function POST(request: NextRequest) {
       revalidatePath(`/checkout/${paymentId}`)
       revalidatePath(`/checkout/${paymentId}/success`)
 
-      // Redirect to success page
       return NextResponse.redirect(
         new URL(`${getClientSideURL()}/checkout/${paymentId}/success`, request.url),
         301,
       )
     } else {
-      // Update payment as failed
       await payload.update({
         collection: 'payments',
         id: payment.id,
@@ -179,22 +161,21 @@ export async function POST(request: NextRequest) {
       })
 
       revalidatePath(`/checkout/${paymentId}`)
-      revalidatePath(`/checkout/${paymentId}/failure`)
+      revalidatePath(`/checkout/failure`)
 
-      // Redirect to failure page with error message
       const errorMessage = responseData.message || 'Payment failed'
       return NextResponse.redirect(
         new URL(
-          `${getClientSideURL()}/checkout/${paymentId}/failure?error=${encodeURIComponent(errorMessage)}`,
+          `${getClientSideURL()}/checkout/failure?error=${encodeURIComponent(errorMessage)}`,
           request.url,
         ),
+        301,
       )
     }
-  } catch (error) {
-    console.error('Error processing CyberSource callback:', error)
-    // Try to get paymentId from error context if available, otherwise redirect to generic failure
+  } catch {
     return NextResponse.redirect(
       new URL(`${getClientSideURL()}/checkout/failure?error=Internal+error`, request.url),
+      301,
     )
   }
 }
