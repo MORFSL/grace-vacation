@@ -57,8 +57,8 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({
       </div>
       {video && typeof video === 'object' ? (
         <Media
-          videoClassName="rounded-t-3xl w-full h-full object-cover"
-          className="absolute left-0 top-0 right-0 bottom-0"
+          videoClassName="w-full h-full object-cover bg-black/50"
+          className="rounded-t-3xl overflow-hidden absolute left-0 top-0 right-0 bottom-0 bg-black/50"
           priority
           fill
           resource={video}
@@ -68,8 +68,8 @@ export const HighImpactHero: React.FC<Page['hero']> = async ({
         image &&
         typeof image === 'object' && (
           <Media
-            imgClassName="rounded-t-3xl w-full h-full object-cover"
-            className="absolute left-0 top-0 right-0 bottom-0"
+            imgClassName="w-full h-full object-cover bg-black/50"
+            className="rounded-t-3xl overflow-hidden absolute left-0 top-0 right-0 bottom-0 bg-black/50"
             priority
             fill
             resource={image}
