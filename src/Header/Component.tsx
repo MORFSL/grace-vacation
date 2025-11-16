@@ -28,7 +28,7 @@ export async function Header() {
                   </div>
                 ))}
               </div>
-              <Menu links={header.navItems} />
+              <Menu links={header.navItems} cta={header.cta} />
             </>
           )}
           {header.cta && (
