@@ -4057,6 +4057,10 @@ export interface General {
    */
   seo?: {
     googleAnalyticsId?: string | null;
+    /**
+     * The default Open Graph image for the site. (Recommended size: 1200x630)
+     */
+    ogImage?: (number | null) | Media;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4287,6 +4291,7 @@ export interface GeneralSelect<T extends boolean = true> {
     | T
     | {
         googleAnalyticsId?: T;
+        ogImage?: T;
       };
   updatedAt?: T;
   createdAt?: T;
