@@ -12,6 +12,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 import { TourMetaSection } from './TourMetaSection'
 import { TourGallerySection } from './TourGallerySection'
+import { TourGallerySlider } from './TourGallerySlider'
 import { TourPackage } from './TourPackage'
 import { TourContents } from './TourContents'
 import { TourInquiry } from './TourInquiry'
@@ -65,6 +66,7 @@ export default async function Itinerary({ params: paramsPromise }: Args) {
 
       <TourMetaSection itinerary={itinerary} />
       <TourGallerySection itinerary={itinerary} />
+      <TourGallerySlider itinerary={itinerary} />
 
       <section className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">

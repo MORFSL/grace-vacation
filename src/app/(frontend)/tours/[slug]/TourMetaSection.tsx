@@ -13,7 +13,7 @@ export const TourMetaSection = (props: Props) => {
         <h1 className="text-3xl font-bold">{props.itinerary.title}</h1>
         <div className="mt-4 md:mt-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
           {props.itinerary.destination && (
-            <div className="mt-2 flex items-center justify-between gap-6 text-sm font-medium">
+            <div className="mt-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-sm font-medium">
               {typeof props.itinerary.destination === 'object' && (
                 <div className="flex items-center gap-1">
                   <MapPin size={16} /> {props.itinerary.destination.title}
