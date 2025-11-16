@@ -10,6 +10,7 @@ export const generatePaymentId: CollectionBeforeChangeHook = ({ data, operation 
     // All other fields are auto-generated or populated later
     return {
       amount: data.amount,
+      reference: data.reference || null,
       linkId: randomUUID(),
       status: 'pending',
       customerName: null,
@@ -29,6 +30,7 @@ export const restrictFieldsOnCreate: CollectionBeforeChangeHook = ({ data, opera
   if (operation === 'create') {
     const restricted = {
       amount: data.amount,
+      reference: data.reference || null,
     }
 
     // The generatePaymentId hook will add linkId and status
@@ -91,6 +93,7 @@ export const handlePaymentCompletion: CollectionAfterChangeHook = async ({
         customerName: doc.customerName || 'N/A',
         customerEmail: doc.customerEmail || 'N/A',
         customerPhone: doc.customerPhone || 'N/A',
+        reference: doc.reference || 'N/A',
         req,
       })
     } catch (error) {

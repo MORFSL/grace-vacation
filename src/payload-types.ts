@@ -2850,6 +2850,10 @@ export interface Payment {
    */
   paymentLink?: string | null;
   /**
+   * Optional note for the payment
+   */
+  reference?: string | null;
+  /**
    * Payment status (auto-managed)
    */
   status: 'pending' | 'completed' | 'failed' | 'cancelled';
@@ -3568,6 +3572,7 @@ export interface PaymentsSelect<T extends boolean = true> {
   amount?: T;
   linkId?: T;
   paymentLink?: T;
+  reference?: T;
   status?: T;
   paidAt?: T;
   customerName?: T;

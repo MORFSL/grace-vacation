@@ -26,7 +26,7 @@ export const TestimonialsClient: React.FC<Props> = ({ testimonials }) => {
           if (typeof testimonial === 'object' && testimonial) {
             return (
               <SwiperSlide key={testimonial.id}>
-                <div className="min-h-[250px] md:min-h-[200px] px-8 text-center cursor-grab">
+                <div className="min-h-[250px] md:min-h-[200px] px-4 md:px-8 text-center cursor-grab">
                   <blockquote className="text-lg mb-4">
                     &quot;{testimonial.message}&quot;
                   </blockquote>

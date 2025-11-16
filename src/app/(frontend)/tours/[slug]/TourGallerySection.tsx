@@ -37,7 +37,7 @@ export const TourGallerySection = (props: Props) => {
 
   return (
     <>
-      <section className="my-8">
+      <section className="my-8 hidden md:block">
         <div className="container">
           <div
             className={cn('md:min-h-[400px] lg:min-h-[640px] grid grid-cols-1 gap-4', {

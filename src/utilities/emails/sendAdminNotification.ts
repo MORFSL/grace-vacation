@@ -8,6 +8,7 @@ import { Checkout } from '@/payload-types'
 interface SendAdminNotificationParams {
   amount: number
   linkId: string
+  reference: string
   customerName: string
   customerEmail: string
   customerPhone: string
@@ -17,6 +18,7 @@ interface SendAdminNotificationParams {
 export const sendAdminNotification = async ({
   amount,
   linkId,
+  reference,
   customerName,
   customerEmail,
   customerPhone,
@@ -53,6 +55,7 @@ export const sendAdminNotification = async ({
       linkId,
       amount: formattedAmount,
       date: formattedDate,
+      reference,
       customerName,
       customerEmail,
       customerPhone,
