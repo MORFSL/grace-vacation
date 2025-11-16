@@ -17,6 +17,7 @@ interface AdminNotificationProps {
   linkId: string
   amount: string
   date: string
+  reference: string
   customerName: string
   customerEmail: string
   customerPhone: string
@@ -27,6 +28,7 @@ export const AdminNotification = ({
   linkId,
   amount,
   date,
+  reference,
   customerName,
   customerEmail,
   customerPhone,
@@ -65,6 +67,14 @@ export const AdminNotification = ({
               </Column>
               <Column style={tableCellValue}>
                 <Text style={value}>{date}</Text>
+              </Column>
+            </Row>
+            <Row style={tableRow}>
+              <Column style={tableCellLabel}>
+                <Text style={label}>Reference:</Text>
+              </Column>
+              <Column style={tableCellValue}>
+                <Text style={value}>{reference}</Text>
               </Column>
             </Row>
           </Section>

@@ -16,7 +16,7 @@ export default async function FailurePage({ searchParams }: PageProps) {
     'We encountered an issue processing your payment. Please try again or contact support if the problem persists.'
 
   return (
-    <div className="min-h-screen w-full bg-background text-foreground">
+    <div className="w-full bg-background text-foreground">
       <div className="mx-auto max-w-xl px-4 py-16">
         <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-xl">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">

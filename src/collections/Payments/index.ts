@@ -53,6 +53,13 @@ export const Payments: CollectionConfig = {
       },
     },
     {
+      name: 'reference',
+      type: 'textarea',
+      admin: {
+        description: 'Optional note for the payment',
+      },
+    },
+    {
       name: 'status',
       type: 'select',
       required: true,
