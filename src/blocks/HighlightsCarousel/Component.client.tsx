@@ -61,14 +61,14 @@ export const HighlightsCarouselClient: React.FC<Props> = ({ highlights }) => {
           >
             {highlights.map((highlight) => (
               <SwiperSlide key={highlight.id}>
-                <div className="overflow-hidden relative p-16 min-h-[500px] rounded-xl flex flex-col items-center justify-end md:justify-center bg-muted min-h-[400px]">
+                <div className="overflow-hidden relative p-8 md:p-16 min-h-[500px] rounded-xl flex flex-col items-center justify-end md:justify-center bg-muted">
                   {highlight.image && typeof highlight.image === 'object' && (
                     <Media
                       resource={highlight.image}
                       imgClassName="absolute inset-0 w-full h-full object-cover"
                     />
                   )}
-                  <div className="absolute inset-0 top-auto md:top-0 w-full md:w-[50%] h-[50%] md:h-full bg-gradient-to-b md:bg-gradient-to-l from-transparent via-transparent/80 to-[#000000de] to-[70%]" />
+                  <div className="absolute inset-0 top-auto md:top-0 w-full md:w-[50%] h-[60%] md:h-full bg-gradient-to-b md:bg-gradient-to-l from-transparent via-transparent/80 to-[#000000de] to-[70%]" />
                   {highlight.content && (
                     <RichText
                       className="relative md:max-w-[350px] ms-0 prose-h3:text-3xl z-5 text-white"
