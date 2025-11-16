@@ -154,6 +154,20 @@ export const General: GlobalConfig = {
             placeholder: 'G-XYZ',
           },
         },
+        {
+          name: 'ogImage',
+          label: 'Open Graph Image',
+          type: 'upload',
+          relationTo: 'media',
+          filterOptions: {
+            mimeType: {
+              contains: 'image/',
+            },
+          },
+          admin: {
+            description: 'The default Open Graph image for the site. (Recommended size: 1200x630)',
+          },
+        },
       ],
     },
   ],
