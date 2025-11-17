@@ -4,6 +4,9 @@ import { revalidateGeneral } from './hooks/revalidateGeneral'
 export const General: GlobalConfig = {
   slug: 'general',
   label: 'General',
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       name: 'siteName',
