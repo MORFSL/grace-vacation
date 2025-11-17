@@ -30,7 +30,7 @@ export const TourInquiry = ({ itinerary, general }: Props) => {
         )}
       </div>
       <p className="mt-2 text-sm">{itinerary.duration}</p>
-      <Button className="mt-6 w-full">Make Inquiry</Button>
+      <Button className="mt-6 w-full">Make An Inquiry</Button>
     </div>
   )
 }

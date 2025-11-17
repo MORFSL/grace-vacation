@@ -5,9 +5,9 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Media } from '../Media'
 
 export const Logo = async () => {
-  const general = (await getCachedGlobal('general', 1)()) as General
+  const general = (await getCachedGlobal('general')()) as General
 
-  if (general.logo) {
+  if (general.logo && typeof general.logo === 'object') {
     return (
       <Link href="/">
         <Media resource={general.logo} priority />

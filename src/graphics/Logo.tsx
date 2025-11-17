@@ -12,7 +12,7 @@ const css = `
 export default async function Logo() {
   const general = (await getCachedGlobal('general')()) as General
 
-  if (general?.logo) {
+  if (general.logo && typeof general.logo === 'object') {
     return <Media resource={general.logo} />
   }
 
