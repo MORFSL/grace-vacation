@@ -16,6 +16,7 @@ import { searchFields } from '@/search/fieldOverrides'
 import { DateBlock } from '@/blocks/Form/Date/config'
 import { DateRangeBlock } from '@/blocks/Form/DateRange/config'
 import { DestinationSelectBlock } from '@/blocks/Form/DestinationSelect/config'
+import { HiddenBlock } from '@/blocks/Form/Hidden/config'
 import { ItineraryCategorySelectBlock } from '@/blocks/Form/ItineraryCategorySelect/config'
 
 const generateTitle: GenerateTitle<Itinerary | Page> = ({ doc }) => {
@@ -65,6 +66,7 @@ export const plugins: Plugin[] = [
       date: DateBlock,
       dateRange: DateRangeBlock,
       destinationSelect: DestinationSelectBlock,
+      hidden: HiddenBlock,
       itineraryCategorySelect: ItineraryCategorySelectBlock,
     },
     formOverrides: {
