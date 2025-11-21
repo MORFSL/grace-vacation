@@ -91,6 +91,7 @@ export const FormBlockClient: React.FC<
     formState: { errors },
     handleSubmit,
     register,
+    reset,
   } = formMethods
 
   const [isLoading, setIsLoading] = useState(false)
@@ -155,9 +156,8 @@ export const FormBlockClient: React.FC<
               router.push(redirectUrl)
             }
           } else {
-            // Show success message and hide form
-            setHasSubmitted(true)
             setShowSuccess(true)
+            reset()
           }
         } catch (err) {
           console.warn(err)
@@ -170,7 +170,7 @@ export const FormBlockClient: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [router, formID, redirect, confirmationType, reset],
   )
 
   return (
@@ -178,63 +178,26 @@ export const FormBlockClient: React.FC<
       {props.formTitle && <h3 className="text-3xl font-semibold mb-5">{props.formTitle}</h3>}
       <FormProvider {...formMethods}>
         {showSuccess && confirmationMessage && (
-          <div className="p-6 bg-green-50 border-2 border-green-200 rounded-lg shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7"></path>
-                </svg>
-              </div>
-              <div className="flex-1">
-                <RichText
-                  className="text-green-800 font-medium"
-                  data={confirmationMessage}
-                  enableProse={false}
-                  enableGutter={false}
-                />
-              </div>
-            </div>
+          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
+            <RichText
+              className="text-green-800 font-medium prose-p:text-sm"
+              data={confirmationMessage}
+              enableProse={false}
+              enableGutter={false}
+            />
           </div>
         )}
         {error && (
-          <div className="mb-6 p-6 bg-red-50 border-2 border-red-200 rounded-lg shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-red-800 font-medium">{`${error.status || '500'}: ${error.message || ''}`}</p>
-              </div>
-            </div>
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-800 font-medium">{`${error.status || '500'}: ${error.message || ''}`}</p>
           </div>
         )}
         {isLoading && !hasSubmitted && (
-          <div className="flex items-center justify-center py-12">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-              <p className="text-muted-foreground font-medium">Submitting your inquiry...</p>
-            </div>
+          <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-md">
+            <p className="text-primary font-medium text-sm">Submitting your form... Please wait.</p>
           </div>
         )}
-        {!hasSubmitted && !isLoading && (
+        {!hasSubmitted && (
           <form id={formID} onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-wrap gap-5">
               {formFromProps &&

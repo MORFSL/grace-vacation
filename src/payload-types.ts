@@ -4081,6 +4081,10 @@ export interface General {
      * The title of the itinerary milestones section.
      */
     milestonesTitle?: string | null;
+    /**
+     * The form to use for the itinerary inquiry.
+     */
+    inquiryForm?: (number | null) | Form;
   };
   testimonials?: {
     platform?: ('Google Reviews' | 'Trip Advisor' | 'Facebook') | null;
@@ -4314,6 +4318,7 @@ export interface GeneralSelect<T extends boolean = true> {
               description?: T;
             };
         milestonesTitle?: T;
+        inquiryForm?: T;
       };
   testimonials?:
     | T

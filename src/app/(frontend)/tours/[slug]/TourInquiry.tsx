@@ -10,10 +10,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { General, Itinerary } from '@/payload-types'
-import { FormBlock } from '@/blocks/Form/Component'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { getClientSideURL } from '@/utilities/getURL'
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import { Skeleton } from '@/components/ui/skeleton'
+import { FormBlockClient } from '@/blocks/Form/Component.client'
 
 interface Props {
   itinerary: Itinerary
@@ -23,17 +24,21 @@ interface Props {
 export const TourInquiry = ({ itinerary, general }: Props) => {
   const [form, setForm] = useState<FormType | null>(null)
   const [loading, setLoading] = useState(true)
+  const inquiryFormID =
+    general?.itinerary?.inquiryForm && typeof general?.itinerary?.inquiryForm === 'object'
+      ? general?.itinerary?.inquiryForm?.id
+      : '1'
 
   useEffect(() => {
     const fetchForm = async () => {
       try {
         const baseUrl = getClientSideURL()
         const response = await fetch(
-          `${baseUrl}/api/forms/3?depth=2&draft=false&locale=undefined&trash=false`,
+          `${baseUrl}/api/forms/${inquiryFormID}?depth=2&draft=false&trash=false`,
         )
         const data = (await response.json()) as FormType
         data.fields.forEach((field) => {
-          if (field.blockType == 'hidden' && field.name == 'itineraryName') {
+          if ('name' in field && field.name?.includes('itinerary')) {
             field.defaultValue = itinerary.title
           }
         })
@@ -46,7 +51,7 @@ export const TourInquiry = ({ itinerary, general }: Props) => {
     }
 
     fetchForm()
-  }, [])
+  }, [inquiryFormID, itinerary.title])
 
   if (!itinerary.price) {
     return null
@@ -77,22 +82,20 @@ export const TourInquiry = ({ itinerary, general }: Props) => {
         <DialogTrigger asChild>
           <Button className="mt-6 w-full">Make An Inquiry</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-[600px] p-0 gap-0">
+          <DialogHeader className="pt-6 px-4 lg:px-6">
             <DialogTitle>Tour Inquiry</DialogTitle>
             <DialogDescription>
-              Fill out the form below to inquire about this tour.
+              Have questions about this tour? Send us an inquiry.
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            {loading ? (
-              <p className="text-sm text-muted-foreground">Loading form...</p>
-            ) : form ? (
-              <FormBlock enableIntro={false} form={form} />
-            ) : (
-              <p className="text-sm text-muted-foreground">Failed to load form.</p>
-            )}
-          </div>
+          {form ? (
+            <Suspense fallback={<Skeleton className="w-full h-full" />}>
+              <FormBlockClient enableIntro={false} form={form} />
+            </Suspense>
+          ) : (
+            <p className="text-sm text-muted-foreground">Failed to load form.</p>
+          )}
         </DialogContent>
       </Dialog>
     </div>
