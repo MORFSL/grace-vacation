@@ -2479,6 +2479,7 @@ export interface Form {
         | DateBlock
         | DateRangeBlock
         | DestinationSelectBlock
+        | HiddenBlock
         | ItineraryCategorySelectBlock
       )[]
     | null;
@@ -2596,6 +2597,27 @@ export interface DestinationSelectBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'destinationSelect';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HiddenBlock".
+ */
+export interface HiddenBlock {
+  /**
+   * Field name (lowercase, no spaces)
+   */
+  name: string;
+  /**
+   * Label for admin purposes (not visible to users)
+   */
+  label: string;
+  /**
+   * Default value for the hidden field
+   */
+  defaultValue?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hidden';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3826,6 +3848,7 @@ export interface FormsSelect<T extends boolean = true> {
         date?: T | DateBlockSelect<T>;
         dateRange?: T | DateRangeBlockSelect<T>;
         destinationSelect?: T | DestinationSelectBlockSelect<T>;
+        hidden?: T | HiddenBlockSelect<T>;
         itineraryCategorySelect?: T | ItineraryCategorySelectBlockSelect<T>;
       };
   submitButtonLabel?: T;
@@ -3884,6 +3907,17 @@ export interface DestinationSelectBlockSelect<T extends boolean = true> {
   label?: T;
   width?: T;
   required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HiddenBlock_select".
+ */
+export interface HiddenBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  defaultValue?: T;
   id?: T;
   blockName?: T;
 }
@@ -4047,6 +4081,10 @@ export interface General {
      * The title of the itinerary milestones section.
      */
     milestonesTitle?: string | null;
+    /**
+     * The form to use for the itinerary inquiry.
+     */
+    inquiryForm?: (number | null) | Form;
   };
   testimonials?: {
     platform?: ('Google Reviews' | 'Trip Advisor' | 'Facebook') | null;
@@ -4280,6 +4318,7 @@ export interface GeneralSelect<T extends boolean = true> {
               description?: T;
             };
         milestonesTitle?: T;
+        inquiryForm?: T;
       };
   testimonials?:
     | T

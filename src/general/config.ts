@@ -107,6 +107,14 @@ export const General: GlobalConfig = {
           },
           defaultValue: 'Tour Milestones',
         },
+        {
+          name: 'inquiryForm',
+          type: 'relationship',
+          relationTo: 'forms',
+          admin: {
+            description: 'The form to use for the itinerary inquiry.',
+          },
+        },
       ],
     },
     {

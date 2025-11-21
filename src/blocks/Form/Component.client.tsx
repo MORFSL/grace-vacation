@@ -156,7 +156,6 @@ export const FormBlockClient: React.FC<
               router.push(redirectUrl)
             }
           } else {
-            // Show success message and reset form
             setShowSuccess(true)
             reset()
           }
@@ -181,7 +180,7 @@ export const FormBlockClient: React.FC<
         {showSuccess && confirmationMessage && (
           <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md">
             <RichText
-              className="text-green-800 font-medium"
+              className="text-green-800 font-medium prose-p:text-sm"
               data={confirmationMessage}
               enableProse={false}
               enableGutter={false}
@@ -193,7 +192,11 @@ export const FormBlockClient: React.FC<
             <p className="text-red-800 font-medium">{`${error.status || '500'}: ${error.message || ''}`}</p>
           </div>
         )}
-        {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+        {isLoading && !hasSubmitted && (
+          <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-md">
+            <p className="text-primary font-medium text-sm">Submitting your form... Please wait.</p>
+          </div>
+        )}
         {!hasSubmitted && (
           <form id={formID} onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-wrap gap-5">
