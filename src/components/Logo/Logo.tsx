@@ -5,7 +5,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Media } from '../Media'
 
 export const Logo = async () => {
-  const general = (await getCachedGlobal('general')()) as General
+  const general = (await getCachedGlobal('general', 1)()) as General
 
   if (general.logo && typeof general.logo === 'object') {
     return (
