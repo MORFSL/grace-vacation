@@ -26,6 +26,7 @@ import { HighlightsCarouselBlock } from '@/blocks/HighlightsCarousel/config'
 import { TestimonialsBlock } from '@/blocks/Testimonials/config'
 import { ItinerariesBlock } from '@/blocks/ItinerariesBlock/config'
 import { CardsBlock } from '@/blocks/Cards/config'
+import { Contact } from '@/blocks/Contact/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -93,6 +94,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 TestimonialsBlock,
                 ItinerariesBlock,
                 CardsBlock,
+                Contact,
               ],
               required: true,
               admin: {

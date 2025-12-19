@@ -1862,6 +1862,7 @@ export interface Page {
     | TestimonialsBlock
     | ItinerariesBlock
     | CardsBlock
+    | ContactBlock
   )[];
   meta?: {
     title?: string | null;
@@ -2855,6 +2856,37 @@ export interface CardsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock".
+ */
+export interface ContactBlock {
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  /**
+   * Enter the embed code for the map. (https://www.google.com/maps/d)
+   */
+  mapEmbed?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contact';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payments".
  */
 export interface Payment {
@@ -3255,6 +3287,7 @@ export interface PagesSelect<T extends boolean = true> {
         testimonials?: T | TestimonialsBlockSelect<T>;
         itinerariesBlock?: T | ItinerariesBlockSelect<T>;
         cards?: T | CardsBlockSelect<T>;
+        contact?: T | ContactBlockSelect<T>;
       };
   meta?:
     | T
@@ -3463,6 +3496,19 @@ export interface CardsBlockSelect<T extends boolean = true> {
         media?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactBlock_select".
+ */
+export interface ContactBlockSelect<T extends boolean = true> {
+  content?: T;
+  phone?: T;
+  email?: T;
+  address?: T;
+  mapEmbed?: T;
   id?: T;
   blockName?: T;
 }

@@ -14,6 +14,7 @@ import { HighlightsCarouselBlock } from './HighlightsCarousel/Component'
 import { TestimonialsBlock } from './Testimonials/Component'
 import { CardsBlock } from './Cards/Component'
 import { cn } from '@/utilities/ui'
+import { ContactBlock } from './Contact/Component'
 
 const blockComponents = {
   itinerariesBlock: ItinerariesBlock,
@@ -27,6 +28,7 @@ const blockComponents = {
   highlightsCarousel: HighlightsCarouselBlock,
   testimonials: TestimonialsBlock,
   cards: CardsBlock,
+  contact: ContactBlock,
 }
 
 export const RenderBlocks: React.FC<{
